@@ -2,6 +2,5 @@
 {
     public struct Player { };
 
-    // TODO: Refactor to a faction system
-    public struct PursuePlayer { };
+    public struct Stairs { };
 }
