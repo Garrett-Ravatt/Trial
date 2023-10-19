@@ -1,0 +1,16 @@
+﻿using RogueSharp.DiceNotation;
+
+namespace Catalyster.Components
+{    
+    // Defense stats. Might contain saving throws or similar later
+    public struct Defense { public int Class; };
+    
+    // Are you ok? This is the stat for that
+    public struct  Health { public int Points, Max; };
+
+    // Form and damage for a single attack. An Entity can have many.
+    public struct MeleeAttack { public DiceExpression AttackFormula, DamageFormula; };
+
+    // Turn Energy
+    public struct Energy { public int Max, Regen, Points; };
+}

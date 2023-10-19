@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Arch" Version="1.2.7" />
+    <PackageReference Include="Arch.EventBus" Version="1.0.2" />
+    <PackageReference Include="Arch.System" Version="1.0.2" />
+    <PackageReference Include="RogueSharp" Version="4.2.0" />
+  </ItemGroup>
+
+</Project>
