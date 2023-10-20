@@ -12,7 +12,7 @@ namespace Catalyster.Core
             .WithAll<Energy>()
             .WithAny<Player, IDirector>();
 
-        private DungeonMap _map;
+        private DungeonMap map;
 
         public bool PlayerLock;
 
@@ -20,7 +20,7 @@ namespace Catalyster.Core
         public TurnOrder(World world, DungeonMap map)
         {
             _world = world;
-            _map = map;
+            map = map;
             PlayerLock = false;
         }
 

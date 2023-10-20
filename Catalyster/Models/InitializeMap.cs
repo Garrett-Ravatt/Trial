@@ -15,7 +15,7 @@ namespace Catalyster.Models
             Height = height;
         }
 
-        public DungeonMap Step(DungeonMap subject)
+        public DungeonMap Step(DungeonMap subject, int _seed)
         {
             subject.Initialize(Width, Height);
             return subject;
