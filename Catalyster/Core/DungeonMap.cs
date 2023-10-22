@@ -6,6 +6,7 @@ namespace Catalyster.Core
 {
     public class DungeonMap : Map
     {
+        public List<Rectangle> Rooms = new List<Rectangle>();
         //TODO: refactor 'world' parameter using static world or event system.
         public void UpdateFieldOfView(World world)
         {

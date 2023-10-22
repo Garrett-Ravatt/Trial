@@ -27,7 +27,7 @@ namespace Catalyster.Models
             var width = map.Width;
             var height = map.Height;
 
-            var rooms = new List<Rectangle>();
+            var rooms = map.Rooms;
 
             // Try to place as many rooms as the specified maxRooms
             // Note: Only using decrementing loop because of WordPress formatting

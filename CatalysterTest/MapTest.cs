@@ -12,7 +12,7 @@ namespace CatalysterTest
         [TestMethod]
         public void MakeMap()
         {
-            var map = new Map();
+            var map = new DungeonMap();
             map.Initialize(10, 10);
 
             var room = new Rectangle(
@@ -21,6 +21,7 @@ namespace CatalysterTest
                 4, // x width
                 4 // y height
                 );
+            map.Rooms.Add( room );
 
             for (int x = room.Left + 1; x<= room.Right; x++)
             {
