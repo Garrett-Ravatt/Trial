@@ -12,13 +12,12 @@ namespace CatalysterTest
         public void TurnTest1()
         {
             var world = World.Create();
-            var map = new DungeonMap();
-            var order = new TurnOrder(world, map);
+            var order = new TurnOrder();
 
             ExFactory.SimpleCreature(world);
             ExFactory.SimpleCreature(world);
 
-            var queue = order.QueryEntities();
+            var queue = order.QueryEntities(world);
             Assert.AreEqual(2, queue.Count);
 
             World.Destroy(world);
@@ -28,8 +27,7 @@ namespace CatalysterTest
         public void TurnTest2()
         {
             var world = World.Create();
-            var map = new DungeonMap();
-            var order = new TurnOrder(world, map);
+            var order = new TurnOrder();
 
             var e1 = ExFactory.SimpleCreature(world);
             var e2 = ExFactory.SimpleCreature(world);
@@ -52,8 +50,7 @@ namespace CatalysterTest
         public void TurnTest3()
         {
             var world = World.Create();
-            var map = new DungeonMap();
-            var order = new TurnOrder(world, map);
+            var order = new TurnOrder();
 
             var e1 = ExFactory.SimpleCreature(world);
             var player = ExFactory.Player(world);
@@ -70,6 +67,21 @@ namespace CatalysterTest
             // Assert they won't go more than 1 tile
             Assert.IsFalse(e1.Get<Position>().X > iPosX1 + 1);
             Assert.IsFalse(e2.Get<Position>().X > iPosX2 + 1);
+
+            World.Destroy(world);
+        }
+
+        [TestMethod]
+        public void TurnTest4()
+        {
+            var world = World.Create();
+            var order = new TurnOrder();
+
+            ExFactory.SimpleCreature(world);
+            ExFactory.SimpleCreature(world);
+            var player = ExFactory.Player(world);
+
+            Assert.AreEqual(player, order.Update(world));
 
             World.Destroy(world);
         }

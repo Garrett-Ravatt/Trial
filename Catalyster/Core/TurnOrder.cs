@@ -7,28 +7,20 @@ namespace Catalyster.Core
 {
     public class TurnOrder
     {
-        private World _world;
         private static readonly QueryDescription _desc = new QueryDescription()
             .WithAll<Energy>()
             .WithAny<Player, IDirector>();
 
-        private DungeonMap _map;
-
-        public bool PlayerLock;
+        public bool PlayerLock = false;
 
         private Queue<Entity> _entities;
-        public TurnOrder(World world, DungeonMap map)
-        {
-            _world = world;
-            _map = map;
-            PlayerLock = false;
-        }
+        public TurnOrder() { }
 
-        public void Update(World world)
+        public Entity? Update(World world)
         {
             if (!PlayerLock)
             {
-                _entities = QueryEntities();
+                _entities = QueryEntities(world);
                 Entity entity;
                 while (_entities.TryDequeue(out entity))
                 {
@@ -36,7 +28,7 @@ namespace Catalyster.Core
                     {
                         // TODO: Consider returning Player entity
                         PlayerLock = true;
-                        break;
+                        return entity;
                     }
                     else
                     {
@@ -44,18 +36,15 @@ namespace Catalyster.Core
                     }
                 }
             }
-            else
-            {
-                //handle player's continuing turn
-            }
+            return null;
         }
 
         // We CAN query entities but
-        public Queue<Entity> QueryEntities()
+        public Queue<Entity> QueryEntities(World world)
         {
             // TODO: Maybe should be Entity references.
             var queue = new Queue<Entity>();
-            _world.Query(in _desc, (Entity entity) =>
+            world.Query(in _desc, (Entity entity) =>
             {
                 queue.Enqueue(entity);
             });

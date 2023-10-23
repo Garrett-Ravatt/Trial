@@ -10,26 +10,33 @@ namespace Catalyster
 {
     public class GameMaster
     {
-        private World _world;
+        public World World { get; private set; }
         public DungeonMap DungeonMap { get; private set; }
 
-        public int Turn {  get; private set; }
+        public Control Control;
         private TurnOrder _turnOrder;
+
+        public GameMaster(DungeonMap dungeonMap)
+        {
+            DungeonMap = dungeonMap;
+            World = World.Create();
+            _turnOrder = new TurnOrder();
+        }
 
         public GameMaster()
         {
             DungeonMap = new DungeonMap();
-            DungeonMap.Initialize(10, 10); // TODO: you know... make bigger
-
-            _world = World.Create();
-
-            Turn = 0;
+            World = World.Create();
+            Control = new Control();
+            _turnOrder = new TurnOrder();
         }
 
         public void Update()
         {
-            
+            // NOTE: May be refactored to use Arch.Extended's Systems
+            // once more than TurnOrder needs to be updated.
+            // TODO: use event bus instead.
+            Control.Entity = _turnOrder.Update(World);
         }
-
     }
 }
