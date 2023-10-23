@@ -10,16 +10,17 @@ namespace Catalyster
 {
     public class GameMaster
     {
-        public World World { get; private set; }
-        public DungeonMap DungeonMap { get; private set; }
+        public static World World { get; private set; }
+        public static DungeonMap DungeonMap { get; private set; }
 
-        public Control Control;
+        public Command Control;
         private TurnOrder _turnOrder;
 
         public GameMaster(DungeonMap dungeonMap)
         {
             DungeonMap = dungeonMap;
             World = World.Create();
+            Control = new Command();
             _turnOrder = new TurnOrder();
         }
 
@@ -27,7 +28,7 @@ namespace Catalyster
         {
             DungeonMap = new DungeonMap();
             World = World.Create();
-            Control = new Control();
+            Control = new Command();
             _turnOrder = new TurnOrder();
         }
 

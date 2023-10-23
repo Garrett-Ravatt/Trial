@@ -10,7 +10,7 @@ namespace CatalysterTest
         public void ControlTest1()
         {
             var world = World.Create();
-            var control = new Control();
+            var control = new Command();
             control.Entity = ExFactory.Player(world);
 
             World.Destroy(world);
@@ -20,7 +20,7 @@ namespace CatalysterTest
         public void ControlTest2()
         {
             var world = World.Create();
-            var control = new Control();
+            var control = new Command();
             var order = new TurnOrder();
 
             var player = ExFactory.Player(world);

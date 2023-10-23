@@ -11,7 +11,7 @@ namespace CatalysterTest
         {
             var gm = new GameMaster();
             Assert.IsNotNull(gm);
-            Assert.IsNotNull(gm.World);
+            Assert.IsNotNull(GameMaster.World);
             gm.Update();
         }
 
@@ -20,7 +20,7 @@ namespace CatalysterTest
         {
             var map = new DungeonMap();
             var gm = new GameMaster(map);
-            Assert.AreEqual(gm.DungeonMap, map);
+            Assert.AreEqual(GameMaster.DungeonMap, map);
         }
 
         [TestMethod]
@@ -29,9 +29,9 @@ namespace CatalysterTest
             var gm = new GameMaster();
             for (var i = 0; i < 10; i++)
             {
-                ExFactory.SimpleCreature(gm.World);
+                ExFactory.SimpleCreature(GameMaster.World);
             }
-            var player = ExFactory.Player(gm.World);
+            var player = ExFactory.Player(GameMaster.World);
             gm.Update();
 
             Assert.IsNotNull(gm.Control.Entity);
