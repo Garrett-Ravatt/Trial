@@ -1,8 +1,10 @@
 ﻿using Catalyster.Core;
 using RogueSharp;
 using Arch.Core;
+using Arch.Core.Extensions;
 using SadConsole.UI;
 using Catalyster.Components;
+using Catalyster.Models;
 
 namespace Trial
 {
@@ -27,16 +29,24 @@ namespace Trial
             // TODO: Refactor to use Catalyster's GameMaster.
 
             //Map
-            var map = new ConsoleMap(Width, Height); //won't be full dimensions forever.
-            //More detailed map gen steps from Catalyster later on.
+            var model = new Model<DungeonMap>()
+                .Step(new InitializeMap(Width, Height))
+                .Step(new RoomGen(10, 15, 7))
+                .Step(new CorridorGen())
+                .Seed(0xfab); // necessary until player is better placed
+
+            var map = new ConsoleMap();
+            model.Process(map);
             
             var world = World.Create(); // Catalyster should do this for us as well.
 
             //Enemy
-            EntityBuilder.Goblin(world);
+            var gob = EntityBuilder.Goblin(world);
+            gob.Set<Position>(new Position { X = 10, Y = 15 });
 
             //Player
-            EntityBuilder.Player(world);
+            var player = EntityBuilder.Player(world);
+            player.Set<Position>(new Position { X = 5, Y = 14 });
 
             var startingConsole = (Console)GameHost.Instance.Screen;
 
@@ -47,7 +57,6 @@ namespace Trial
             {
                 startingConsole.SetGlyph(position.X, position.Y, token.Char);
                 startingConsole.SetForeground(position.X, position.Y, new Color(token.Color));
-                //TODO: add the color :)
             });   
         }
         

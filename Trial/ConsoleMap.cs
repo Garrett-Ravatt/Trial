@@ -8,6 +8,7 @@ namespace Trial
     // An extension of DungeonMap able to render itself to a Console
     public class ConsoleMap : DungeonMap
     {
+        public ConsoleMap() : base() { }
         public ConsoleMap(int Width, int Height)
         {
             Initialize(Width, Height);
