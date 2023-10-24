@@ -3,9 +3,9 @@ using Arch.Core.Extensions;
 using Catalyster.Components;
 using Catalyster.Interfaces;
 
-namespace Catalyster.Systems
+namespace Catalyster.Helpers
 {
-    public class ActionSystem
+    public class ActionHelper
     {
         public static bool ResolveAttack(Entity attacker, Entity defender)
         {

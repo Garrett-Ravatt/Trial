@@ -3,7 +3,7 @@ using Arch.Core;
 using Arch.Core.Extensions;
 using Catalyster.Interfaces;
 using RogueSharp.DiceNotation;
-using Catalyster.Systems;
+using Catalyster.Helpers;
 
 namespace CatalysterTest
 {

@@ -1,10 +1,5 @@
 ﻿using Arch.Core;
-using Arch.Core.Extensions;
-using Arch.System;
-using Catalyster.Components;
 using Catalyster.Core;
-using Catalyster.Systems;
-using System.Runtime.CompilerServices;
 
 namespace Catalyster
 {
@@ -34,7 +29,7 @@ namespace Catalyster
 
         public void Update()
         {
-            // NOTE: May be refactored to use Arch.Extended's Systems
+            // NOTE: May be refactored to use Arch.Extended's Helpers
             // once more than TurnOrder needs to be updated.
             // TODO: use event bus instead.
             if (!_turnOrder.PlayerLock)

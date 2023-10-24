@@ -1,7 +1,7 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
 using Catalyster.Interfaces;
-using Catalyster.Systems;
+using Catalyster.Helpers;
 
 namespace Catalyster.Components
 {
@@ -49,8 +49,8 @@ namespace Catalyster.Components
                     // TODO: check range
                     if (!expended && target!=entity)
                     {
-                        //ActionSystem.ResolveMelee(entity.Get<MeleeAttack>(), target);
-                        ActionSystem.ResolveAttack(entity, target);
+                        //ActionHelper.ResolveMelee(entity.Get<MeleeAttack>(), target);
+                        ActionHelper.ResolveAttack(entity, target);
 
                         expended = true;
                     }

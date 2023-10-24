@@ -9,7 +9,7 @@ using RogueSharp.DiceNotation;
 
 using Catalyster.Interfaces;
 using Catalyster.Components;
-using Catalyster.Systems;
+using Catalyster.Helpers;
 using Arch.Core.Utils;
 using Arch.Core.Extensions;
 
@@ -37,8 +37,8 @@ namespace CatalysterTest
         public void TestAttackWorks()
         {
             var world = World.Create();
-            // ActionSystem returns true if the attack lands.
-            Assert.IsTrue(ActionSystem.ResolveAttack(ExFactory.SimpleCreature(world), ExFactory.SimpleCreature(world)));
+            // ActionHelper returns true if the attack lands.
+            Assert.IsTrue(ActionHelper.ResolveAttack(ExFactory.SimpleCreature(world), ExFactory.SimpleCreature(world)));
             World.Destroy(world);
         }
 
@@ -56,7 +56,7 @@ namespace CatalysterTest
             var initialHP = def.Get<Health>().Points;
 
             // Do Attack
-            ActionSystem.ResolveAttack(att, def);
+            ActionHelper.ResolveAttack(att, def);
 
             // Check hp difference
             Assert.IsTrue(initialHP > def.Get<Health>().Points);
