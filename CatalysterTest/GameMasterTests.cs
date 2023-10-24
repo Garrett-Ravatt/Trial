@@ -35,6 +35,8 @@ namespace CatalysterTest
             }
             var player = ExFactory.Player(GameMaster.World);
             gm.Update();
+            gm.Update();
+            gm.Update();
 
             Assert.IsNotNull(gm.Command.Entity);
             Assert.AreEqual(player, gm.Command.Entity);

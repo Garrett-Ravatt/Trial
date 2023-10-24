@@ -11,8 +11,7 @@ namespace CatalysterTest
         [TestMethod]
         public void MonoBehaviorTest1()
         {
-            var gm = new GameMaster();
-            var world = GameMaster.World;
+            var world = World.Create();
             // Create MonoBehavior creature
             var creature = world.Create(
                 new Position { X = 0, Y = 0 },
@@ -21,7 +20,7 @@ namespace CatalysterTest
                 );
 
             // Simulate one turn
-            world.Query(in new QueryDescription().WithAll<MonoBehavior>(), (ref Entity e, ref MonoBehavior behavior) =>
+            world.Query(in new QueryDescription().WithAll<MonoBehavior>(), (Entity e, ref MonoBehavior behavior) =>
             {
                 behavior.Direct(e, world);
             });
@@ -34,8 +33,7 @@ namespace CatalysterTest
         [TestMethod]
         public void MonoBehaviorTest2()
         {
-            var gm = new GameMaster();
-            var world = GameMaster.World;
+            var world = World.Create();
             // Create MonoBehavior creature with higher move speed
             var creature = world.Create(
                 new Position { X = 0, Y = 0 },
@@ -44,7 +42,7 @@ namespace CatalysterTest
                 );
 
             // Simulate a turn (where creature should have two moves)
-            world.Query(in new QueryDescription().WithAll<MonoBehavior>(), (ref Entity e, ref MonoBehavior behavior) =>
+            world.Query(in new QueryDescription().WithAll<MonoBehavior>(), (Entity e, ref MonoBehavior behavior) =>
             {
                 behavior.Direct(e, world);
             });

@@ -37,7 +37,14 @@ namespace Catalyster
             // NOTE: May be refactored to use Arch.Extended's Systems
             // once more than TurnOrder needs to be updated.
             // TODO: use event bus instead.
-            Command.Entity = _turnOrder.Update(World);
+            if (!_turnOrder.PlayerLock)
+            {
+                Command.Entity = _turnOrder.Update(World);
+            }
+            else if (Command.Entity == null)
+            {
+                _turnOrder.PlayerLock = false;
+            }
         }
     }
 }
