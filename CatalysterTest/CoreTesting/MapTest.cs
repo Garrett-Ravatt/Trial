@@ -3,7 +3,7 @@ using RogueSharp;
 using Catalyster.Core;
 using Catalyster.Components;
 
-namespace CatalysterTest
+namespace CatalysterTest.CoreTesting
 {
 
     [TestClass]
@@ -21,9 +21,9 @@ namespace CatalysterTest
                 4, // x width
                 4 // y height
                 );
-            map.Rooms.Add( room );
+            map.Rooms.Add(room);
 
-            for (int x = room.Left + 1; x<= room.Right; x++)
+            for (int x = room.Left + 1; x <= room.Right; x++)
             {
                 for (int y = room.Top + 1; y < room.Bottom; y++)
                 {
