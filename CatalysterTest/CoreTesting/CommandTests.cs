@@ -15,7 +15,11 @@ namespace CatalysterTest.CoreTesting
         {
             var world = World.Create();
             var command = new Command();
+            
+            command.Move(0, 0);
+
             command.Entity = ExFactory.Player(world);
+            command.Move(0, 0);
 
             World.Destroy(world);
         }
@@ -48,6 +52,25 @@ namespace CatalysterTest.CoreTesting
             command.Move(0, 1);
 
             Assert.AreEqual(iPos.Y + 1, player.Get<Position>().Y);
+        }
+
+        [TestMethod]
+        public void CommandTest4()
+        {
+            var gm = new GameMaster();
+            var command = gm.Command;
+            var world = GameMaster.World;
+
+            var player = ExFactory.Player(world);
+
+            command.Entity = player;
+            command.Move(0, 1);
+            command.Move(0, 1);
+
+            Assert.IsTrue(player.Get<Energy>().Points <= 0);
+            Assert.IsNull(command.Entity);
+
+            world.Dispose();
         }
     }
 }

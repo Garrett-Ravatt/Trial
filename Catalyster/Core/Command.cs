@@ -29,12 +29,21 @@ namespace Catalyster.Core
                 position.Y+= Y;
 
                 energy.Points -= 1000;
+
+                EndAction(energy.Points);
                 return;
             }
             else
             {
                 Console.WriteLine("Command.Entity is null");
             }
+        }
+
+        // Check if the player's turn is now over.
+        private void EndAction(int points)
+        {
+            if (points <= 0)
+                Entity = null;
         }
     }
 }

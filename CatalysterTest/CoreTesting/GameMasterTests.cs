@@ -42,5 +42,22 @@ namespace CatalysterTest.CoreTesting
             Assert.IsNotNull(gm.Command.Entity);
             Assert.AreEqual(player, gm.Command.Entity);
         }
+
+        [TestMethod]
+        public void GameMasterTest4()
+        {
+            var gm = new GameMaster();
+            for (var i = 0; i < 10; i++)
+            {
+                ExFactory.SimpleCreature(GameMaster.World);
+            }
+            var player = ExFactory.Player(GameMaster.World);
+            gm.Update();
+
+            gm.Command.Move(0, 1);
+            gm.Command.Move(0, 1);
+
+            Assert.IsNull(gm.Command.Entity);
+        }
     }
 }
