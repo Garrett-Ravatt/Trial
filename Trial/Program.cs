@@ -5,6 +5,7 @@ using Arch.Core.Extensions;
 using SadConsole.UI;
 using Catalyster.Components;
 using Catalyster.Models;
+using Catalyster;
 
 namespace Trial
 {
@@ -12,6 +13,9 @@ namespace Trial
     {
         public const int Width = 80;
         public const int Height = 25;
+
+        public static Console StartingConsole;
+        public static ConsoleMap Map;
 
         public static void Main(string[] args)
         {
@@ -26,8 +30,6 @@ namespace Trial
 
         static void Startup()
         {
-            // TODO: Refactor to use Catalyster's GameMaster.
-
             //Map
             var model = new Model<DungeonMap>()
                 .Step(new InitializeMap(Width, Height))
@@ -35,31 +37,35 @@ namespace Trial
                 .Step(new CorridorGen())
                 .Seed(0xfab); // necessary until player is better placed
 
-            var map = new ConsoleMap();
-            model.Process(map);
+            Map = new ConsoleMap();
+            model.Process(Map);
             
-            var world = World.Create(); // Catalyster should do this for us as well.
+            var gm = new GameMaster(Map);
 
             //Enemy
-            var gob = EntityBuilder.Goblin(world);
+            var gob = EntityBuilder.Goblin(GameMaster.World);
             gob.Set<Position>(new Position { X = 10, Y = 15 });
 
             //Player
-            var player = EntityBuilder.Player(world);
+            var player = EntityBuilder.Player(GameMaster.World);
             player.Set<Position>(new Position { X = 5, Y = 14 });
 
-            var startingConsole = (Console)GameHost.Instance.Screen;
+            StartingConsole = (Console)GameHost.Instance.Screen;
 
-            map.UpdateFieldOfView(world);
-            map.DrawTo(startingConsole);
-
-            world.Query(in new QueryDescription().WithAll<Position, Token>(), (ref Position position, ref Token token) =>
-            {
-                startingConsole.SetGlyph(position.X, position.Y, token.Char);
-                startingConsole.SetForeground(position.X, position.Y, new Color(token.Color));
-            });   
+            Draw();
         }
         
+        public static void Draw()
+        {
+            Map.UpdateFieldOfView(GameMaster.World);
+            Map.DrawTo(StartingConsole);
+
+            GameMaster.World.Query(in new QueryDescription().WithAll<Position, Token>(), (ref Position position, ref Token token) =>
+            {
+                StartingConsole.SetGlyph(position.X, position.Y, token.Char);
+                StartingConsole.SetForeground(position.X, position.Y, new Color(token.Color));
+            });
+        }
     }
     
 }
