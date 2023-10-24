@@ -13,14 +13,14 @@ namespace Catalyster
         public static World World { get; private set; }
         public static DungeonMap DungeonMap { get; private set; }
 
-        public Command Control;
+        public Command Command;
         private TurnOrder _turnOrder;
 
         public GameMaster(DungeonMap dungeonMap)
         {
             DungeonMap = dungeonMap;
             World = World.Create();
-            Control = new Command();
+            Command = new Command();
             _turnOrder = new TurnOrder();
         }
 
@@ -28,7 +28,7 @@ namespace Catalyster
         {
             DungeonMap = new DungeonMap();
             World = World.Create();
-            Control = new Command();
+            Command = new Command();
             _turnOrder = new TurnOrder();
         }
 
@@ -37,7 +37,7 @@ namespace Catalyster
             // NOTE: May be refactored to use Arch.Extended's Systems
             // once more than TurnOrder needs to be updated.
             // TODO: use event bus instead.
-            Control.Entity = _turnOrder.Update(World);
+            Command.Entity = _turnOrder.Update(World);
         }
     }
 }

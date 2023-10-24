@@ -1,5 +1,6 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
+using Catalyster;
 using Catalyster.Components;
 
 namespace CatalysterTest
@@ -10,7 +11,8 @@ namespace CatalysterTest
         [TestMethod]
         public void MonoBehaviorTest1()
         {
-            var world = World.Create();
+            var gm = new GameMaster();
+            var world = GameMaster.World;
             // Create MonoBehavior creature
             var creature = world.Create(
                 new Position { X = 0, Y = 0 },
@@ -32,7 +34,8 @@ namespace CatalysterTest
         [TestMethod]
         public void MonoBehaviorTest2()
         {
-            var world = World.Create();
+            var gm = new GameMaster();
+            var world = GameMaster.World;
             // Create MonoBehavior creature with higher move speed
             var creature = world.Create(
                 new Position { X = 0, Y = 0 },

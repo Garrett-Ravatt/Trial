@@ -1,4 +1,6 @@
-﻿using Catalyster;
+﻿using Arch.Core.Extensions;
+using Catalyster;
+using Catalyster.Components;
 using Catalyster.Core;
 
 namespace CatalysterTest
@@ -34,8 +36,8 @@ namespace CatalysterTest
             var player = ExFactory.Player(GameMaster.World);
             gm.Update();
 
-            Assert.IsNotNull(gm.Control.Entity);
-            Assert.AreEqual(player, gm.Control.Entity);
+            Assert.IsNotNull(gm.Command.Entity);
+            Assert.AreEqual(player, gm.Command.Entity);
         }
     }
 }
