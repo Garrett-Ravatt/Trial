@@ -2,8 +2,9 @@
 using Catalyster;
 using Catalyster.Components;
 using Catalyster.Core;
+using CatalysterTest.TestUtils;
 
-namespace CatalysterTest
+namespace CatalysterTest.CoreTesting
 {
     [TestClass]
     public class GameMasterTests

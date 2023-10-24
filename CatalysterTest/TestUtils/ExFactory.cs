@@ -3,7 +3,7 @@ using Catalyster.Components;
 using Catalyster.Interfaces;
 using RogueSharp.DiceNotation;
 
-namespace CatalysterTest
+namespace CatalysterTest.TestUtils
 {
     public class ExFactory
     {
@@ -16,7 +16,7 @@ namespace CatalysterTest
                 new Defense { Class = 0 },
                 new Energy { Max = 1000, Points = 1000, Regen = 1000 },
                 new MeleeAttack { AttackFormula = Dice.Parse("1d20+2"), DamageFormula = Dice.Parse("1d4") },
-                (IDirector) new MonoBehavior { Directive = new RightMover { } }
+                (IDirector)new MonoBehavior { Directive = new RightMover { } }
                 );
         }
 

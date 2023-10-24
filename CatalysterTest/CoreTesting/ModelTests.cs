@@ -2,7 +2,7 @@
 using Catalyster.Models;
 using RogueSharp;
 
-namespace CatalysterTest
+namespace CatalysterTest.CoreTesting
 {
     [TestClass]
     public class ModelTests
@@ -18,7 +18,7 @@ namespace CatalysterTest
             Assert.IsNotNull(map);
             Assert.AreEqual(40, map.Width);
         }
-        
+
         [TestMethod]
         public void TestModel2()
         {
@@ -30,8 +30,8 @@ namespace CatalysterTest
             Assert.IsNotNull(map);
 
             int walkableCells = 0;
-            foreach(Cell cell in map.GetAllCells())
-                if ( cell.IsWalkable )
+            foreach (Cell cell in map.GetAllCells())
+                if (cell.IsWalkable)
                     walkableCells++;
 
             Assert.IsTrue(walkableCells > 0);
@@ -49,11 +49,11 @@ namespace CatalysterTest
                 .Seed(111111);
 
             var map = model.Process(new DungeonMap());
-            
+
             // finds path between topleft cell from first and last room.
             var pathfinder = new PathFinder(map);
-            var startCell = map.GetCell( map.Rooms.First().Left + 1, map.Rooms.First().Top + 1);
-            var endCell = map.GetCell( map.Rooms.Last().Left + 1, map.Rooms.Last().Top + 1);
+            var startCell = map.GetCell(map.Rooms.First().Left + 1, map.Rooms.First().Top + 1);
+            var endCell = map.GetCell(map.Rooms.Last().Left + 1, map.Rooms.Last().Top + 1);
             try
             {
                 pathfinder.ShortestPath(startCell, endCell);

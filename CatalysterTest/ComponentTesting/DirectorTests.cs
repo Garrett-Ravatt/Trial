@@ -3,7 +3,7 @@ using Arch.Core.Extensions;
 using Catalyster;
 using Catalyster.Components;
 
-namespace CatalysterTest
+namespace CatalysterTest.ComponentTests
 {
     [TestClass]
     public class DirectorTests

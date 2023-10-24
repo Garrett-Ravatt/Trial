@@ -12,8 +12,9 @@ using Catalyster.Components;
 using Catalyster.Helpers;
 using Arch.Core.Utils;
 using Arch.Core.Extensions;
+using CatalysterTest.TestUtils;
 
-namespace CatalysterTest
+namespace CatalysterTest.ComponentTests
 {
 
     [TestClass]

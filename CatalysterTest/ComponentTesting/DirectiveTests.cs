@@ -4,8 +4,9 @@ using Arch.Core.Extensions;
 using Catalyster.Interfaces;
 using RogueSharp.DiceNotation;
 using Catalyster.Helpers;
+using CatalysterTest.TestUtils;
 
-namespace CatalysterTest
+namespace CatalysterTest.ComponentTests
 {
     [TestClass]
     public class DirectiveTests
@@ -14,14 +15,14 @@ namespace CatalysterTest
         public void DirectiveTest1()
         {
             var world = World.Create();
-            
+
             var e = world.Create(
                 new Position { X = 0, Y = 0 },
-                new Energy { Max=100, Points=100, Regen=0 }
+                new Energy { Max = 100, Points = 100, Regen = 0 }
                 );
 
             // Perform directive
-            var dir = new RightMover { Cost=100 };
+            var dir = new RightMover { Cost = 100 };
             dir.Enter(e, world);
 
             Assert.AreEqual(1, e.Get<Position>().X);

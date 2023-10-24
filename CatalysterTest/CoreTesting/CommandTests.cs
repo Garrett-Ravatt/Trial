@@ -3,8 +3,9 @@ using Catalyster.Core;
 using Catalyster;
 using Arch.Core.Extensions;
 using Catalyster.Components;
+using CatalysterTest.TestUtils;
 
-namespace CatalysterTest
+namespace CatalysterTest.CoreTesting
 {
     [TestClass]
     public class CommandTests
