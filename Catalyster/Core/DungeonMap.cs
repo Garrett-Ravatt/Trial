@@ -14,6 +14,7 @@ namespace Catalyster.Core
         {
             world.Query(in new QueryDescription().WithAll<Player, Position, Sense>(), (ref Position position, ref Sense sense) =>
             {
+                // TODO: compute fov cumulatively instead of destructively .
                 ComputeFov(position.X, position.Y, sense.Range, true);
                 foreach (Cell cell in GetAllCells())
                 {

@@ -12,35 +12,61 @@ namespace Trial
         {
             bool handled = false;
 
-            if (keyboard.IsKeyPressed(Keys.Up))
+            // North
+            if (keyboard.IsKeyPressed(Keys.Up) || keyboard.IsKeyPressed(Keys.NumPad8))
             {
                 Program.GameMaster.Command.Move(0, -1);
                 handled = true;
             }
-            else if (keyboard.IsKeyPressed(Keys.Down))
+            // South
+            else if (keyboard.IsKeyPressed(Keys.Down) || keyboard.IsKeyPressed(Keys.NumPad2))
             {
                 Program.GameMaster.Command.Move(0, 1);
                 handled = true;
             }
-
-            if (keyboard.IsKeyPressed(Keys.Left))
+            // West
+            else if (keyboard.IsKeyPressed(Keys.Left) || keyboard.IsKeyPressed(Keys.NumPad4))
             {
                 Program.GameMaster.Command.Move(-1, 0);
                 handled = true;
             }
-            else if (keyboard.IsKeyPressed(Keys.Right))
+            // East
+            else if (keyboard.IsKeyPressed(Keys.Right) || keyboard.IsKeyPressed(Keys.NumPad6))
             {
                 Program.GameMaster.Command.Move(1, 0);
                 handled = true;
             }
+            // NorthEast
+            else if (keyboard.IsKeyPressed(Keys.NumPad9))
+            {
+                Program.GameMaster.Command.Move(1, -1);
+                handled = true;
+            }
+            // SouthEast
+            else if (keyboard.IsKeyPressed(Keys.NumPad3))
+            {
+                Program.GameMaster.Command.Move(1, 1);
+                handled = true;
+            }
+            // SouthWest
+            else if (keyboard.IsKeyPressed(Keys.NumPad1))
+            {
+                Program.GameMaster.Command.Move(-1, 1);
+                handled = true;
+            }
+            // NorthWest
+            else if (keyboard.IsKeyPressed(Keys.NumPad7))
+            {
+                Program.GameMaster.Command.Move(-1, -1);
+                handled = true;
+            }
 
-            // the lag from this is terrible.
             if (handled)
             {
-                // This is hacky
+                // this is hacky
+                Program.GameMaster.Update();
+                Program.GameMaster.Update();
                 Program.Draw();
-                Program.GameMaster.Update();
-                Program.GameMaster.Update();
             }
 
             return handled;
