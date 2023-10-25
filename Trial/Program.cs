@@ -6,6 +6,7 @@ using SadConsole.UI;
 using Catalyster.Components;
 using Catalyster.Models;
 using Catalyster;
+using System.Text.RegularExpressions;
 
 namespace Trial
 {
@@ -73,12 +74,12 @@ namespace Trial
         {
             DrawingMap.UpdateFieldOfView(GameMaster.World);
             DrawingMap.DrawTo(MapConsole);
-
-            GameMaster.World.Query(in new QueryDescription().WithAll<Position, Token>(), (ref Position position, ref Token token) =>
-            {
-                MapConsole.SetGlyph(position.X, position.Y, token.Char);
-                MapConsole.SetForeground(position.X, position.Y, new Color(token.Color));
-            });
+            //GameMaster.World.Query(in new QueryDescription().WithAll<Position, Token>(), (ref Position position, ref Token token) =>
+            //{
+            //    MapConsole.SetGlyph(position.X, position.Y, token.Char);
+            //    MapConsole.SetForeground(position.X, position.Y, new Color(token.Color));
+            //});
+            GameMaster.World.InlineQuery<TokenUpdate, Position, Token>(in new QueryDescription().WithAll<Token, Position>());
         }
     }
 }

@@ -1,8 +1,11 @@
-﻿using SadConsole.Input;
+﻿using Arch.System;
+using Catalyster.Components;
+using SadConsole.Input;
+using System.Runtime.CompilerServices;
 
 namespace Trial
 {
-    public class MapConsole : Console
+    public partial class MapConsole : Console
     {
         public MapConsole(int width, int height) : base(width, height) { }
         public override bool ProcessKeyboard(Keyboard keyboard)
@@ -35,11 +38,10 @@ namespace Trial
             if (handled)
             {
                 // This is hacky
-                Program.GameMaster.Update();
-                Program.GameMaster.Update();
                 Program.Draw();
+                Program.GameMaster.Update();
+                Program.GameMaster.Update();
             }
-
 
             return handled;
         }
