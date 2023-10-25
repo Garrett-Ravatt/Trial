@@ -1,6 +1,8 @@
 ﻿using RogueSharp;
 using Arch.Core;
 using Catalyster.Components;
+using Arch.System;
+using System.Runtime.CompilerServices;
 
 namespace Catalyster.Core
 {
@@ -12,9 +14,9 @@ namespace Catalyster.Core
         {
             world.Query(in new QueryDescription().WithAll<Player, Position, Sense>(), (ref Position position, ref Sense sense) =>
             {
+                ComputeFov(position.X, position.Y, sense.Range, true);
                 foreach (Cell cell in GetAllCells())
                 {
-                    ComputeFov(position.X, position.Y, sense.Range, true );
                     if (IsInFov(cell.X, cell.Y))
                     {
                         SetCellProperties(cell.X, cell.Y, cell.IsTransparent, cell.IsWalkable, true);
@@ -35,5 +37,16 @@ namespace Catalyster.Core
                 }
             }
         }
+
+        //public struct SenseUpdate : IForEach<Position, Sense>
+        //{
+        //    [Query]
+        //    [All(typeof(Player), typeof(Position), typeof(Sense))]
+        //    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //    public void Update(ref Position pos, ref Sense sense)
+        //    {
+
+        //    }
+        //}
     }
 }
