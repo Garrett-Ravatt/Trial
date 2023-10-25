@@ -14,8 +14,10 @@ namespace Trial
         public const int Width = 80;
         public const int Height = 25;
 
-        public static Console StartingConsole;
-        public static ConsoleMap Map;
+        public static GameMaster GameMaster;
+        public static DrawingMap DrawingMap;
+
+        public static MapConsole MapConsole;
 
         public static void Main(string[] args)
         {
@@ -30,43 +32,52 @@ namespace Trial
 
         static void Startup()
         {
-            //Map
+            // Map
             var model = new Model<DungeonMap>()
                 .Step(new InitializeMap(Width, Height))
                 .Step(new RoomGen(10, 15, 7))
                 .Step(new CorridorGen())
                 .Seed(0xfab); // necessary until player is better placed
 
-            Map = new ConsoleMap();
-            model.Process(Map);
+            var map = new DrawingMap();
+            model.Process(map);
             
-            var gm = new GameMaster(Map);
+            GameMaster = new GameMaster(map);
+            DrawingMap = map;
 
-            //Enemy
+            // Enemy
             var gob = EntityBuilder.Goblin(GameMaster.World);
             gob.Set<Position>(new Position { X = 10, Y = 15 });
 
-            //Player
+            // Player
             var player = EntityBuilder.Player(GameMaster.World);
             player.Set<Position>(new Position { X = 5, Y = 14 });
 
-            StartingConsole = (Console)GameHost.Instance.Screen;
+            // SadConsole
+            ScreenObject container = new ScreenObject();
+            Game.Instance.Screen = container;
+            MapConsole = new MapConsole(Width, Height);
+            
+            // Focused to handle input.
+            MapConsole.IsFocused = true;
+            container.Children.Add(MapConsole);
+
+            Game.Instance.DestroyDefaultStartingConsole();
 
             Draw();
         }
         
         public static void Draw()
         {
-            Map.UpdateFieldOfView(GameMaster.World);
-            Map.DrawTo(StartingConsole);
+            DrawingMap.UpdateFieldOfView(GameMaster.World);
+            DrawingMap.DrawTo(MapConsole);
 
             GameMaster.World.Query(in new QueryDescription().WithAll<Position, Token>(), (ref Position position, ref Token token) =>
             {
-                StartingConsole.SetGlyph(position.X, position.Y, token.Char);
-                StartingConsole.SetForeground(position.X, position.Y, new Color(token.Color));
+                MapConsole.SetGlyph(position.X, position.Y, token.Char);
+                MapConsole.SetForeground(position.X, position.Y, new Color(token.Color));
             });
         }
     }
-    
 }
 

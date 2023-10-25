@@ -6,10 +6,10 @@ using Rectangle = RogueSharp.Rectangle;
 namespace Trial
 {
     // An extension of DungeonMap able to render itself to a Console
-    public class ConsoleMap : DungeonMap
+    public class DrawingMap : DungeonMap
     {
-        public ConsoleMap() : base() { }
-        public ConsoleMap(int Width, int Height)
+        public DrawingMap() : base() { }
+        public DrawingMap(int Width, int Height)
         {
             Initialize(Width, Height);
             var room = new Rectangle(2, 2, Width-4, Height-4);

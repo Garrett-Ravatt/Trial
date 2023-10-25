@@ -44,9 +44,10 @@ namespace Catalyster.Core
         {
             // TODO: Maybe should be Entity references.
             var queue = new Queue<Entity>();
-            world.Query(in _desc, (Entity entity) =>
+            world.Query(in _desc, (Entity entity, ref Energy energy) =>
             {
                 queue.Enqueue(entity);
+                energy.Points = Math.Min(energy.Max, energy.Points + energy.Regen);
             });
             return queue;
         }
