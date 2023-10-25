@@ -22,5 +22,18 @@ namespace Catalyster.Core
                 }
             });
         }
+
+        // Used for testing walking around.
+        // TODO: as model step.
+        public void SetAllWalkable()
+        {
+            for(int x = 0; x < Width; x++)
+            {
+                for(int y = 0; y < Height; y++)
+                {
+                    SetCellProperties(x, y, true, true );
+                }
+            }
+        }
     }
 }

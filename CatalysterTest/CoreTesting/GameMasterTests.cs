@@ -47,6 +47,8 @@ namespace CatalysterTest.CoreTesting
         public void GameMasterTest4()
         {
             var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
             for (var i = 0; i < 10; i++)
             {
                 ExFactory.SimpleCreature(GameMaster.World);

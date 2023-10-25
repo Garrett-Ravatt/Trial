@@ -13,7 +13,8 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void CommandTest1()
         {
-            var world = World.Create();
+            new GameMaster();
+            var world = GameMaster.World;
             var command = new Command();
             
             command.Move(0, 0);
@@ -27,7 +28,8 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void CommandTest2()
         {
-            var world = World.Create();
+            new GameMaster();
+            var world = GameMaster.World;
             var command = new Command();
             var order = new TurnOrder();
 
@@ -43,6 +45,8 @@ namespace CatalysterTest.CoreTesting
         public void CommandTest3()
         {
             var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
             var command = gm.Command;
 
             var player = ExFactory.Player(GameMaster.World);
@@ -58,6 +62,8 @@ namespace CatalysterTest.CoreTesting
         public void CommandTest4()
         {
             var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
             var command = gm.Command;
             var world = GameMaster.World;
 

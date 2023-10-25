@@ -2,6 +2,7 @@
 using Arch.Core.Extensions;
 using Catalyster;
 using Catalyster.Components;
+using Catalyster.Helpers;
 
 namespace Catalyster.Core
 {
@@ -24,13 +25,18 @@ namespace Catalyster.Core
                 if (energy.Points <= 0) return;
 
                 ref var position = ref entity.Get<Position>();
-                // TODO: make sure entity can move there
-                position.X+= X;
-                position.Y+= Y;
+                var newPos = new Position { X = position.X + X, Y = position.Y + Y };
 
-                energy.Points -= 1000;
+                if (SpatialHelper.IsClear(new Position { X=position.X+X, Y=position.Y+Y}) 
+                    && GameMaster.DungeonMap.IsWalkable(newPos.X, newPos.Y))
+                {
+                    position = newPos;
 
-                EndAction(energy.Points);
+                    energy.Points -= 1000;
+
+                    EndAction(energy.Points);
+                }
+
                 return;
             }
             else

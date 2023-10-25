@@ -9,10 +9,6 @@ namespace Trial
         {
             bool handled = false;
 
-            // This is hacky
-            Program.GameMaster.Update();
-            Program.GameMaster.Update();
-
             if (keyboard.IsKeyPressed(Keys.Up))
             {
                 Program.GameMaster.Command.Move(0, -1);
@@ -35,11 +31,15 @@ namespace Trial
                 handled = true;
             }
 
-            // the performance of this is terrible
+            // the lag from this is terrible.
             if (handled)
             {
+                // This is hacky
+                Program.GameMaster.Update();
+                Program.GameMaster.Update();
                 Program.Draw();
             }
+
 
             return handled;
         }
