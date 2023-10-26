@@ -13,19 +13,18 @@ namespace Trial
 {
     class Program
     {
-        public const int Width = 80;
-        public const int Height = 25;
 
         public static GameMaster GameMaster;
         public static DrawingMap DrawingMap;
 
         public static MapConsole MapConsole;
+        public static MessageConsole MessageConsole;
 
         public static void Main(string[] args)
         {
             Settings.WindowTitle = "Trial of the Alchymer";
 
-            Game.Create(90, 30);
+            Game.Create(GameSettings.Width, GameSettings.Height);
             Game.Instance.OnStart = Startup;
 
             Game.Instance.Run();
@@ -36,7 +35,7 @@ namespace Trial
         {
             // Map
             var model = new Model<DungeonMap>()
-                .Step(new InitializeMap(Width, Height))
+                .Step(new InitializeMap(GameSettings.MapWidth, GameSettings.MapHeight))
                 .Step(new RoomGen(10, 15, 7))
                 .Step(new CorridorGen())
                 .Seed(0xfab); // necessary until player is better placed
@@ -58,11 +57,15 @@ namespace Trial
             // SadConsole
             ScreenObject container = new ScreenObject();
             Game.Instance.Screen = container;
-            MapConsole = new MapConsole(Width, Height);
+            MapConsole = new MapConsole(GameSettings.MapWidth, GameSettings.MapHeight);
+            
             
             // Focused to handle input.
             MapConsole.IsFocused = true;
             container.Children.Add(MapConsole);
+
+            MessageConsole = new MessageConsole();
+            container.Children.Add(MessageConsole);
 
             Game.Instance.DestroyDefaultStartingConsole();
 
