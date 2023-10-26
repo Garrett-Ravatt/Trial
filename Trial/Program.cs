@@ -7,6 +7,7 @@ using Catalyster.Components;
 using Catalyster.Models;
 using Catalyster;
 using System.Text.RegularExpressions;
+using Trial.Consoles;
 
 namespace Trial
 {

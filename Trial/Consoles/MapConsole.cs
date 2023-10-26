@@ -3,7 +3,7 @@ using Catalyster.Components;
 using SadConsole.Input;
 using System.Runtime.CompilerServices;
 
-namespace Trial
+namespace Trial.Consoles
 {
     public class MapConsole : Console
     {
