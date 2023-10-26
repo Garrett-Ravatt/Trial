@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Trial
 {
-    public partial class MapConsole : Console
+    public class MapConsole : Console
     {
         public MapConsole(int width, int height) : base(width, height) { }
         public override bool ProcessKeyboard(Keyboard keyboard)
@@ -63,7 +63,7 @@ namespace Trial
 
             if (handled)
             {
-                // this is hacky
+                // this is hacky (but I am at peace)
                 Program.GameMaster.Update();
                 Program.GameMaster.Update();
                 Program.Draw();

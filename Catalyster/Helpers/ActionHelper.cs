@@ -29,10 +29,11 @@ namespace Catalyster.Helpers
                 if (health.Points <=0)
                 {
                     Console.WriteLine($"{defender} dies!");
-                    //TODO: must have a reference to the game world to destroy
+                    //TODO: safely destroy defender entity
                 }
                 return true;
             }
+            // TODO: replace with message log
             Console.WriteLine($"{defender} successfully defends.");
             return false;
         }
