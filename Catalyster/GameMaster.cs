@@ -11,12 +11,15 @@ namespace Catalyster
         public Command Command;
         private TurnOrder _turnOrder;
 
+        public static MessageLog MessageLog { get; private set; }
+
         public GameMaster(DungeonMap dungeonMap)
         {
             DungeonMap = dungeonMap;
             World = World.Create();
             Command = new Command();
             _turnOrder = new TurnOrder();
+            MessageLog = new MessageLog();
         }
 
         public GameMaster()
@@ -25,6 +28,7 @@ namespace Catalyster
             World = World.Create();
             Command = new Command();
             _turnOrder = new TurnOrder();
+            MessageLog = new MessageLog();
         }
 
         public void Update()

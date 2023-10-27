@@ -1,9 +1,10 @@
 ﻿using SadConsole.Instructions;
-using static System.Net.Mime.MediaTypeNames;
+using Catalyster.Core;
+using Catalyster;
 
 namespace Trial.Consoles
 {
-    public class MessageConsole : Console
+    public partial class MessageConsole : Console
     {
         private DrawString _drawString;
         private Queue<string> _drawQueue = new Queue<string>();
@@ -18,6 +19,7 @@ namespace Trial.Consoles
             Cursor.IsVisible = true;
 
             Type(":: :: Your task comes to hand.");
+            GameMaster.MessageLog.Handler += Type;
         }
 
         public void Type(string message)
@@ -30,8 +32,6 @@ namespace Trial.Consoles
             {
                 _drawQueue.Enqueue(message);
             }
-
-            //Cursor.Print(message).NewLine();
         }
 
         public void Type(IEnumerable<string> message)
