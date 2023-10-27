@@ -14,19 +14,10 @@ namespace Trial.Consoles
             // Offset to right of the map
             this.Position = new Point(GameSettings.MapWidth, 0);
 
-            // Printing the first message
-            var startMessage = ":: :: Your task comes to hand.";
-            
             Cursor.IsEnabled = false;
             Cursor.IsVisible = true;
 
-            Type(startMessage);
-            Type(":: :: heh");
-            for (int i = 0; i < 10; i++)
-            {
-                Type(":: :: Let's try a line that will take up two lines of the console. How about that. Is that good?");
-            }
-            Type(":: :: epic");
+            Type(":: :: Your task comes to hand.");
         }
 
         public void Type(string message)
@@ -41,6 +32,19 @@ namespace Trial.Consoles
             }
 
             //Cursor.Print(message).NewLine();
+        }
+
+        public void Type(IEnumerable<string> message)
+        {
+            foreach(string messageItem in message)
+            {
+                _drawQueue.Enqueue(messageItem);
+            }
+
+            if (_drawString == null || _drawString.IsFinished)
+            {
+                TryDequeue();
+            }
         }
 
         private void StartDraw(string message)
@@ -58,6 +62,11 @@ namespace Trial.Consoles
         }
 
         private void TryDequeue(object? sender, EventArgs e)
+        {
+            TryDequeue();
+        }
+
+        private void TryDequeue()
         {
             if (_drawQueue.Count > 0)
             {
