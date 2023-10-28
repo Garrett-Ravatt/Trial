@@ -5,6 +5,7 @@ using Catalyster.Interfaces;
 using RogueSharp.DiceNotation;
 using Catalyster.Helpers;
 using CatalysterTest.TestUtils;
+using Catalyster;
 
 namespace CatalysterTest.ComponentTests
 {
@@ -14,7 +15,8 @@ namespace CatalysterTest.ComponentTests
         [TestMethod]
         public void DirectiveTest1()
         {
-            var world = World.Create();
+            new GameMaster();
+            var world = GameMaster.World;
 
             var e = world.Create(
                 new Position { X = 0, Y = 0 },
@@ -34,7 +36,8 @@ namespace CatalysterTest.ComponentTests
         [TestMethod]
         public void DirectiveTest2()
         {
-            var world = World.Create();
+            new GameMaster();
+            var world = GameMaster.World;
             // Create attacker
             var attacker = ExFactory.SimpleCreature(world);
             // Create defender

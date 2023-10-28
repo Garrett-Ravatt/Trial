@@ -20,7 +20,9 @@ namespace Catalyster.Core
         {
             if (!PlayerLock)
             {
-                _entities = QueryEntities(world);
+                if (_entities == null || _entities.Count == 0)
+                    _entities = QueryEntities(world);
+
                 Entity entity;
                 while (_entities.TryDequeue(out entity))
                 {
@@ -32,7 +34,9 @@ namespace Catalyster.Core
                     }
                     else
                     {
-                        entity.Get<IDirector>().Direct(entity, world);
+                        Console.WriteLine($"Calling director {entity}");
+                        ref var director = ref entity.Get<IDirector>();
+                        director.Direct(entity, world);
                     }
                 }
             }

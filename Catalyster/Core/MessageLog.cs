@@ -25,7 +25,7 @@ namespace Catalyster.Core
         {
             var s = $":: :: {message}";
             Messages.Add(s);
-            Handler(s);
+            if (Handler != null) Handler(s);
         }
 
         // Adds a message with an identification of its source
@@ -33,7 +33,7 @@ namespace Catalyster.Core
         {
             var s = $":: {source} :: {message}";
             Messages.Add(s);
-            Handler(s);
+            if (Handler != null) Handler(s);
         }
 
         public void Clear()

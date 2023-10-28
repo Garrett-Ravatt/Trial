@@ -1,6 +1,7 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
 using Catalyster.Components;
+using Catalyster;
 using Catalyster.Core;
 using CatalysterTest.TestUtils;
 
@@ -41,8 +42,8 @@ namespace CatalysterTest.CoreTesting
             Assert.IsTrue(e1.Get<Energy>().Points <= 0);
             Assert.IsTrue(e2.Get<Energy>().Points <= 0);
 
-            Assert.IsTrue(e1.Get<Position>().X > iPosX1);
-            Assert.IsTrue(e2.Get<Position>().X > iPosX2);
+            Assert.AreEqual(iPosX1 + 1, e1.Get<Position>().X);
+            Assert.AreEqual(iPosX2 + 1, e2.Get<Position>().X);
 
             World.Destroy(world);
         }
@@ -54,7 +55,7 @@ namespace CatalysterTest.CoreTesting
             var order = new TurnOrder();
 
             var e1 = ExFactory.SimpleCreature(world);
-            var player = ExFactory.Player(world);
+            ExFactory.Player(world);
             var e2 = ExFactory.SimpleCreature(world);
 
             var iPosX1 = e1.Get<Position>().X;
@@ -86,5 +87,19 @@ namespace CatalysterTest.CoreTesting
 
             World.Destroy(world);
         }
+
+        //[TestMethod]
+        //public void TurnTest5()
+        //{
+        //    new GameMaster();
+        //    var world = GameMaster.World;
+        //    var order = new TurnOrder();
+
+        //    ExFactory.SimpleCreature(world);
+        //    ExFactory.SimpleCreature(world);
+        //    var player = ExFactory.Player(world);
+
+
+        //}
     }
 }

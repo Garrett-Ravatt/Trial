@@ -43,6 +43,7 @@ namespace Catalyster
             else if (Command.Entity == null)
             {
                 _turnOrder.PlayerLock = false;
+                Command.Entity = _turnOrder.Update(World);
             }
         }
     }

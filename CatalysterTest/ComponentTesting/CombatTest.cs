@@ -13,6 +13,7 @@ using Catalyster.Helpers;
 using Arch.Core.Utils;
 using Arch.Core.Extensions;
 using CatalysterTest.TestUtils;
+using Catalyster;
 
 namespace CatalysterTest.ComponentTests
 {
@@ -24,7 +25,8 @@ namespace CatalysterTest.ComponentTests
         [TestMethod]
         public void TestCreature()
         {
-            var world = World.Create();
+            new GameMaster();
+            var world = GameMaster.World;
             // ExFactory makes our monsters for us.
             ExFactory.SimpleCreature(world);
             World.Destroy(world);
@@ -37,7 +39,8 @@ namespace CatalysterTest.ComponentTests
         [TestMethod]
         public void TestAttackWorks()
         {
-            var world = World.Create();
+            new GameMaster();
+            var world = GameMaster.World;
             // ActionHelper returns true if the attack lands.
             Assert.IsTrue(ActionHelper.ResolveAttack(ExFactory.SimpleCreature(world), ExFactory.SimpleCreature(world)));
             World.Destroy(world);
@@ -47,7 +50,8 @@ namespace CatalysterTest.ComponentTests
         [TestMethod]
         public void TestAttackDamage()
         {
-            var world = World.Create();
+            new GameMaster();
+            var world = GameMaster.World;
 
             // Using ExFactory to make simple creatures.
             // Defense Class is always 0, so attacks always hit.
