@@ -13,9 +13,16 @@ namespace Catalyster.Core
         public Entity? Entity;
         public Command() { }
 
+        // yield control away.
+        public void Wait()
+        {
+            Entity = null;
+        }
+
+        // try to go somewhere.
         public void Move(int X, int Y)
         {
-            // TODO: Perform as Directive, or share code with a movement Directive
+            // TODO: Perform as Directive, or share code with a movement Directive using a Helper
             if (Entity != null)
             {
                 var entity = Entity.Value;
@@ -27,15 +34,31 @@ namespace Catalyster.Core
                 ref var position = ref entity.Get<Position>();
                 var newPos = new Position { X = position.X + X, Y = position.Y + Y };
 
-                if (SpatialHelper.IsClear(new Position { X=position.X+X, Y=position.Y+Y}) 
-                    && GameMaster.DungeonMap.IsWalkable(newPos.X, newPos.Y))
+                if (GameMaster.DungeonMap.IsWalkable(newPos.X, newPos.Y))
                 {
-                    position = newPos;
+                    Entity? bumped = null;
+                    if (SpatialHelper.ClearOrAssign(position.X + X, position.Y + Y, ref bumped))
+                    {
+                        position = newPos;
 
-                    energy.Points -= 1000;
+                        energy.Points -= 1000;
 
-                    EndAction(energy.Points);
+                        EndAction(energy.Points);
+                    }
+
+                    else // Alchymer ran into a creature
+                    {
+                        // TODO: Attack. We need a reference to the entity in that square to do so.
+                        //GameMaster.MessageLog.Add($"You try to attack {bumped.Value.Get<Token>().Name}!");
+                        ActionHelper.ResolveAttack(entity, bumped.Value);
+                    }
                 }
+
+                else // Alchymer ran into a wall.
+                {
+                    GameMaster.MessageLog.Add("You bump into the wall. You fool.");
+                }
+
 
                 return;
             }

@@ -17,8 +17,8 @@ namespace Trial
                 new Health { Max = hp, Points = hp },
                 new Defense { Class = 10 },
                 new Energy { Max = 1000, Points = 1000, Regen = 1000 },
-                new MeleeAttack { AttackFormula = Dice.Parse("1d20+2"), DamageFormula = Dice.Parse("1d4") },
-                (IDirector) new MonoBehavior { Directive = new RightMover { Cost = 1000 } }
+                new MeleeAttack { AttackFormula = Dice.Parse("1d20+2"), DamageFormula = Dice.Parse("1d4") }
+                //(IDirector) new MonoBehavior { Directive = new RightMover { Cost = 1000 } }
                 );
         }
 

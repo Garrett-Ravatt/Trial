@@ -54,7 +54,7 @@ namespace Trial.Consoles
             _drawString = new DrawString(ColoredString.Parser.Parse(message+"\n\r"));
             _drawString.Cursor = Cursor;
             _drawString.Position = Cursor.Position;
-            _drawString.TotalTimeToPrint = 0.7f;
+            _drawString.TotalTimeToPrint = 0.5f;
             _drawString.RemoveOnFinished = true;
 
             _drawString.Finished += TryDequeue;

@@ -13,13 +13,31 @@ namespace Catalyster.Helpers
             return Math.Max(x, y);
         }
 
-        public static bool IsClear(Position pos)
+        public static bool IsClear(int x, int y)
         {
             var isClear = true;
             GameMaster.World.Query(in new QueryDescription().WithAll<Position>(), (ref Position position) =>
             {
-                if (position.Equals(pos)) isClear = false;
+                if (position.X == x && position.Y == y) isClear = false;
             });
+            return isClear;
+        }
+
+        // tries to find something. Isn't particular about what.
+        public static bool ClearOrAssign(int x, int y, ref Entity? foundEntity)
+        {
+            var isClear = true;
+            Entity? temp = foundEntity;
+            GameMaster.World.Query(in new QueryDescription().WithAll<Position>(), (Entity entity, ref Position position) =>
+            {
+                if (position.X == x && position.Y == y)
+                {
+                    temp = entity;
+                    isClear = false;
+                }
+            });
+
+            foundEntity = temp;
             return isClear;
         }
     }
