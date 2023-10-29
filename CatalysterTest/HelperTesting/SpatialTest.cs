@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CatalysterTest
+namespace CatalysterTest.HelperTesting
 {
     [TestClass]
     public class SpatialTest
@@ -33,10 +33,10 @@ namespace CatalysterTest
             new GameMaster();
             var world = GameMaster.World;
 
-            var position = new Position { X=0, Y=0 };
+            var position = new Position { X = 0, Y = 0 };
 
             // is clear before being added
-            Assert.IsTrue(SpatialHelper.IsClear(0,0));
+            Assert.IsTrue(SpatialHelper.IsClear(0, 0));
 
             // isn't clear after being added
             world.Create(position);
@@ -56,11 +56,11 @@ namespace CatalysterTest
             Entity? holder = null;
 
             // can't find anything before being added
-            Assert.IsTrue(SpatialHelper.ClearOrAssign(0,0,ref holder));
+            Assert.IsTrue(SpatialHelper.ClearOrAssign(0, 0, ref holder));
 
             // found it and returned it once added
             world.Create(position);
-            Assert.IsFalse(SpatialHelper.ClearOrAssign(0,0, ref holder));
+            Assert.IsFalse(SpatialHelper.ClearOrAssign(0, 0, ref holder));
 
             GameMaster.World.Dispose();
         }

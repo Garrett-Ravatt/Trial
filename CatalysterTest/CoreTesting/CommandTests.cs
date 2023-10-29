@@ -13,9 +13,10 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void CommandTest1()
         {
-            new GameMaster();
+            var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(10, 10);
             var world = GameMaster.World;
-            var command = new Command();
+            var command = gm.Command;
             
             command.Move(0, 0);
 
