@@ -15,7 +15,17 @@ namespace Catalyster.Components
         public float Fill { get; set; }
         //TODO: get/set Weight act as wrappers for the density
         private float Density;
-        public float Weight { get; set; }
+        public float Weight
+        {
+            get
+            {
+                return Fill * Density;
+            }
+            set
+            {
+                Density = value / Fill;
+            }
+        }
 
         // TODO: powder, liquid, gas (MatterState enum)
     }
