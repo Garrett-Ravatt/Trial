@@ -29,6 +29,7 @@ namespace CatalysterTest.TestUtils
                 new Defense { Class = 0 },
                 new Energy { Max = 1000, Points = 1000, Regen = 1000 },
                 new MeleeAttack { AttackFormula = Dice.Parse("1d20+2"), DamageFormula = Dice.Parse("1d4") },
+                new Sense { Range=5 },
                 new Player { }
                 );
         }

@@ -60,6 +60,11 @@ namespace Trial.Consoles
                 Program.GameMaster.Command.Move(-1, -1);
                 handled = true;
             }
+            else if (keyboard.IsKeyPressed(Keys.NumPad5))
+            {
+                Program.GameMaster.Command.Wait();
+                handled = true;
+            }
 
             if (handled)
             {

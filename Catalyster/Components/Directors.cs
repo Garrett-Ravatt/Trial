@@ -1,5 +1,6 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
+using Catalyster.Helpers;
 using Catalyster.Interfaces;
 
 namespace Catalyster.Components
@@ -18,14 +19,49 @@ namespace Catalyster.Components
     // Two brain cell hunter
     public struct CrazedHunter : IDirector
     {
+        private EntityReference? _playerRef = null;
+
+        public CrazedHunter() { }
+
         public void Direct(Entity entity, World world)
         {
             ref var pos = ref entity.Get<Position>();
 
             // does nothing if the player can't see it.
             if (!GameMaster.DungeonMap.IsInFov(pos.X, pos.Y))
+            {
+                Console.WriteLine("They can't see me");
                 return;
+            }
 
+            if (_playerRef == null)
+                _playerRef = QueryHelper.ListByComponent<Player>().FirstOrDefault();
+
+            var target = _playerRef.Value.Entity.Get<Position>();
+
+            ref var energy = ref entity.Get<Energy>();
+            while (energy.Points > 0)
+            {
+                if (SpatialHelper.LazyDist(pos, target) <= 1)
+                {
+                    ActionHelper.ResolveAttack(entity, _playerRef.Value.Entity);
+                    energy.Points -= 1000; // replace with attack cost
+                }
+                else
+                {
+                    var x = target.X - pos.X;
+                    x = Math.Clamp(x, -1, 1);
+                    var y = target.Y - pos.Y;
+                    y = Math.Clamp(y, -1, 1);
+                    Console.WriteLine($"I wanna move {x}, {y}");
+                    
+                    // NOTE: This will walk you through a wall.
+                    pos.X += x;
+                    pos.Y += y;
+
+                    energy.Points -= 1000; // replace with movement cost
+                }
+            }
 
         }
     }

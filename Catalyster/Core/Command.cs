@@ -51,6 +51,8 @@ namespace Catalyster.Core
                         // TODO: Attack. We need a reference to the entity in that square to do so.
                         //GameMaster.MessageLog.Add($"You try to attack {bumped.Value.Get<Token>().Name}!");
                         ActionHelper.ResolveAttack(entity, bumped.Value);
+                        energy.Points -= 1000;
+                        EndAction(energy.Points);
                     }
                 }
 

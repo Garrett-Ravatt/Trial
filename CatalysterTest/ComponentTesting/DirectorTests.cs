@@ -2,7 +2,9 @@
 using Arch.Core.Extensions;
 using Catalyster;
 using Catalyster.Components;
+using Catalyster.Helpers;
 using Catalyster.Interfaces;
+using CatalysterTest.TestUtils;
 
 namespace CatalysterTest.ComponentTests
 {
@@ -71,6 +73,41 @@ namespace CatalysterTest.ComponentTests
             });
 
             Assert.AreEqual(1, creature.Get<Position>().X);
+
+            World.Destroy(world);
+        }
+        
+        // TODO: Fix. This works in the Trial build, but not in unit testing.
+        [TestMethod]
+        public void CrazedHunterTest1()
+        {
+            var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(30, 30);
+            GameMaster.DungeonMap.SetAllWalkable();
+            var world = GameMaster.World;
+
+            var creature = ExFactory.SimpleCreature(world);
+            creature.Set<IDirector>(new CrazedHunter { });
+            creature.Set<Position>(new Position { X=3, Y=3 });
+
+            var player = ExFactory.Player(world);
+            player.Set<Position>(new Position { X=1, Y=1 });
+            //player.Add<Sense>(new Sense { Range = 10 });
+
+            var initialDist = SpatialHelper.LazyDist(
+                creature.Get<Position>(),
+                player.Get<Position>());
+
+            GameMaster.DungeonMap.UpdateFieldOfView(GameMaster.World);
+            gm.Update();
+            gm.Command.Wait();
+            gm.Update();
+
+            var finalDist = SpatialHelper.LazyDist(
+                creature.Get<Position>(),
+                player.Get<Position>());
+
+            Assert.IsTrue(initialDist > finalDist);
 
             World.Destroy(world);
         }
