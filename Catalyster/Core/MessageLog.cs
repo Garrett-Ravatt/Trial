@@ -1,4 +1,8 @@
 ﻿
+using Arch.Core;
+using Arch.Core.Extensions;
+using Catalyster.Components;
+
 namespace Catalyster.Core
 {
     public struct MessageMoment
@@ -34,6 +38,18 @@ namespace Catalyster.Core
             var s = $":: {source} :: {message}";
             Messages.Add(s);
             if (Handler != null) Handler(s);
+        }
+
+        public void IDAdd(Entity entity, string message)
+        {
+            if (entity.Has<Token>())
+            {
+                IDAdd(entity.Get<Token>().Name, message);
+            }
+            else
+            {
+                IDAdd("unknown", message);
+            }
         }
 
         public void Clear()

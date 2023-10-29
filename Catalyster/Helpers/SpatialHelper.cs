@@ -13,6 +13,7 @@ namespace Catalyster.Helpers
             return Math.Max(x, y);
         }
 
+        // returns true if tile is clear of entities
         public static bool IsClear(int x, int y)
         {
             var isClear = true;

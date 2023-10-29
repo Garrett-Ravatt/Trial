@@ -41,6 +41,7 @@ namespace Catalyster.Helpers
                 health.Points -= damage;
                 if (health.Points <=0)
                 {
+                    GameMaster.MessageLog.IDAdd(defender, "dies!");
                     Console.WriteLine($"{defender} dies!");
                     //TODO: safely destroy defender entity
                 }

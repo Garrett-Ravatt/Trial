@@ -55,9 +55,20 @@ namespace Catalyster.Components
                     y = Math.Clamp(y, -1, 1);
                     Console.WriteLine($"I wanna move {x}, {y}");
                     
-                    // NOTE: This will walk you through a wall.
-                    pos.X += x;
-                    pos.Y += y;
+                    // TODO: refactor to static method elsewhere.
+                    if (GameMaster.DungeonMap.IsWalkable(pos.X+x, pos.Y+y))
+                    {
+                        pos.X += x;
+                        pos.Y += y;
+                    }
+                    else if (GameMaster.DungeonMap.IsWalkable(pos.X+x, pos.Y))
+                    {
+                        pos.X += x;
+                    }
+                    else if (GameMaster.DungeonMap.IsWalkable(pos.X, pos.Y+y))
+                    {
+                        pos.Y += y;
+                    }
 
                     energy.Points -= 1000; // replace with movement cost
                 }
