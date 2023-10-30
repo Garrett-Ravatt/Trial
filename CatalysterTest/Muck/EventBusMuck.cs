@@ -1,7 +1,7 @@
 ﻿using Arch.Bus;
 
 // A Muck is what I'm calling tests that don't involve code from the real application.
-// Mucks are a way to see if an idea will work, then they'll be made private and removed from unit tests.
+// Mucks are a way to see if an idea will work, then they'll be made internal and removed from unit tests.
 
 namespace CatalysterTest.Muck
 {
