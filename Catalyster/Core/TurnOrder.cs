@@ -13,7 +13,7 @@ namespace Catalyster.Core
 
         public bool PlayerLock = false;
 
-        private Queue<Entity> _entities;
+        private Queue<EntityReference> _entities;
         public TurnOrder() { }
 
         public Entity? Update(World world)
@@ -23,20 +23,24 @@ namespace Catalyster.Core
                 if (_entities == null || _entities.Count == 0)
                     _entities = QueryEntities(world);
 
-                Entity entity;
-                while (_entities.TryDequeue(out entity))
+                EntityReference entityRef;
+                while (_entities.TryDequeue(out entityRef))
                 {
-                    if (entity.Has<Player>())
+                    if (entityRef.IsAlive())
                     {
-                        // TODO: Consider returning Player entity
-                        PlayerLock = true;
-                        return entity;
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Calling director {entity}");
-                        ref var director = ref entity.Get<IDirector>();
-                        director.Direct(entity, world);
+                        var entity = entityRef.Entity;
+                        if (entity.Has<Player>())
+                        {
+                            // TODO: Consider returning Player entity
+                            PlayerLock = true;
+                            return entity;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Calling director {entity}");
+                            ref var director = ref entity.Get<IDirector>();
+                            director.Direct(entity, world);
+                        }
                     }
                 }
             }
@@ -44,13 +48,13 @@ namespace Catalyster.Core
         }
 
         // We CAN query entities but
-        public Queue<Entity> QueryEntities(World world)
+        public Queue<EntityReference> QueryEntities(World world)
         {
             // TODO: Maybe should be Entity references.
-            var queue = new Queue<Entity>();
+            var queue = new Queue<EntityReference>();
             world.Query(in _desc, (Entity entity, ref Energy energy) =>
             {
-                queue.Enqueue(entity);
+                queue.Enqueue(entity.Reference());
                 energy.Points = Math.Min(energy.Max, energy.Points + energy.Regen);
             });
             return queue;
