@@ -29,7 +29,6 @@ namespace Catalyster.Core
 
                 // Fail out if we can't perform the action.
                 ref var energy = ref entity.Get<Energy>();
-                if (energy.Points <= 0) return;
 
                 ref var position = ref entity.Get<Position>();
                 var newPos = new Position { X = position.X + X, Y = position.Y + Y };
@@ -42,8 +41,6 @@ namespace Catalyster.Core
                         position = newPos;
 
                         energy.Points -= WiggleHelper.Wiggle(1000, .1);
-
-                        EndAction(energy.Points);
                     }
 
                     else // Alchymer ran into a creature
@@ -52,7 +49,6 @@ namespace Catalyster.Core
                         //GameMaster.MessageLog.Add($"You try to attack {bumped.Value.Get<Token>().Name}!");
                         ActionHelper.ResolveAttack(entity, bumped.Value);
                         energy.Points -= WiggleHelper.Wiggle(1000, .1);
-                        EndAction(energy.Points);
                     }
                 }
 
@@ -62,8 +58,7 @@ namespace Catalyster.Core
                     GameMaster.MessageLog.Add("You bump into the wall. You fool.");
                 }
 
-
-                return;
+                EndAction(energy.Points);
             }
             else
             {
