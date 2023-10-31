@@ -36,7 +36,10 @@ namespace Catalyster.Components
 
             if (_markRef == null)
             {
-                _markRef = QueryHelper.ListByComponent<Player>().FirstOrDefault();
+                Faction faction;
+                if (!entity.TryGet<Faction>(out faction))
+                    throw new Exception("Faction component not found.");
+                _markRef = QueryHelper.ListByQuery(faction.HostileDesc).FirstOrDefault();
             }
 
             // If I still can't find them, I give up.
@@ -51,7 +54,7 @@ namespace Catalyster.Components
                 if (SpatialHelper.LazyDist(pos, target) <= 1)
                 {
                     ActionHelper.ResolveAttack(entity, _markRef.Value.Entity);
-                    energy.Points -= 1000; // replace with attack cost
+                    energy.Points -= 1000; // TODO: replace with attack cost
                 }
                 else
                 {
@@ -59,7 +62,6 @@ namespace Catalyster.Components
                     x = Math.Clamp(x, -1, 1);
                     var y = target.Y - pos.Y;
                     y = Math.Clamp(y, -1, 1);
-                    Console.WriteLine($"I wanna move {x}, {y}");
                     
                     // TODO: refactor to static method elsewhere.
                     if (GameMaster.DungeonMap.IsWalkable(pos.X+x, pos.Y+y))
@@ -76,7 +78,7 @@ namespace Catalyster.Components
                         pos.Y += y;
                     }
 
-                    energy.Points -= 1000; // replace with movement cost
+                    energy.Points -= 1000; // TODO: replace with movement cost
                 }
             }
 

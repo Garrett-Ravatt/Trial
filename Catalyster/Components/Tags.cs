@@ -2,5 +2,7 @@
 {
     public struct Player { };
 
+    public struct Monster { };
+
     public struct Stairs { };
 }

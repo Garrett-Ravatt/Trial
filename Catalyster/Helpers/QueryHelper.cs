@@ -1,4 +1,5 @@
-﻿using Arch.Core;
+﻿using Arch.Bus;
+using Arch.Core;
 using Arch.Core.Extensions;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,18 @@ namespace Catalyster.Helpers
         {
             var list = new List<EntityReference>();
             var desc = new QueryDescription().WithAll<T>();
+
+            GameMaster.World.Query(in desc, (Entity e) =>
+            {
+                list.Add(e.Reference());
+            });
+
+            return list;
+        }
+
+        public static List<EntityReference> ListByQuery(QueryDescription desc)
+        {
+            var list = new List<EntityReference>();
 
             GameMaster.World.Query(in desc, (Entity e) =>
             {
