@@ -35,7 +35,13 @@ namespace Catalyster.Components
             }
 
             if (_playerRef == null)
+            {
                 _playerRef = QueryHelper.ListByComponent<Player>().FirstOrDefault();
+            }
+
+            // If I still can't find them, I give up.
+            if (_playerRef == null || !_playerRef.Value.IsAlive())
+                return;
 
             var target = _playerRef.Value.Entity.Get<Position>();
 

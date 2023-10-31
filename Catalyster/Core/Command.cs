@@ -58,6 +58,7 @@ namespace Catalyster.Core
 
                 else // Alchymer ran into a wall.
                 {
+                    // TODO: Rip hunks of rock out of the wall.
                     GameMaster.MessageLog.Add("You bump into the wall. You fool.");
                 }
 

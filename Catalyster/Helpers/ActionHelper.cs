@@ -43,7 +43,8 @@ namespace Catalyster.Helpers
                 {
                     GameMaster.MessageLog.IDAdd(defender, "dies!");
                     Console.WriteLine($"{defender} dies!");
-                    //TODO: safely destroy defender entity
+                    //TODO: needs test coverage.
+                    GameMaster.World.Destroy(defender);
                 }
                 return true;
             }
