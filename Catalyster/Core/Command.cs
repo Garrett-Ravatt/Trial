@@ -39,15 +39,14 @@ namespace Catalyster.Core
                     if (SpatialHelper.ClearOrAssign(position.X + X, position.Y + Y, ref bumped))
                     {
                         position = newPos;
-
-                        energy.Points -= WiggleHelper.Wiggle(1000, .1);
+                        // TODO: refer to movement speed
+                        energy.Points -= WiggleHelper.Wiggle(1000, .1); 
                     }
 
                     else // Alchymer ran into a creature
                     {
-                        // TODO: Attack. We need a reference to the entity in that square to do so.
-                        //GameMaster.MessageLog.Add($"You try to attack {bumped.Value.Get<Token>().Name}!");
                         ActionHelper.ResolveAttack(entity, bumped.Value);
+                        // TODO: refer to attack cost
                         energy.Points -= WiggleHelper.Wiggle(1000, .1);
                     }
                 }
