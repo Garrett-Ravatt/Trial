@@ -19,7 +19,7 @@ namespace Catalyster.Components
     // Two brain cell hunter
     public struct CrazedHunter : IDirector
     {
-        private EntityReference? _playerRef = null;
+        private EntityReference? _markRef = null;
 
         public CrazedHunter() { }
 
@@ -34,23 +34,23 @@ namespace Catalyster.Components
                 return;
             }
 
-            if (_playerRef == null)
+            if (_markRef == null)
             {
-                _playerRef = QueryHelper.ListByComponent<Player>().FirstOrDefault();
+                _markRef = QueryHelper.ListByComponent<Player>().FirstOrDefault();
             }
 
             // If I still can't find them, I give up.
-            if (_playerRef == null || !_playerRef.Value.IsAlive())
+            if (_markRef == null || !_markRef.Value.IsAlive())
                 return;
 
-            var target = _playerRef.Value.Entity.Get<Position>();
+            var target = _markRef.Value.Entity.Get<Position>();
 
             ref var energy = ref entity.Get<Energy>();
             while (energy.Points > 0)
             {
                 if (SpatialHelper.LazyDist(pos, target) <= 1)
                 {
-                    ActionHelper.ResolveAttack(entity, _playerRef.Value.Entity);
+                    ActionHelper.ResolveAttack(entity, _markRef.Value.Entity);
                     energy.Points -= 1000; // replace with attack cost
                 }
                 else
