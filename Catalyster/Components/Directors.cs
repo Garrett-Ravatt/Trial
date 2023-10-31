@@ -54,7 +54,7 @@ namespace Catalyster.Components
                 if (SpatialHelper.LazyDist(pos, target) <= 1)
                 {
                     ActionHelper.ResolveAttack(entity, _markRef.Value.Entity);
-                    energy.Points -= 1000; // TODO: replace with attack cost
+                    energy.Points -= WiggleHelper.Wiggle(1000, .1); // TODO: replace with attack cost
                 }
                 else
                 {
@@ -78,7 +78,7 @@ namespace Catalyster.Components
                         pos.Y += y;
                     }
 
-                    energy.Points -= 1000; // TODO: replace with movement cost
+                    energy.Points -= WiggleHelper.Wiggle(1000, .1); // TODO: replace with movement cost
                 }
             }
 

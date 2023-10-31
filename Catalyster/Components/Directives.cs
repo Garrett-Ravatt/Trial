@@ -21,7 +21,7 @@ namespace Catalyster.Components
                 // TODO: make sure entity can move there
                 position.X++;
 
-                energy.Points -= Cost;
+                energy.Points -= WiggleHelper.Wiggle(Cost, .1);
                 return true;
             }
             catch { return false; }
@@ -58,7 +58,7 @@ namespace Catalyster.Components
 
                 if (expended)
                 {
-                    energy.Points -= Cost;
+                    energy.Points -= WiggleHelper.Wiggle(Cost, .1);
                     return true;
                 }
                 return false;

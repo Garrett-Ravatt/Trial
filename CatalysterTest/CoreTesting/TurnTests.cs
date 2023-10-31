@@ -42,8 +42,8 @@ namespace CatalysterTest.CoreTesting
             Assert.IsTrue(e1.Get<Energy>().Points <= 0);
             Assert.IsTrue(e2.Get<Energy>().Points <= 0);
 
-            Assert.AreEqual(iPosX1 + 1, e1.Get<Position>().X);
-            Assert.AreEqual(iPosX2 + 1, e2.Get<Position>().X);
+            Assert.IsTrue(e1.Get<Position>().X > iPosX1);
+            Assert.IsTrue(e2.Get<Position>().X > iPosX2);
 
             World.Destroy(world);
         }
