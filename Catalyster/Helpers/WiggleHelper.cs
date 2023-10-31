@@ -7,7 +7,7 @@
         public static int Wiggle(int x, double p)
         {
             var rand = new Random();
-            return rand.Next(Convert.ToInt32(x * (1 - p)), Convert.ToInt32(x * (1 - p)));
+            return rand.Next(Convert.ToInt32(x * (1 - p)), Convert.ToInt32(x * (1 + p)));
         }
     }
 }
