@@ -39,7 +39,10 @@ namespace Trial
 
             if (cell.IsWalkable)
             {
-                console.SetGlyph(cell.X, cell.Y, '.');
+                if (cell.IsTransparent)
+                    console.SetGlyph(cell.X, cell.Y, '.');
+                else
+                    console.SetGlyph(cell.X, cell.Y, '+');
             }
             else
             {

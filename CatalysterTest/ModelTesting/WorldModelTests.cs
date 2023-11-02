@@ -8,7 +8,7 @@ using Arch.Core.Extensions;
 namespace CatalysterTest.ModelTesting
 {
     [TestClass]
-    public class EncounterGenTests
+    public class WorldModelTests
     {
         private Model<DungeonMap> _mapModel = new Model<DungeonMap>()
                 .Step(new InitializeMap(40, 40))
@@ -41,9 +41,9 @@ namespace CatalysterTest.ModelTesting
         private class POIMonster : POIOverwrite
         {
             public POIMonster(double p = 1) : base(p) { }
-            public override void AddOn(Entity entity)
+            public override Entity Make(World world)
             {
-                entity.Add(new Monster { });
+                return world.Create(new Monster { }, new Position { });
             }
         }
 
@@ -51,9 +51,9 @@ namespace CatalysterTest.ModelTesting
         private class POIPlant : POIOverwrite
         {
             public POIPlant(double p = 1) : base(p) { }
-            public override void AddOn(Entity entity)
+            public override Entity Make(World world)
             {
-                entity.Add(new Plant { });
+                return world.Create(new Plant { }, new Position { });
             }
         }
 
@@ -83,9 +83,38 @@ namespace CatalysterTest.ModelTesting
             world.Query(in new QueryDescription().WithAny<Monster, Plant>().WithAll<Position>(), (ref Position pos) =>
             {
                 otherCount++;
+                Console.WriteLine($"{pos.X}, {pos.Y}");
             });
 
             Assert.AreEqual(map.Rooms.Count, otherCount);
+            world.Dispose();
+        }
+
+        private class POIPlayer : POIOverwriteN
+        {
+            public POIPlayer(int n): base(n) { }
+            public override Entity Make(World world)
+            {
+                return world.Create(new Position { }, new Player { });
+            }
+        }
+
+        [TestMethod]
+        public void GenerateNTest()
+        {
+            var map = _mapModel.Process(new DungeonMap());
+
+            var world = World.Create();
+            var model = new Model<World>()
+                .Step(new POIGen(map))
+                .Step(new POIPlayer(1));
+
+            model.Process(world);
+
+            var playerCount = 0;
+            world.Query(in new QueryDescription().WithAll<Player, Position>(), (Entity e) => { playerCount++; });
+
+            Assert.AreEqual(1, playerCount);
         }
     }
 }
