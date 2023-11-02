@@ -52,6 +52,7 @@ namespace Trial
                 .Step(new POIGen(map))
                 .Step(new POIPlayer())
                 .Step(new POIGoblin(1.0))
+                .Step(new BlackPowderWrite(map))
                 .Seed(0xfab);
             worldModel.Process(GameMaster.World);
 

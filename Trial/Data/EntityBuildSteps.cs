@@ -1,4 +1,5 @@
 ﻿using Arch.Core;
+using Catalyster.Core;
 using Catalyster.Models;
 
 namespace Trial.Data
@@ -18,6 +19,15 @@ namespace Trial.Data
         public override Entity Make(World world)
         {
             return EntityBuilder.Goblin(world);
+        }
+    }
+
+    public class BlackPowderWrite : WallWrite
+    {
+        public BlackPowderWrite(DungeonMap map): base(map) { }
+        public override Entity Make(World world)
+        {
+            return EntityBuilder.BlackPowder(world);
         }
     }
 }

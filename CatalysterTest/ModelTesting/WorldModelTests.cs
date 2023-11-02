@@ -116,5 +116,34 @@ namespace CatalysterTest.ModelTesting
 
             Assert.AreEqual(1, playerCount);
         }
+
+        private struct Mineral { }
+        private class MineralWrite : WallWrite
+        {
+            public MineralWrite(DungeonMap map) : base(map) { }
+            public override Entity Make(World world)
+            {
+                return world.Create(new Mineral { }, new Position { });
+            }
+        }
+
+        [TestMethod]
+        public void WallWriteTest()
+        {
+            var map = _mapModel.Process(new DungeonMap());
+
+            var world = World.Create();
+            var model = new Model<World>()
+                .Step(new MineralWrite(map));
+            model.Process(world);
+
+            var mCount = 0;
+            world.Query(in new QueryDescription().WithAll<Mineral, Position>(), (ref Position pos) =>
+            {
+                //Assert.IsFalse(map.IsWalkable(pos.X, pos.Y));
+                mCount++;
+            });
+            Assert.AreEqual(map.Rooms.Count, mCount);
+        }
     }
 }

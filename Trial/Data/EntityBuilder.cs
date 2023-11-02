@@ -37,5 +37,13 @@ namespace Trial.Data
                 new Sense { Range = 20 }
                 );
         }
+
+        public static Entity BlackPowder(World world)
+        {
+            return world.Create(
+                new Position { },
+                new Token { Char = 'X', Name = "Black Powder", Color = 0xff101010 }
+                );
+        }
     }
 }
