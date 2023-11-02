@@ -2,7 +2,7 @@
 using Catalyster.Models;
 using RogueSharp;
 
-namespace CatalysterTest.CoreTesting
+namespace CatalysterTest.ModelTesting
 {
     [TestClass]
     public class ModelTests
@@ -24,7 +24,7 @@ namespace CatalysterTest.CoreTesting
         {
             var model = new Model<DungeonMap>()
                 .Step(new InitializeMap(40, 40))
-                .Step(new RoomGen(3, 8, 4))
+                .Step(new RoomGen(3, 4, 8))
                 .Seed(111111);
             var map = model.Process(new DungeonMap());
             Assert.IsNotNull(map);
@@ -44,7 +44,7 @@ namespace CatalysterTest.CoreTesting
         {
             var model = new Model<DungeonMap>()
                 .Step(new InitializeMap(40, 40))
-                .Step(new RoomGen(3, 8, 4))
+                .Step(new RoomGen(3, 4, 8))
                 .Step(new CorridorGen())
                 .Seed(111111);
 

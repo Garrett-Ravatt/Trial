@@ -36,7 +36,7 @@ namespace Trial
             // Map
             var model = new Model<DungeonMap>()
                 .Step(new InitializeMap(GameSettings.MapWidth, GameSettings.MapHeight))
-                .Step(new RoomGen(10, 15, 7))
+                .Step(new RoomGen(10, 7, 15))
                 .Step(new CorridorGen())
                 .Seed(0xfab); // necessary until player is better placed
 

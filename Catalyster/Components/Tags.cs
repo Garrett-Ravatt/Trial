@@ -5,4 +5,6 @@
     public struct Monster { };
 
     public struct Stairs { };
+
+    public struct POI { };
 }

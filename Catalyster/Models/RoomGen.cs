@@ -13,7 +13,7 @@ namespace Catalyster.Models
         private readonly int _roomMaxSize;
         private readonly int _roomMinSize;
 
-        public RoomGen(int maxRooms, int roomMaxSize, int roomMinSize)
+        public RoomGen(int maxRooms, int roomMinSize, int roomMaxSize)
         {
             _maxRooms = maxRooms;
             _roomMaxSize = roomMaxSize;

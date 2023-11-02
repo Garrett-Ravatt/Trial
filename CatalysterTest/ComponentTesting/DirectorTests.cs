@@ -95,7 +95,7 @@ namespace CatalysterTest.ComponentTests
 
             var player = ExFactory.Player(world);
             player.Set<Position>(new Position { X=1, Y=1 });
-            //player.Add<Sense>(new Sense { Range = 10 });
+            //player.AddOn<Sense>(new Sense { Range = 10 });
 
             var initialDist = SpatialHelper.LazyDist(
                 creature.Get<Position>(),
