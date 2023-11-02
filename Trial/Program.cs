@@ -34,21 +34,28 @@ namespace Trial
         static void Startup()
         {
             // Map
-            var model = new Model<DungeonMap>()
+            var mapModel = new Model<DungeonMap>()
                 .Step(new InitializeMap(GameSettings.MapWidth, GameSettings.MapHeight))
                 .Step(new RoomGen(10, 7, 15))
                 .Step(new CorridorGen())
                 .Seed(0xfab); // necessary until player is better placed
 
             var map = new DrawingMap();
-            model.Process(map);
+            mapModel.Process(map);
             
             GameMaster = new GameMaster(map);
             DrawingMap = map;
 
+            // TODO: World Model
+            var worldModel = new Model<World>()
+                .Step(new POIGen(map))
+                .Step(new POIGoblin(0.5))
+                .Step(new POIPlant());
+            worldModel.Process(GameMaster.World);
+
             // Enemy
-            var gob = EntityBuilder.Goblin(GameMaster.World);
-            gob.Set<Position>(new Position { X = 10, Y = 15 });
+            //var gob = EntityBuilder.Goblin(GameMaster.World);
+            //gob.Set<Position>(new Position { X = 10, Y = 15 });
 
             // Player
             var player = EntityBuilder.Player(GameMaster.World);
