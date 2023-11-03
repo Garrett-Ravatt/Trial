@@ -56,7 +56,7 @@ namespace Catalyster.Helpers
             Console.WriteLine($"{defender} successfully defends.");
             return false;
         }
-
+        // TODO: Refactor Melee and Ranged to share logic
         public static bool ResolveRanged(RangedAttack attack, Entity defender, string attacker = "")
         {
             //NOTE: implementation assumes defender has Defense and Health components
