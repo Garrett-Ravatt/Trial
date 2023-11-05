@@ -4,6 +4,7 @@ using Catalyster;
 using Arch.Core.Extensions;
 using Catalyster.Components;
 using CatalysterTest.TestUtils;
+using RogueSharp.DiceNotation;
 
 namespace CatalysterTest.CoreTesting
 {
@@ -73,6 +74,40 @@ namespace CatalysterTest.CoreTesting
             command.Entity = player;
             command.Move(0, 1);
             command.Move(0, 1);
+
+            Assert.IsTrue(player.Get<Energy>().Points <= 0);
+            Assert.IsNull(command.Entity);
+
+            world.Dispose();
+        }
+
+        [TestMethod]
+        // Throwing Test. TODO: Use inventory item.
+        public void CommandTest5()
+        {
+            var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
+            var command = gm.Command;
+            var world = GameMaster.World;
+
+            var player = ExFactory.Player(world);
+            player.Set(new Position { X=0, Y=0 });
+            player.Add(new RangedAttack
+            {
+                Range = 2,
+                AttackFormula = Dice.Parse("1d20+20"),
+                DamageFormula = Dice.Parse("1d10")
+            });
+
+            var enemy = ExFactory.SimpleCreature(world);
+            enemy.Set(new Position { X=1, Y=0 });
+
+            command.Entity = player;
+
+            var target = enemy.Get<Position>();
+            command.Throw(target.X, target.Y); // will be refactored.
+            command.Throw(target.X, target.Y); // will be refactored.
 
             Assert.IsTrue(player.Get<Energy>().Points <= 0);
             Assert.IsNull(command.Entity);

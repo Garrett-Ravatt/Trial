@@ -2,7 +2,7 @@
 using Catalyster.Components;
 using Catalyster.Items;
 
-namespace CatalysterTest
+namespace CatalysterTest.ItemTesting
 {
 
     [TestClass]
@@ -18,7 +18,7 @@ namespace CatalysterTest
                 new Item { Fill = 2f, Weight = 1f },
                 new Item { Fill = 1f, Weight = 2f }
             };
-            
+
             inv.CalculateCapacity();
 
             Assert.AreEqual(3, inv.Fill);

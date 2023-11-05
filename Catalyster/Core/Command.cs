@@ -65,6 +65,28 @@ namespace Catalyster.Core
             }
         }
 
+        public void Throw(int x, int y) // TODO: item
+        {
+            if (Entity == null)
+                return;
+            var entity = Entity.Value;
+
+            // Fail out if we can't perform the action.
+            ref var energy = ref entity.Get<Energy>();
+
+            // Check for a target.
+            Entity? bumped = null;
+            if (!SpatialHelper.ClearOrAssign(x, y, ref bumped))
+            {
+                energy.Points -= WiggleHelper.Wiggle(1000, .1);
+
+                // Resolve an attack attempt
+                ActionHelper.ResolveRanged(entity.Get<RangedAttack>(), bumped.Value);
+            }
+
+            EndAction(energy.Points);
+        }
+
         // Check if the player's turn is now over.
         private void EndAction(int points)
         {
