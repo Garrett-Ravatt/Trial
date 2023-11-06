@@ -1,15 +1,15 @@
 ﻿using SadConsole.Components;
 using SadConsole.Effects;
 using SadConsole.Input;
-using SadConsole.UI;
 using SadConsole.UI.Controls;
 using Trial.InputStates;
 
 namespace Trial.Consoles
 {
-    public class MapConsole : ControlsConsole
+    public class MapConsole : Console
     {
         private MapFocusState _state;
+        public int ItemIndex = 0;
         public MapConsole(int width, int height) : base(width, height)
         {
             Cursor.CursorRenderEffect = new Blink() { BlinkCount = -1 };
@@ -66,12 +66,6 @@ namespace Trial.Consoles
             }
 
             return handled;
-        }
-
-        private void OnThrown(object sender, EventArgs e)
-        {
-            Controls.Clear();
-            IsFocused = true;
         }
 
         private void Listbox_SelectedItemExecuted(object? sender, ListBox.SelectedItemEventArgs e)
