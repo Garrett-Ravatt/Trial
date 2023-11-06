@@ -1,6 +1,7 @@
 ﻿using Arch.Core;
 using Catalyster.Components;
 using Catalyster.Interfaces;
+using Catalyster.Items;
 using RogueSharp.DiceNotation;
 
 namespace Trial.Data
@@ -34,7 +35,8 @@ namespace Trial.Data
                 new Energy { Max = 1000, Points = 1000, Regen = 1000 },
                 new MeleeAttack { AttackFormula = Dice.Parse("1d20+3"), DamageFormula = Dice.Parse("1d3+1") },
                 new Player { },
-                new Sense { Range = 20 }
+                new Sense { Range = 20 },
+                new Inventory(new List<Item> { new BasicItem { Fill=1f, Weight=2f } })
                 );
         }
 

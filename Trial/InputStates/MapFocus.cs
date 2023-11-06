@@ -2,8 +2,32 @@
 
 namespace Trial.InputStates
 {
+    public enum MapFocusState
+    {
+        Map,
+        Throwing,
+        // etc, expand as needed.
+    }
+
     public static class MapFocus
     {
+        public static bool ProcessKeyboard(MapFocusState state, bool handled, Keyboard keyboard)
+        {
+            if (handled)
+                return handled;
+
+            switch (state)
+            {
+                case MapFocusState.Map:
+                    return HandleMove(handled, keyboard);
+
+                case MapFocusState.Throwing:
+                    return HandleTargeting(handled, keyboard);
+            }
+            // Placeholder for unimplemented states
+            return handled;
+        }
+
         // This is just a long chunk of the key map stuffed into a method.
         public static bool HandleMove(bool handled, Keyboard keyboard)
         {

@@ -106,7 +106,10 @@ namespace Catalyster.Core
         {
             if (Entity == null)
                 return new List<string>();
+
             var entity = Entity.Value;
+            if (!entity.Has<Inventory>())
+                return new List<string>();
 
             var list = new List<string>();
             foreach (Item item in entity.Get<Inventory>().Items)

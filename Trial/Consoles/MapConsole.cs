@@ -1,16 +1,36 @@
 ﻿using SadConsole.Components;
+using SadConsole.Effects;
 using SadConsole.Input;
+using SadConsole.UI;
+using SadConsole.UI.Controls;
 using Trial.InputStates;
 
 namespace Trial.Consoles
 {
-    public class MapConsole : Console
+    public class MapConsole : ControlsConsole
     {
-        public MapConsole(int width, int height) : base(width, height) { }
+        private MapFocusState _state;
+        public MapConsole(int width, int height) : base(width, height)
+        {
+            Cursor.CursorRenderEffect = new Blink() { BlinkCount = -1 };
+            Cursor.ApplyCursorEffect = true;
+
+            _state = MapFocusState.Map;
+        }
 
         public override bool ProcessMouse(MouseScreenObjectState state)
         {
-            Cursor.Position = state.CellPosition;
+            if (Cursor.IsEnabled && state.IsOnScreenObject)
+            {
+                if (state.Mouse.LeftButtonDown)
+                {
+                    // NOTE:This Pretends the x,y is definitely accurate and there is an inventory item.
+                    Program.GameMaster.Command.Throw(state.CellPosition.X, state.CellPosition.Y, 0);
+                }
+
+                Cursor.Position = state.CellPosition;
+            }
+
             return base.ProcessMouse(state);
         }
 
@@ -21,13 +41,21 @@ namespace Trial.Consoles
             if (keyboard.IsKeyPressed(Keys.T))
             {
                 // enable cursor (if item index is known)
-                Cursor.IsVisible = true;
-                Cursor.IsEnabled = true;
-                
-                // TODO: Open popup
+                //Cursor.IsVisible = true;
+                //Cursor.IsEnabled = true;
+
+                // TODO: Open better popup
+
+                IsFocused = false;
+
+                var window = new ThrowingWindow(40, 30);
+                window.Parent = this;
+                window.Show();
+
+                _state = MapFocusState.Throwing;
             }
 
-            handled = MapFocus.HandleMove(handled, keyboard);
+            handled = MapFocus.ProcessKeyboard(_state, handled, keyboard);
 
             if (handled)
             {
@@ -38,6 +66,17 @@ namespace Trial.Consoles
             }
 
             return handled;
+        }
+
+        private void OnThrown(object sender, EventArgs e)
+        {
+            Controls.Clear();
+            IsFocused = true;
+        }
+
+        private void Listbox_SelectedItemExecuted(object? sender, ListBox.SelectedItemEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
