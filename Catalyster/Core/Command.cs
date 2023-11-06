@@ -100,5 +100,20 @@ namespace Catalyster.Core
             if (points <= 0)
                 Entity = null;
         }
+
+        // A method used by UI
+        public List<string> Inventory()
+        {
+            if (Entity == null)
+                return new List<string>();
+            var entity = Entity.Value;
+
+            var list = new List<string>();
+            foreach (Item item in entity.Get<Inventory>().Items)
+            {
+                list.Add(item.ToString());
+            }
+            return list;
+        }
     }
 }

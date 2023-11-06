@@ -107,5 +107,28 @@ namespace CatalysterTest.CoreTesting
 
             world.Dispose();
         }
+
+        [TestMethod]
+        public void CommandTest6()
+        {
+            var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
+            var command = gm.Command;
+            var world = GameMaster.World;
+
+            var player = ExFactory.Player(world);
+            player.Set(new Position { X = 0, Y = 0 });
+
+            var items = new List<Item> { new BasicItem { Fill = 2, Weight = 2 } };
+            player.Add(new Inventory(items));
+
+            command.Entity = player;
+            var names = command.Inventory();
+
+            Assert.AreEqual(items.Count, names.Count);
+
+            world.Dispose();
+        }
     }
 }

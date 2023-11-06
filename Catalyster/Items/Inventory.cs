@@ -27,10 +27,6 @@ namespace Catalyster.Items
             Weight = 0;
             foreach (var item in Items)
             {
-                if (item is Container)
-                {
-                    //CalculateCapacity(ref (Container)item);
-                }
                 Fill += item.Fill;
                 Weight += item.Weight;
             }
