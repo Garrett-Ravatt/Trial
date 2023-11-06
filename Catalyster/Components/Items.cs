@@ -1,16 +1,16 @@
-﻿using Catalyster.Interfaces;
+﻿using Catalyster.Items;
 
 namespace Catalyster.Components
 {
     // Fill (Volume) and Weight used for storing something in Inventory or a Container
-    public struct Item : IItem
+    public class BasicItem : Item
     {
         public float Fill { get; set; }
         public float Weight { get; set; }
     }
 
     // 
-    public struct Fluid : IItem
+    public class Fluid : Item
     {
         public float Fill { get; set; }
         //TODO: get/set Weight act as wrappers for the density

@@ -1,11 +1,10 @@
 ﻿using Catalyster.Components;
-using Catalyster.Interfaces;
 
 namespace Catalyster.Items
 {
     public class Inventory
     {
-        public List<IItem> Items;
+        public List<Item> Items;
         public float Fill,
             FillCapacity,
             Weight,
@@ -13,10 +12,10 @@ namespace Catalyster.Items
 
         public Inventory()
         {
-            Items = new List<IItem>();
+            Items = new List<Item>();
         }
 
-        public Inventory(List<IItem> items)
+        public Inventory(List<Item> items)
         {
             Items = items;
             CalculateCapacity();

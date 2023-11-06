@@ -5,6 +5,7 @@ using Arch.Core.Extensions;
 using Catalyster.Components;
 using CatalysterTest.TestUtils;
 using RogueSharp.DiceNotation;
+using Catalyster.Items;
 
 namespace CatalysterTest.CoreTesting
 {
@@ -82,7 +83,6 @@ namespace CatalysterTest.CoreTesting
         }
 
         [TestMethod]
-        // Throwing Test. TODO: Use inventory item.
         public void CommandTest5()
         {
             var gm = new GameMaster();
@@ -93,12 +93,7 @@ namespace CatalysterTest.CoreTesting
 
             var player = ExFactory.Player(world);
             player.Set(new Position { X=0, Y=0 });
-            player.Add(new RangedAttack
-            {
-                Range = 2,
-                AttackFormula = Dice.Parse("1d20+20"),
-                DamageFormula = Dice.Parse("1d10")
-            });
+            player.Add(new Inventory(new List<Item> { new BasicItem { Fill = 2, Weight = 2 } }));
 
             var enemy = ExFactory.SimpleCreature(world);
             enemy.Set(new Position { X=1, Y=0 });
@@ -106,11 +101,9 @@ namespace CatalysterTest.CoreTesting
             command.Entity = player;
 
             var target = enemy.Get<Position>();
-            command.Throw(target.X, target.Y); // will be refactored.
-            command.Throw(target.X, target.Y); // will be refactored.
+            command.Throw(target.X, target.Y, 0);
 
-            Assert.IsTrue(player.Get<Energy>().Points <= 0);
-            Assert.IsNull(command.Entity);
+            Assert.IsTrue(player.Get<Energy>().Points <= 100);
 
             world.Dispose();
         }

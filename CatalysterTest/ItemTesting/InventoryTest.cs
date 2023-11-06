@@ -1,5 +1,4 @@
-﻿using Catalyster.Interfaces;
-using Catalyster.Components;
+﻿using Catalyster.Components;
 using Catalyster.Items;
 
 namespace CatalysterTest.ItemTesting
@@ -13,10 +12,10 @@ namespace CatalysterTest.ItemTesting
         public void CapacityCalculation()
         {
             Inventory inv = new Inventory();
-            inv.Items = new List<IItem>
+            inv.Items = new List<Catalyster.Items.Item>
             {
-                new Item { Fill = 2f, Weight = 1f },
-                new Item { Fill = 1f, Weight = 2f }
+                new Catalyster.Components.BasicItem { Fill = 2f, Weight = 1f },
+                new Catalyster.Components.BasicItem { Fill = 1f, Weight = 2f }
             };
 
             inv.CalculateCapacity();
@@ -29,9 +28,9 @@ namespace CatalysterTest.ItemTesting
         public void CapacityContainerCalculation()
         {
             var container = new Container(3f, 0.5f,
-                new List<IItem>
+                new List<Catalyster.Items.Item>
                 {
-                    new Fluid {Fill=2f, Weight=1f}
+                    new Fluid { Fill=2f, Weight=1f}
                 });
 
             Assert.AreEqual(1, container.Contents.Count);

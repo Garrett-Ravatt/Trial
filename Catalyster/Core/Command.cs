@@ -3,6 +3,7 @@ using Arch.Core.Extensions;
 using Catalyster;
 using Catalyster.Components;
 using Catalyster.Helpers;
+using Catalyster.Items;
 
 namespace Catalyster.Core
 {
@@ -27,7 +28,6 @@ namespace Catalyster.Core
             {
                 var entity = Entity.Value;
 
-                // Fail out if we can't perform the action.
                 ref var energy = ref entity.Get<Energy>();
 
                 ref var position = ref entity.Get<Position>();
@@ -65,14 +65,21 @@ namespace Catalyster.Core
             }
         }
 
-        public void Throw(int x, int y) // TODO: item
+        public void Throw(int x, int y, int i)
         {
             if (Entity == null)
                 return;
+
             var entity = Entity.Value;
 
-            // Fail out if we can't perform the action.
             ref var energy = ref entity.Get<Energy>();
+
+            var item = entity.Get<Inventory>().Items[i];
+            if (item == null)
+            {
+                Console.WriteLine($"Invalid item index {i} was selected");
+                return;
+            }
 
             // Check for a target.
             Entity? bumped = null;
@@ -81,7 +88,7 @@ namespace Catalyster.Core
                 energy.Points -= WiggleHelper.Wiggle(1000, .1);
 
                 // Resolve an attack attempt
-                ActionHelper.ResolveRanged(entity.Get<RangedAttack>(), bumped.Value);
+                ActionHelper.ResolveRanged(item.ThrownAttack(), bumped.Value);
             }
 
             EndAction(energy.Points);
