@@ -41,8 +41,7 @@ namespace Trial.Consoles
             if (keyboard.IsKeyPressed(Keys.T))
             {
                 // enable cursor (if item index is known)
-                //Cursor.IsVisible = true;
-                //Cursor.IsEnabled = true;
+
 
                 // TODO: Open better popup
 
@@ -53,9 +52,11 @@ namespace Trial.Consoles
                 window.Show();
 
                 _state = MapFocusState.Throwing;
+                Cursor.IsVisible = true;
+                Cursor.IsEnabled = true;
             }
 
-            handled = MapFocus.ProcessKeyboard(_state, handled, keyboard);
+            handled = MapFocus.ProcessKeyboard(_state, handled, keyboard, this);
 
             if (handled)
             {
@@ -66,11 +67,6 @@ namespace Trial.Consoles
             }
 
             return handled;
-        }
-
-        private void Listbox_SelectedItemExecuted(object? sender, ListBox.SelectedItemEventArgs e)
-        {
-            throw new NotImplementedException();
         }
     }
 }
