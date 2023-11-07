@@ -47,7 +47,7 @@ namespace Trial.Consoles
 
                 IsFocused = false;
 
-                var window = new ThrowingWindow(40, 30);
+                var window = new ThrowingWindow(40, 20);
                 window.Parent = this;
                 window.Show();
 
