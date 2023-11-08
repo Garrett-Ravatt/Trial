@@ -1,4 +1,6 @@
 ﻿
+using Arch.Core;
+
 namespace Catalyster.Hunks
 {
     public struct IntHunk : IEquatable<IntHunk>
@@ -34,6 +36,21 @@ namespace Catalyster.Hunks
             return new IntHunk(build);
         }
 
+        public static IntHunk Max(IntHunk first, IntHunk second)
+        {
+            var build = new int[first.Array.Length];
+
+            var arr1 = first.Array;
+            var arr2 = second.Array;
+
+            for (int i = 0; i < arr1.Length; i++)
+            {
+                build[i] = Math.Max(arr1[i], arr2[i]);
+            }
+
+            return new IntHunk(build);
+        }
+
         public bool AnyLess(IntHunk hunk)
         {
             var arr = hunk.Array;
@@ -48,6 +65,22 @@ namespace Catalyster.Hunks
         public bool AnyGreater(IntHunk hunk)
         {
             return hunk.AnyLess(this);
+        }
+
+        public bool AnyLessOrEqual(IntHunk hunk)
+        {
+            var arr = hunk.Array;
+            for (int i = 0; i < Array.Length; i++)
+            {
+                if (Array[i] <= arr[i])
+                    return true;
+            }
+            return false;
+        }
+
+        public bool AnyGreaterOrEqual(IntHunk hunk)
+        {
+            return hunk.AnyLessOrEqual(this);
         }
     }
 }
