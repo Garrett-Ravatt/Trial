@@ -50,5 +50,22 @@ namespace Catalyster.Helpers
 
             return detonations;
         }
+
+        public static bool[] Detonate(List<Explosive> explosives)
+        {
+            return Detonate(explosives.ToArray());
+        }
+
+        public static List<Explosive> Detonated(List<Explosive> explosives)
+        {
+            var bools = Detonate(explosives);
+            var detonated = new List<Explosive>();
+
+            for(int i = 0; i < explosives.Count(); i++)
+                if (bools[i])
+                    detonated.Add(explosives[i]);
+            
+            return detonated;
+        }
     }
 }
