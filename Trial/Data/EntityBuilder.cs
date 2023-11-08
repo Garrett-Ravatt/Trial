@@ -11,7 +11,7 @@ namespace Trial.Data
     {
         public static Entity Goblin(World world)
         {
-            var hp = Math.Max(Dice.Roll("2d4-2"), 1);
+            var hp = Math.Max(Dice.Roll("2d3-2"), 1);
             return world.Create(
                 new Position { },
                 new Token { Char = 'g', Name = "goblin", Color = 0xff00e300 },

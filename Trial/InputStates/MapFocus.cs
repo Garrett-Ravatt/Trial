@@ -1,8 +1,9 @@
-﻿using SadConsole.Input;
+﻿using SadConsole.Components;
+using SadConsole.Input;
 
 namespace Trial.InputStates
 {
-    public enum MapFocusState
+    public enum MapInputState
     {
         Map,
         Throwing,
@@ -11,17 +12,17 @@ namespace Trial.InputStates
 
     public static class MapFocus
     {
-        public static bool ProcessKeyboard(MapFocusState state, bool handled, Keyboard keyboard, Console mapConsole)
+        public static bool ProcessKeyboard(MapInputState state, bool handled, Keyboard keyboard, Console mapConsole)
         {
             if (handled)
                 return handled;
 
             switch (state)
             {
-                case MapFocusState.Map:
+                case MapInputState.Map:
                     return HandleMove(handled, keyboard);
 
-                case MapFocusState.Throwing:
+                case MapInputState.Throwing:
                     return HandleTargeting(handled, keyboard, mapConsole);
             }
             // Placeholder for unimplemented states
@@ -142,6 +143,13 @@ namespace Trial.InputStates
             else if (keyboard.IsKeyPressed(Keys.NumPad7))
             {
                 mapConsole.Cursor.Position = mapConsole.Cursor.Position.Add(new Point(-1, -1));
+                handled = true;
+            }
+
+            // Enter
+            else if (keyboard.IsKeyPressed(Keys.Enter))
+            {
+                CommandBobber.Throw(x: mapConsole.Cursor.Position.X, y: mapConsole.Cursor.Position.Y);
                 handled = true;
             }
 
