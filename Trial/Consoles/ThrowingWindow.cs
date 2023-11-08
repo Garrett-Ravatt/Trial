@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Trial.InputStates;
 
 namespace Trial.Consoles
 {
@@ -30,6 +31,7 @@ namespace Trial.Consoles
             listbox.SelectedItemExecuted += (sender, args) =>
             {
                 // TODO: collect the item index
+                CommandBobber.Throw(index: 0);
                 Controls.Clear();
                 Hide(); // TODO: teardown
                 Parent.IsFocused = true;

@@ -20,15 +20,19 @@ namespace Trial.Consoles
 
         public override bool ProcessMouse(MouseScreenObjectState state)
         {
+            var handled = false;
+
             if (Cursor.IsEnabled && state.IsOnScreenObject)
             {
+                Cursor.Position = state.CellPosition;
+
                 if (state.Mouse.LeftButtonDown)
                 {
-                    // NOTE:This Pretends the x,y is definitely accurate and there is an inventory item.
-                    Program.GameMaster.Command.Throw(state.CellPosition.X, state.CellPosition.Y, 0);
+                    CommandBobber.Throw(x: state.CellPosition.X, y: state.CellPosition.Y);
+                    Cursor.IsVisible = false;
+                    Cursor.IsEnabled = false;
+                    _state = MapFocusState.Map;
                 }
-
-                Cursor.Position = state.CellPosition;
             }
 
             return base.ProcessMouse(state);
@@ -40,11 +44,6 @@ namespace Trial.Consoles
 
             if (keyboard.IsKeyPressed(Keys.T))
             {
-                // enable cursor (if item index is known)
-
-
-                // TODO: Open better popup
-
                 IsFocused = false;
 
                 var window = new ThrowingWindow(40, 20);
