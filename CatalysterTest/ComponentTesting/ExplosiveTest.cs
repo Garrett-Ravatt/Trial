@@ -103,5 +103,44 @@ namespace CatalysterTest.ComponentTesting
             var detonated = DetonationHelper.Detonated(explosives);
             Assert.AreEqual(4, detonated.Count);
         }
+
+        [TestMethod]
+        public void ExplosiveTest5()
+        {
+            var explosives = new List<Explosive>
+            {
+                new Explosive
+                {
+                    Resistance = new IntHunk(new int[] { 0, 0 }),
+                    Potential = new IntHunk(new int[] { 1, 1 })
+                },
+                new Explosive
+                {
+                    Resistance = new IntHunk(new int[] { 2, 2 }),
+                    Potential = new IntHunk(new int[] { 1, 1 })
+                },
+                new Explosive
+                {
+                    Resistance = new IntHunk(new int[] { 2, 3 }),
+                    Potential = new IntHunk(new int[] { 1, 1 })
+                },
+                new Explosive
+                {
+                    Resistance = new IntHunk(new int[] { 0, 1 }),
+                    Potential = new IntHunk(new int[] { 0, 0 })
+                },
+                new Explosive
+                {
+                    Resistance = new IntHunk(new int[] { 0, 1 }),
+                    Potential = new IntHunk(new int[] { 0, 2 })
+                },
+            };
+
+            var formula = DetonationHelper.DamageDice(explosives);
+            Console.WriteLine(formula.ToString());
+            
+            Assert.IsTrue(formula.Roll().Value > 0);
+            Assert.IsNotNull(formula);
+        }
     }
 }

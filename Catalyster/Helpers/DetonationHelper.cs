@@ -1,5 +1,6 @@
 ﻿using Catalyster.Components;
 using Catalyster.Hunks;
+using RogueSharp.DiceNotation;
 
 namespace Catalyster.Helpers
 {
@@ -30,7 +31,7 @@ namespace Catalyster.Helpers
             var detonations = new bool[explosives.Count()];
 
             // TODO: fix to intended hunk length
-            var basePotential = new IntHunk(new int[] { 0, 0 });
+            var basePotential = new IntHunk(new int[2]);
             bool didSomething;
             do
             {
@@ -66,6 +67,41 @@ namespace Catalyster.Helpers
                     detonated.Add(explosives[i]);
             
             return detonated;
+        }
+
+        // returns the damage for an explosion
+        public static DiceExpression DamageDice(List<Explosive> explosives)
+        {
+            explosives = Detonated(explosives);
+            if (explosives.Count() == 0) // skip out if it's a dud.
+                return Dice.Parse("0");
+
+            // TODO: fix to intended hunk length
+            var sumHunk = new IntHunk(new int[2]);
+            foreach(var explosive in explosives)
+            {
+                sumHunk = sumHunk.Add(explosive.Potential);
+            }
+
+            // dominant index
+            var i = 0;
+
+            // dominant sum
+            var dSum = sumHunk.Array[i];
+
+            // max entry of dominant
+            var dMax = 0;
+            foreach (Explosive explosive in explosives)
+                if (explosive.Potential.Array[i] > dMax)
+                    dMax = explosive.Potential.Array[i];
+
+            // sum total potential
+            var tSum = 0;
+            foreach(int x in sumHunk.Array)
+                tSum += x;
+
+            // TODO: make the die sides correspond to a more grounded dice table (prevent a d14, etc).
+            return new DiceExpression().Dice(dSum, dMax * 2).Constant(tSum);
         }
     }
 }
