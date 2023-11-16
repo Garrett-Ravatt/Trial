@@ -4,7 +4,6 @@ using Catalyster.Models;
 using Catalyster.Components;
 using CatalysterTest.TestUtils;
 using Arch.Core.Extensions;
-using Arch.CommandBuffer;
 
 namespace CatalysterTest.ModelTesting
 {
@@ -42,9 +41,9 @@ namespace CatalysterTest.ModelTesting
         private class POIMonster : POIOverwrite
         {
             public POIMonster(double p = 1) : base(p) { }
-            public override void AddOn(CommandBuffer buffer, Entity entity)
+            public override void AddOn(Entity entity)
             {
-                buffer.Add(in entity, new Monster { });
+                entity.Add(new Monster { });
             }
         }
 
@@ -52,9 +51,9 @@ namespace CatalysterTest.ModelTesting
         private class POIPlant : POIOverwrite
         {
             public POIPlant(double p = 1) : base(p) { }
-            public override void AddOn(CommandBuffer buffer, Entity entity)
+            public override void AddOn(Entity entity)
             {
-                buffer.Add(in entity, new Plant { });
+                entity.Add(new Plant { });
             }
         }
 
