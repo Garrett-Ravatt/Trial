@@ -1,8 +1,8 @@
-﻿using Catalyster.Interfaces;
+﻿using Catalyster.Components;
 
 namespace Catalyster.Items
 {
-    public class Container : IItem
+    public class Container : Item
     {
         public float Fill { get; set; }
         public float Weight { get; set; }
@@ -11,15 +11,15 @@ namespace Catalyster.Items
         public float Filled; // The Fill INSIDE the container
         public float FillCapacity;
         public float BaseWeight;
-        public List<IItem> Contents = new List<IItem>();
+        public List<Item> Contents = new List<Item>();
 
-        public Container(float fill, float baseWeight, List<IItem> contents)
+        public Container(float fill, float baseWeight, List<Item> contents = null)
         {
             Fill = fill;
             FillCapacity = fill; //there may be another constructor in the future
             Weight = baseWeight;
             BaseWeight = baseWeight;
-            Contents = contents;
+            Contents = contents ?? new List<Item>();
             CalculateCapacity();
         }
 

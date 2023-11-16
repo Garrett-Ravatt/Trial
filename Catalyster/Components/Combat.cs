@@ -11,6 +11,9 @@ namespace Catalyster.Components
     // Form and damage for a single attack. An Entity can have many.
     public struct MeleeAttack { public DiceExpression AttackFormula, DamageFormula; };
 
+    // Range, then form and damage for a single ranged attack.
+    public struct RangedAttack { public int Range; public DiceExpression AttackFormula, DamageFormula; };
+
     // Turn Energy
     public struct Energy { public int Max, Regen, Points; };
 }

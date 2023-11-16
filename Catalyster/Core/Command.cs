@@ -3,6 +3,7 @@ using Arch.Core.Extensions;
 using Catalyster;
 using Catalyster.Components;
 using Catalyster.Helpers;
+using Catalyster.Items;
 
 namespace Catalyster.Core
 {
@@ -27,7 +28,6 @@ namespace Catalyster.Core
             {
                 var entity = Entity.Value;
 
-                // Fail out if we can't perform the action.
                 ref var energy = ref entity.Get<Energy>();
 
                 ref var position = ref entity.Get<Position>();
@@ -65,11 +65,58 @@ namespace Catalyster.Core
             }
         }
 
+        public void Throw(int x, int y, int i)
+        {
+            if (Entity == null)
+                return;
+
+            var entity = Entity.Value;
+
+            ref var energy = ref entity.Get<Energy>();
+
+            var item = entity.Get<Inventory>().Items[i];
+            if (item == null)
+            {
+                Console.WriteLine($"Invalid item index {i} was selected");
+                return;
+            }
+
+            // Check for a target.
+            Entity? bumped = null;
+            if (!SpatialHelper.ClearOrAssign(x, y, ref bumped))
+            {
+                energy.Points -= WiggleHelper.Wiggle(1000, .1);
+
+                // Resolve an attack attempt
+                ActionHelper.ResolveRanged(item.ThrownAttack(), bumped.Value);
+            }
+
+            EndAction(energy.Points);
+        }
+
         // Check if the player's turn is now over.
         private void EndAction(int points)
         {
             if (points <= 0)
                 Entity = null;
+        }
+
+        // A method used by UI
+        public List<string> Inventory()
+        {
+            if (Entity == null)
+                return new List<string>();
+
+            var entity = Entity.Value;
+            if (!entity.Has<Inventory>())
+                return new List<string>();
+
+            var list = new List<string>();
+            foreach (Item item in entity.Get<Inventory>().Items)
+            {
+                list.Add(item.ToString());
+            }
+            return list;
         }
     }
 }

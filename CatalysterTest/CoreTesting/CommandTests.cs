@@ -4,6 +4,8 @@ using Catalyster;
 using Arch.Core.Extensions;
 using Catalyster.Components;
 using CatalysterTest.TestUtils;
+using RogueSharp.DiceNotation;
+using Catalyster.Items;
 
 namespace CatalysterTest.CoreTesting
 {
@@ -76,6 +78,55 @@ namespace CatalysterTest.CoreTesting
 
             Assert.IsTrue(player.Get<Energy>().Points <= 0);
             Assert.IsNull(command.Entity);
+
+            world.Dispose();
+        }
+
+        [TestMethod]
+        public void CommandTest5()
+        {
+            var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
+            var command = gm.Command;
+            var world = GameMaster.World;
+
+            var player = ExFactory.Player(world);
+            player.Set(new Position { X=0, Y=0 });
+            player.Add(new Inventory(new List<Item> { new BasicItem { Fill = 2, Weight = 2 } }));
+
+            var enemy = ExFactory.SimpleCreature(world);
+            enemy.Set(new Position { X=1, Y=0 });
+
+            command.Entity = player;
+
+            var target = enemy.Get<Position>();
+            command.Throw(target.X, target.Y, 0);
+
+            Assert.IsTrue(player.Get<Energy>().Points <= 100);
+
+            world.Dispose();
+        }
+
+        [TestMethod]
+        public void CommandTest6()
+        {
+            var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
+            var command = gm.Command;
+            var world = GameMaster.World;
+
+            var player = ExFactory.Player(world);
+            player.Set(new Position { X = 0, Y = 0 });
+
+            var items = new List<Item> { new BasicItem { Fill = 2, Weight = 2 } };
+            player.Add(new Inventory(items));
+
+            command.Entity = player;
+            var names = command.Inventory();
+
+            Assert.AreEqual(items.Count, names.Count);
 
             world.Dispose();
         }

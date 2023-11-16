@@ -8,6 +8,7 @@ using Catalyster.Models;
 using Catalyster;
 using System.Text.RegularExpressions;
 using Trial.Consoles;
+using Trial.Data;
 
 namespace Trial
 {
@@ -34,25 +35,26 @@ namespace Trial
         static void Startup()
         {
             // Map
-            var model = new Model<DungeonMap>()
+            var mapModel = new Model<DungeonMap>()
                 .Step(new InitializeMap(GameSettings.MapWidth, GameSettings.MapHeight))
                 .Step(new RoomGen(10, 7, 15))
                 .Step(new CorridorGen())
                 .Seed(0xfab); // necessary until player is better placed
 
             var map = new DrawingMap();
-            model.Process(map);
+            mapModel.Process(map);
             
             GameMaster = new GameMaster(map);
             DrawingMap = map;
 
-            // Enemy
-            var gob = EntityBuilder.Goblin(GameMaster.World);
-            gob.Set<Position>(new Position { X = 10, Y = 15 });
-
-            // Player
-            var player = EntityBuilder.Player(GameMaster.World);
-            player.Set<Position>(new Position { X = 5, Y = 14 });
+            // Entity generation
+            var worldModel = new Model<World>()
+                .Step(new POIGen(map))
+                .Step(new POIPlayer())
+                .Step(new POIGoblin(1.0))
+                .Step(new BlackPowderWrite(map))
+                .Seed(0xfab);
+            worldModel.Process(GameMaster.World);
 
             // SadConsole
             ScreenObject container = new ScreenObject();
