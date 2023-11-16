@@ -7,49 +7,57 @@ namespace Catalyster.Core
 {
     public class TurnOrder
     {
-        private World _world;
         private static readonly QueryDescription _desc = new QueryDescription()
             .WithAll<Energy>()
             .WithAny<Player, IDirector>();
 
-        private DungeonMap _map;
+        public bool PlayerLock = false;
 
-        public bool PlayerLock;
+        private Queue<EntityReference> _entities;
+        public TurnOrder() { }
 
-        private List<Entity> _entities;
-        public TurnOrder(World world, DungeonMap map)
+        public Entity? Update(World world)
         {
-            _world = world;
-            _map = map;
-            PlayerLock = false;
-        }
-
-        public void Update()
-        {
-            foreach(var entity in _entities)
+            if (!PlayerLock)
             {
-                if ( entity.Has<Player>() )
+                if (_entities == null || _entities.Count == 0)
+                    _entities = QueryEntities(world);
+
+                EntityReference entityRef;
+                while (_entities.TryDequeue(out entityRef))
                 {
-                    PlayerLock = true;
-                    break;
-                }
-                else
-                {
-                    entity.Get<Energy>().Points -= 1000;
+                    if (entityRef.IsAlive())
+                    {
+                        var entity = entityRef.Entity;
+                        if (entity.Has<Player>())
+                        {
+                            // TODO: Consider returning Player entity
+                            PlayerLock = true;
+                            return entity;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Calling director {entity}");
+                            ref var director = ref entity.Get<IDirector>();
+                            director.Direct(entity, world);
+                        }
+                    }
                 }
             }
+            return null;
         }
 
         // We CAN query entities but
-        public List<Entity> QueryEntities()
+        public Queue<EntityReference> QueryEntities(World world)
         {
             // TODO: Maybe should be Entity references.
-            var list = new List<Entity>();
-            _world.Query(in _desc, (Entity entity) =>
+            var queue = new Queue<EntityReference>();
+            world.Query(in _desc, (Entity entity, ref Energy energy) =>
             {
-                list.Add(entity);
+                queue.Enqueue(entity.Reference());
+                energy.Points = Math.Min(energy.Max, energy.Points + energy.Regen);
             });
-            return list;
+            return queue;
         }
     }
 }

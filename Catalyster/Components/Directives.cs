@@ -1,7 +1,7 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
 using Catalyster.Interfaces;
-using Catalyster.Systems;
+using Catalyster.Helpers;
 
 namespace Catalyster.Components
 {
@@ -21,7 +21,7 @@ namespace Catalyster.Components
                 // TODO: make sure entity can move there
                 position.X++;
 
-                energy.Points -= Cost;
+                energy.Points -= WiggleHelper.Wiggle(Cost, .1);
                 return true;
             }
             catch { return false; }
@@ -49,8 +49,8 @@ namespace Catalyster.Components
                     // TODO: check range
                     if (!expended && target!=entity)
                     {
-                        //ActionSystem.ResolveMelee(entity.Get<MeleeAttack>(), target);
-                        ActionSystem.ResolveAttack(entity, target);
+                        //ActionHelper.ResolveMelee(entity.Get<MeleeAttack>(), target);
+                        ActionHelper.ResolveAttack(entity, target);
 
                         expended = true;
                     }
@@ -58,7 +58,7 @@ namespace Catalyster.Components
 
                 if (expended)
                 {
-                    energy.Points -= Cost;
+                    energy.Points -= WiggleHelper.Wiggle(Cost, .1);
                     return true;
                 }
                 return false;

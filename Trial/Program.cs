@@ -1,21 +1,31 @@
 ﻿using Catalyster.Core;
 using RogueSharp;
 using Arch.Core;
+using Arch.Core.Extensions;
 using SadConsole.UI;
 using Catalyster.Components;
+using Catalyster.Models;
+using Catalyster;
+using System.Text.RegularExpressions;
+using Trial.Consoles;
+using Trial.Data;
 
 namespace Trial
 {
     class Program
     {
-        public const int Width = 80;
-        public const int Height = 25;
+
+        public static GameMaster GameMaster;
+        public static DrawingMap DrawingMap;
+
+        public static MapConsole MapConsole;
+        public static MessageConsole MessageConsole;
 
         public static void Main(string[] args)
         {
             Settings.WindowTitle = "Trial of the Alchymer";
 
-            Game.Create(90, 30);
+            Game.Create(GameSettings.Width, GameSettings.Height);
             Game.Instance.OnStart = Startup;
 
             Game.Instance.Run();
@@ -24,34 +34,54 @@ namespace Trial
 
         static void Startup()
         {
-            // TODO: Refactor to use Catalyster's GameMaster.
+            // Map
+            var mapModel = new Model<DungeonMap>()
+                .Step(new InitializeMap(GameSettings.MapWidth, GameSettings.MapHeight))
+                .Step(new RoomGen(10, 7, 15))
+                .Step(new CorridorGen())
+                .Seed(0xfab); // necessary until player is better placed
 
-            //Map
-            var map = new ConsoleMap(Width, Height); //won't be full dimensions forever.
-            //More detailed map gen steps from Catalyster later on.
+            var map = new DrawingMap();
+            mapModel.Process(map);
             
-            var world = World.Create(); // Catalyster should do this for us as well.
+            GameMaster = new GameMaster(map);
+            DrawingMap = map;
 
-            //Enemy
-            EntityBuilder.Goblin(world);
+            // Entity generation
+            var worldModel = new Model<World>()
+                .Step(new POIGen(map))
+                .Step(new POIPlayer())
+                .Step(new POIGoblin(1.0))
+                .Step(new BlackPowderWrite(map))
+                .Seed(0xfab);
+            worldModel.Process(GameMaster.World);
 
-            //Player
-            EntityBuilder.Player(world);
+            // SadConsole
+            ScreenObject container = new ScreenObject();
+            Game.Instance.Screen = container;
+            MapConsole = new MapConsole(GameSettings.MapWidth, GameSettings.MapHeight);
+            
+            
+            // Focused to handle input.
+            MapConsole.IsFocused = true;
+            container.Children.Add(MapConsole);
 
-            var startingConsole = (Console)GameHost.Instance.Screen;
+            MessageConsole = new MessageConsole();
+            container.Children.Add(MessageConsole);
 
-            map.UpdateFieldOfView(world);
-            map.DrawTo(startingConsole);
+            Game.Instance.DestroyDefaultStartingConsole();
 
-            world.Query(in new QueryDescription().WithAll<Position, Token>(), (ref Position position, ref Token token) =>
-            {
-                startingConsole.SetGlyph(position.X, position.Y, token.Char);
-                startingConsole.SetForeground(position.X, position.Y, new Color(token.Color));
-                //TODO: add the color :)
-            });   
+            GameMaster.Update();
+            GameMaster.Update();
+            Draw();
         }
         
+        public static void Draw()
+        {
+            DrawingMap.UpdateFieldOfView(GameMaster.World);
+            DrawingMap.DrawTo(MapConsole);
+            GameMaster.World.InlineQuery<TokenUpdate, Position, Token>(in new QueryDescription().WithAll<Token, Position>());
+        }
     }
-    
 }
 
