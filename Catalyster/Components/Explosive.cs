@@ -2,7 +2,7 @@
 
 namespace Catalyster.Components
 {
-    public class Explosive
+    public struct Explosive
     {
         public IntHunk Resistance, Potential;
     }

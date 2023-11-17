@@ -45,7 +45,12 @@ namespace Trial.Data
         {
             return world.Create(
                 new Position { },
-                new Token { Char = 'X', Name = "Black Powder", Color = 0xff101010 }
+                new Token { Char = 'X', Name = "Black Powder", Color = 0xff101010 },
+                new Item { Fill = 0.3f, Weight = 1f },
+                new Explosive {
+                    Resistance = new Catalyster.Hunks.IntHunk(new int[] { 0, 1 }),
+                    Potential = new Catalyster.Hunks.IntHunk(new int[] { 1, 1 })
+                }
                 );
         }
     }
