@@ -1,8 +1,9 @@
 ﻿using Arch.Core;
 using Catalyster.Components;
 using Catalyster.Interfaces;
-using Catalyster.Items;
+using Inventory = Catalyster.Items.Inventory;
 using RogueSharp.DiceNotation;
+using Arch.Core.Extensions;
 
 namespace Trial.Data
 {
@@ -36,7 +37,7 @@ namespace Trial.Data
                 new MeleeAttack { AttackFormula = Dice.Parse("1d20+3"), DamageFormula = Dice.Parse("1d3+1") },
                 new Player { },
                 new Sense { Range = 20 },
-                new Inventory(new List<Item> { new BasicItem { Fill=1f, Weight=2f } })
+                new Inventory(new List<EntityReference> { world.Create(new Item { Fill=1f, Weight=2f }).Reference() })
                 );
         }
 

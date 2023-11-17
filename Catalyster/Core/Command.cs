@@ -88,8 +88,7 @@ namespace Catalyster.Core
                 energy.Points -= WiggleHelper.Wiggle(1000, .1);
 
                 // Resolve an attack attempt
-                // TODO: update for Inventory ECS
-                //ActionHelper.ResolveRanged(item.ThrownAttack(), bumped.Value);
+                ActionHelper.ResolveRanged(ItemPropHelper.ThrownAttack(item), bumped.Value);
             }
 
             EndAction(energy.Points);

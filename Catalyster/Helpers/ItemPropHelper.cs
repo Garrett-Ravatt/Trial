@@ -64,9 +64,12 @@ namespace Catalyster.Helpers
             return false;
         }
 
+        // For thrown weapons. Explosions are a different item property.
         public static RangedAttack ThrownAttack(Entity entity)
         {
-            // TODO: Explosives?
+            if (entity.Has<RangedAttack>())
+                return entity.Get<RangedAttack>();
+
             if (entity.Has<Item>())
             {
                 var item = entity.Get<Item>();
