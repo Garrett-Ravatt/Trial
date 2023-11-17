@@ -93,7 +93,8 @@ namespace CatalysterTest.CoreTesting
 
             var player = ExFactory.Player(world);
             player.Set(new Position { X=0, Y=0 });
-            player.Add(new Inventory(new List<Item> { new BasicItem { Fill = 2, Weight = 2 } }));
+            // TODO: update to Inventory ECS
+            //player.Add(new Inventory(new List<Item> { new BasicItem { Fill = 2, Weight = 2 } }));
 
             var enemy = ExFactory.SimpleCreature(world);
             enemy.Set(new Position { X=1, Y=0 });
@@ -120,7 +121,7 @@ namespace CatalysterTest.CoreTesting
             var player = ExFactory.Player(world);
             player.Set(new Position { X = 0, Y = 0 });
 
-            var items = new List<Item> { new BasicItem { Fill = 2, Weight = 2 } };
+            var items = new List<EntityReference> { world.Create(new BasicItem { Fill = 2, Weight = 2 }).Reference() };
             player.Add(new Inventory(items));
 
             command.Entity = player;

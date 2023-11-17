@@ -9,7 +9,7 @@ namespace CatalysterTest.ItemTesting
         [TestMethod]
         public void ThrownCalc()
         {
-            var bottle = new Container(0.5f, 1f);
+            var bottle = new Catalyster.Items.Container(0.5f, 1f);
             RangedAttack rangedAttack = bottle.ThrownAttack();
             Assert.IsNotNull(rangedAttack);
         }

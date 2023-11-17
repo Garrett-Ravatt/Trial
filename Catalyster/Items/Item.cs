@@ -8,6 +8,7 @@ namespace Catalyster.Items
         public float Fill { get; set; }
         public float Weight { get; set; }
 
+        // TODO: Refactor for Inv ECS
         public RangedAttack ThrownAttack()
         {
             var range = Math.Max(6 - (int) Fill, 1);

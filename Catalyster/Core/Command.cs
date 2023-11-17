@@ -88,7 +88,8 @@ namespace Catalyster.Core
                 energy.Points -= WiggleHelper.Wiggle(1000, .1);
 
                 // Resolve an attack attempt
-                ActionHelper.ResolveRanged(item.ThrownAttack(), bumped.Value);
+                // TODO: update for Inventory ECS
+                //ActionHelper.ResolveRanged(item.ThrownAttack(), bumped.Value);
             }
 
             EndAction(energy.Points);
@@ -112,7 +113,8 @@ namespace Catalyster.Core
                 return new List<string>();
 
             var list = new List<string>();
-            foreach (Item item in entity.Get<Inventory>().Items)
+            // TODO: update to Inventory ECS
+            foreach (EntityReference item in entity.Get<Inventory>().Items)
             {
                 list.Add(item.ToString());
             }

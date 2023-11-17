@@ -1,10 +1,12 @@
-﻿using Catalyster.Components;
+﻿using Arch.Core;
+using Arch.Core.Extensions;
+using Catalyster.Components;
 
 namespace Catalyster.Items
 {
     public class Inventory
     {
-        public List<Item> Items;
+        public List<EntityReference> Items;
         public float Fill,
             FillCapacity,
             Weight,
@@ -12,10 +14,10 @@ namespace Catalyster.Items
 
         public Inventory()
         {
-            Items = new List<Item>();
+            Items = new List<EntityReference>();
         }
 
-        public Inventory(List<Item> items)
+        public Inventory(List<EntityReference> items)
         {
             Items = items;
             CalculateCapacity();
@@ -25,10 +27,19 @@ namespace Catalyster.Items
         {
             Fill = 0;
             Weight = 0;
-            foreach (var item in Items)
+            foreach (var r in Items)
             {
-                Fill += item.Fill;
-                Weight += item.Weight;
+                if (!r.IsAlive())
+                {
+                    Console.WriteLine($"{r} is dead in inventory!");
+                    break;
+                }
+                else if (r.Entity.Has<Components.Item>())
+                {
+                    var item = r.Entity.Get<Components.Item>();
+                    Fill += item.Fill;
+                    Weight += item.Weight;
+                }
             }
         }
     }

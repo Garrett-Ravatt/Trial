@@ -2,6 +2,7 @@
 
 namespace Catalyster.Items
 {
+    // TODO: All will be refactored into a helper for InvECS
     public class Container : Item
     {
         public float Fill { get; set; }
