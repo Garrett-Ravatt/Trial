@@ -2,6 +2,7 @@
 using Arch.Core.Extensions;
 using Arch.Relationships;
 using Catalyster.Components;
+using RogueSharp.DiceNotation;
 
 namespace Catalyster.Helpers
 {
@@ -61,6 +62,23 @@ namespace Catalyster.Helpers
                 if (Contain(dest, content))
                     return true;
             return false;
+        }
+
+        public static RangedAttack ThrownAttack(Entity entity)
+        {
+            // TODO: Explosives?
+            if (entity.Has<Item>())
+            {
+                var item = entity.Get<Item>();
+
+                var range = Math.Max(6 - (int)item.Fill, 1);
+                var attackFormula = new DiceExpression().Die(20).Constant(-(int)item.Fill);
+                var damageFormula = new DiceExpression().Die(Math.Max((int)item.Weight * 2, 1));
+
+                return new RangedAttack { AttackFormula = attackFormula, DamageFormula = damageFormula, Range = range };
+            }
+
+            return new RangedAttack { };
         }
     }
 }

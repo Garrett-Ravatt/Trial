@@ -2,10 +2,9 @@
 using Catalyster.Core;
 using Catalyster;
 using Arch.Core.Extensions;
+using Inventory = Catalyster.Items.Inventory;
 using Catalyster.Components;
 using CatalysterTest.TestUtils;
-using RogueSharp.DiceNotation;
-using Catalyster.Items;
 
 namespace CatalysterTest.CoreTesting
 {
@@ -93,8 +92,11 @@ namespace CatalysterTest.CoreTesting
 
             var player = ExFactory.Player(world);
             player.Set(new Position { X=0, Y=0 });
-            // TODO: update to Inventory ECS
-            //player.Add(new Inventory(new List<Item> { new BasicItem { Fill = 2, Weight = 2 } }));
+
+            var items = new List<EntityReference> {
+                world.Create(new Item { Fill = 2, Weight = 2 }).Reference()
+            };
+            player.Add(new Inventory(items));
 
             var enemy = ExFactory.SimpleCreature(world);
             enemy.Set(new Position { X=1, Y=0 });
@@ -121,7 +123,9 @@ namespace CatalysterTest.CoreTesting
             var player = ExFactory.Player(world);
             player.Set(new Position { X = 0, Y = 0 });
 
-            var items = new List<EntityReference> { world.Create(new BasicItem { Fill = 2, Weight = 2 }).Reference() };
+            var items = new List<EntityReference> {
+                world.Create(new Item { Fill = 2, Weight = 2 }).Reference()
+            };
             player.Add(new Inventory(items));
 
             command.Entity = player;
