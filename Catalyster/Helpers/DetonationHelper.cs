@@ -41,7 +41,6 @@ namespace Catalyster.Helpers
                     if (detonations[i] == false && basePotential.AnyGreaterOrEqual(explosives[i].Resistance))
                     {
                         basePotential = IntHunk.Max(basePotential, explosives[i].Potential);
-                        // TODO: Add up totals
                         detonations[i] = true;
                         didSomething = true;
                     }

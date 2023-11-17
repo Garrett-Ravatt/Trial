@@ -10,7 +10,6 @@ namespace Catalyster.Core
     public class Command
     {
         // The Entity being controlled
-        // TODO: use eventbus to set Entity instead
         public Entity? Entity;
         public Command() { }
 
@@ -112,7 +111,6 @@ namespace Catalyster.Core
                 return new List<string>();
 
             var list = new List<string>();
-            // TODO: update to Inventory ECS
             foreach (EntityReference item in entity.Get<Inventory>().Items)
             {
                 list.Add(item.ToString());

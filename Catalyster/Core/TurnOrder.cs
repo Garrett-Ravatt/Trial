@@ -31,7 +31,6 @@ namespace Catalyster.Core
                         var entity = entityRef.Entity;
                         if (entity.Has<Player>())
                         {
-                            // TODO: Consider returning Player entity
                             PlayerLock = true;
                             return entity;
                         }
@@ -50,7 +49,6 @@ namespace Catalyster.Core
         // We CAN query entities but
         public Queue<EntityReference> QueryEntities(World world)
         {
-            // TODO: Maybe should be Entity references.
             var queue = new Queue<EntityReference>();
             world.Query(in _desc, (Entity entity, ref Energy energy) =>
             {

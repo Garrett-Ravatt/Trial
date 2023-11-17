@@ -80,7 +80,6 @@ namespace CatalysterTest.ComponentTests
             World.Destroy(world);
         }
         
-        // TODO: Fix. This works in the Trial build, but not in unit testing.
         [TestMethod]
         public void CrazedHunterTest1()
         {

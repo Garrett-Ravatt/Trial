@@ -3,12 +3,12 @@ using RogueSharp.DiceNotation;
 
 namespace Catalyster.Items
 {
+    // TODO: Remove from use
     public abstract class Item
     {
         public float Fill { get; set; }
         public float Weight { get; set; }
 
-        // TODO: Refactor for Inv ECS
         public RangedAttack ThrownAttack()
         {
             var range = Math.Max(6 - (int) Fill, 1);

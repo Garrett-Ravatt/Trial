@@ -27,7 +27,6 @@ namespace Catalyster.Core
         }
 
         // Used for testing walking around.
-        // TODO: as model step.
         public void SetAllWalkable()
         {
             for(int x = 0; x < Width; x++)
@@ -38,16 +37,5 @@ namespace Catalyster.Core
                 }
             }
         }
-
-        //public struct SenseUpdate : IForEach<Position, Sense>
-        //{
-        //    [Query]
-        //    [All(typeof(Player), typeof(Position), typeof(Sense))]
-        //    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //    public void Update(ref Position pos, ref Sense sense)
-        //    {
-
-        //    }
-        //}
     }
 }

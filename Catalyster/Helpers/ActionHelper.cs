@@ -52,11 +52,11 @@ namespace Catalyster.Helpers
                 GameMaster.MessageLog.IDAdd(attacker, $"misses [{toHit}]");
             }
 
-            // TODO: replace with message log
+            GameMaster.MessageLog.IDAdd(defender, "successfully defends.");
             Console.WriteLine($"{defender} successfully defends.");
             return false;
         }
-        // TODO: Refactor Melee and Ranged to share logic
+
         public static bool ResolveRanged(RangedAttack attack, Entity defender, string attacker = "")
         {
             //NOTE: implementation assumes defender has Defense and Health components
@@ -87,7 +87,7 @@ namespace Catalyster.Helpers
                 GameMaster.MessageLog.IDAdd(attacker, $"misses [{toHit}]");
             }
 
-            // TODO: replace with message log
+            GameMaster.MessageLog.IDAdd(defender, "successfully defends.");
             Console.WriteLine($"{defender} successfully defends.");
             return false;
         }
