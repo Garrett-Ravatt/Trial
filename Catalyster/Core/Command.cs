@@ -63,7 +63,6 @@ namespace Catalyster.Core
             }
         }
 
-        // TODO: implement
         // Collects items at the feet or interacts with something
         public void Interact()
         {
