@@ -126,7 +126,7 @@ namespace CatalysterTest.CoreTesting
             var items = new List<EntityReference> {
                 world.Create(new Item { Fill = 2, Weight = 2 }).Reference()
             };
-            player.Add(new Inventory(items));
+            player.Set(new Inventory(items));
 
             command.Entity = player;
             var names = command.Inventory();
@@ -134,6 +134,31 @@ namespace CatalysterTest.CoreTesting
             Assert.AreEqual(items.Count, names.Count);
 
             world.Dispose();
+        }
+
+        [TestMethod]
+        public void CommandTest7()
+        {
+            var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
+            var command = gm.Command;
+            var world = GameMaster.World;
+
+            var player = ExFactory.Player(world);
+            player.Set(new Position { X = 0, Y = 0 });
+
+            world.Create(
+                new Token { Char='*', Name="Rock"},
+                new Position { X=1, Y=0 },
+                new Item { Fill=1f, Weight=1f }
+                );
+
+            gm.Update();
+            command.Interact();
+
+            Assert.AreEqual("Rock",
+                player.Get<Inventory>().Items[0].Entity.Get<Token>().Name);
         }
     }
 }

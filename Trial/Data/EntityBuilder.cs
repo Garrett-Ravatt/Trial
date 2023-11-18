@@ -10,6 +10,22 @@ namespace Trial.Data
     //NOTE: Color values are ABGR
     public static class EntityBuilder
     {
+        public static Entity Player(World world)
+        {
+            return world.Create(
+                new Position { },
+                new Token { Char = '@', Name = "Alchymer", Color = 0xffff70ff },
+                new Health { Max = 10, Points = 10 },
+                new Defense { Class = 0 },
+                new Energy { Max = 1000, Points = 1000, Regen = 1000 },
+                new MeleeAttack { AttackFormula = Dice.Parse("1d20+3"), DamageFormula = Dice.Parse("1d3+1") },
+                new Player { },
+                new Sense { Range = 20 },
+                new Inventory(new List<EntityReference> { world.Create(new Item { Fill = 1f, Weight = 2f }).Reference() })
+                );
+        }
+
+        // Creatures
         public static Entity Goblin(World world)
         {
             var hp = Math.Max(Dice.Roll("2d3-2"), 1);
@@ -26,21 +42,7 @@ namespace Trial.Data
                 );
         }
 
-        public static Entity Player(World world)
-        {
-            return world.Create(
-                new Position { },
-                new Token { Char = '@', Name = "Alchymer", Color = 0xffff70ff },
-                new Health { Max = 10, Points = 10 },
-                new Defense { Class = 0 },
-                new Energy { Max = 1000, Points = 1000, Regen = 1000 },
-                new MeleeAttack { AttackFormula = Dice.Parse("1d20+3"), DamageFormula = Dice.Parse("1d3+1") },
-                new Player { },
-                new Sense { Range = 20 },
-                new Inventory(new List<EntityReference> { world.Create(new Item { Fill=1f, Weight=2f }).Reference() })
-                );
-        }
-
+        // Items
         public static Entity BlackPowder(World world)
         {
             return world.Create(

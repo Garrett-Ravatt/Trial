@@ -20,7 +20,7 @@ namespace Trial.InputStates
             switch (state)
             {
                 case MapInputState.Map:
-                    return HandleMove(handled, keyboard);
+                    return HandleSingle(handled, keyboard);
 
                 case MapInputState.Throwing:
                     return HandleTargeting(handled, keyboard, mapConsole);
@@ -30,7 +30,7 @@ namespace Trial.InputStates
         }
 
         // This is just a long chunk of the key map stuffed into a method.
-        public static bool HandleMove(bool handled, Keyboard keyboard)
+        public static bool HandleSingle(bool handled, Keyboard keyboard)
         {
             if (handled)
                 return handled;
@@ -86,6 +86,11 @@ namespace Trial.InputStates
             else if (keyboard.IsKeyPressed(Keys.NumPad5))
             {
                 Program.GameMaster.Command.Wait();
+                handled = true;
+            }
+            else if (keyboard.IsKeyPressed(Keys.Space))
+            {
+                Program.GameMaster.Command.Interact();
                 handled = true;
             }
 

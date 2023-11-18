@@ -90,7 +90,7 @@ namespace Catalyster.Helpers
             var bits = new List<string>();
 
             if (entity.Has<Token>())
-                bits.Add($"{entity.Get<Token>().Name},\n\t");
+                bits.Add($"{entity.Get<Token>().Name},");
             else
                 bits.Add($"Chunk,"); // A chunk is the most basic form of matter
 

@@ -26,7 +26,7 @@ namespace Catalyster.Helpers
         {
             //NOTE: implementation assumes defender has Defense and Health components
             var toHit = attack.AttackFormula.Roll().Value;
-            var ac = defender.Get<Defense>().Class;
+            var ac = defender.Get<Defense>().Class; // TODO: Diagnose error encountered here while attacking goblin
 
             if ( toHit > ac )
             {

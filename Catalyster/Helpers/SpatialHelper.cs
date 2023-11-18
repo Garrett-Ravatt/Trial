@@ -1,5 +1,6 @@
 ﻿using Catalyster.Components;
 using Arch.Core;
+using RogueSharp;
 
 namespace Catalyster.Helpers
 {

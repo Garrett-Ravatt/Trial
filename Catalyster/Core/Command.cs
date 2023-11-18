@@ -3,7 +3,7 @@ using Arch.Core.Extensions;
 using Catalyster;
 using Catalyster.Components;
 using Catalyster.Helpers;
-using Catalyster.Items;
+using Inventory = Catalyster.Items.Inventory;
 
 namespace Catalyster.Core
 {
@@ -52,7 +52,6 @@ namespace Catalyster.Core
 
                 else // Alchymer ran into a wall.
                 {
-                    // TODO: Rip hunks of rock out of the wall.
                     GameMaster.MessageLog.Add("You bump into the wall. You fool.");
                 }
 
@@ -64,6 +63,36 @@ namespace Catalyster.Core
             }
         }
 
+        // TODO: implement
+        // Collects items at the feet or interacts with something
+        public void Interact()
+        {
+            if (Entity == null)
+                return;
+            var player = Entity.Value;
+            if (!player.Has<Inventory, Position>())
+                return;
+
+            var position = player.Get<Position>();
+            var inv = player.Get<Inventory>();
+
+            // Look for items, collect them
+            // TODO: Move somewhere else?
+            GameMaster.World.Query(
+                in new QueryDescription().WithAll<Token, Position, Item>(),
+                (Entity entity, ref Token token, ref Position pos, ref Item item) =>
+                {
+                    // TODO: SpatialHash refactor point
+                    if (SpatialHelper.LazyDist(position, pos) <= 1)
+                    {
+                        entity.Remove<Position>(); //NOTE: potentially unsafe.
+                        inv.Items.Add(entity.Reference());
+                        GameMaster.MessageLog.Add($"{token.Name} Collected.");
+                    }
+                });
+        }
+
+        // Attempt to throw an item from inventory at a tile
         public void Throw(int x, int y, int i)
         {
             if (Entity == null)
