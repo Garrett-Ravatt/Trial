@@ -83,6 +83,7 @@ namespace Catalyster.Core
                 (Entity entity, ref Token token, ref Position pos, ref Item item) =>
                 {
                     // TODO: SpatialHash refactor point
+                    // TODO: Check inventory capacity
                     if (SpatialHelper.LazyDist(position, pos) <= 1)
                     {
                         entity.Remove<Position>(); //NOTE: potentially unsafe.
