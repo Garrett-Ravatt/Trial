@@ -79,5 +79,30 @@ namespace CatalysterTest.ComponentTesting
 
             world.Dispose();
         }
+
+        [TestMethod]
+        public void ItemEntityTest4()
+        {
+            var world = World.Create();
+
+            var bottle = world.Create(
+                new Token { Name = "Bottle" },
+                new Item { Fill = 2f, Weight = 1f },
+                new Container { FillCap = 2f }
+                );
+
+            var dust = world.Create(
+                new Item { Fill = 1f, Weight = 1f },
+                new Explosive { }
+                );
+
+            ItemPropHelper.Contain(bottle, dust);
+
+            var s = ItemPropHelper.StringifyItem(bottle);
+            Console.WriteLine(s);
+            Assert.AreEqual("Bottle, [ Fill: 2, Weight: 2 ]", s);
+
+            world.Dispose();
+        }
     }
 }

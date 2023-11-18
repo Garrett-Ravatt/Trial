@@ -113,7 +113,8 @@ namespace Catalyster.Core
             var list = new List<string>();
             foreach (EntityReference item in entity.Get<Inventory>().Items)
             {
-                list.Add(item.ToString());
+                if (item.IsAlive())
+                    list.Add(ItemPropHelper.StringifyItem(item.Entity));
             }
             return list;
         }

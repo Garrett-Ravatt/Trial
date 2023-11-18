@@ -83,5 +83,25 @@ namespace Catalyster.Helpers
 
             return new RangedAttack { };
         }
+
+        // Represent an entity's item properties as a string
+        public static string StringifyItem(Entity entity)
+        {
+            var bits = new List<string>();
+
+            if (entity.Has<Token>())
+                bits.Add($"{entity.Get<Token>().Name},\n\t");
+            else
+                bits.Add($"Chunk,"); // A chunk is the most basic form of matter
+
+            if (entity.Has<Item>())
+            {
+                var item = entity.Get<Item>();
+                bits.Add($"[ Fill: {item.Fill}, " +
+                    $"Weight: {item.Weight} ]");
+            }
+
+            return string.Join(' ', bits);
+        }
     }
 }
