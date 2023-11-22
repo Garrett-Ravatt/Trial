@@ -1,4 +1,5 @@
-﻿using SadConsole.Input;
+﻿using SadConsole.Ansi;
+using SadConsole.Input;
 using SadConsole.UI;
 using SadConsole.UI.Controls;
 using Trial.InputStates;
@@ -10,7 +11,7 @@ namespace Trial.Consoles
         private MapConsole _mapConsole;
 
         // we may very well overload this constructor with other consoles that may call this popup.
-        public DescWindow(int x, int y, MapConsole mapConsole) : base(20, 10)
+        public DescWindow(int x, int y, MapConsole mapConsole) : base(20, 5)
         {
             _mapConsole = mapConsole;
             IsFocused = true;
@@ -41,16 +42,19 @@ namespace Trial.Consoles
             Show();
         }
 
+        public void Transition(int X, int Y)
+        {
+            new DescWindow(X, Y, _mapConsole);
+            Dispose();
+        }
+
         public override bool ProcessMouse(MouseScreenObjectState state)
         {
             var handled = false;
             if (!state.IsOnScreenObject && IsFocused)
             {
                 if (state.Mouse.LeftClicked)
-                {
-                    new DescWindow(state.WorldCellPosition.X, state.WorldCellPosition.Y, _mapConsole);
-                    Dispose();
-                }
+                    Transition(state.WorldCellPosition.X, state.WorldCellPosition.Y);
                 handled = true;
             }
             return handled;

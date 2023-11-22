@@ -13,6 +13,7 @@ namespace Trial.Consoles
         public InventoryWindow(int width, int height, MapConsole mapConsole) : base(width, height)
         {
             _mapConsole = mapConsole;
+            Center();
 
             // Take control from the map console because I am a popup menu
             IsFocused = true;
