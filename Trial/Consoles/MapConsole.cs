@@ -42,21 +42,39 @@ namespace Trial.Consoles
             State = MapInputState.Map;
         }
 
+        // TODO: Put into MapFocus
         public override bool ProcessMouse(MouseScreenObjectState state)
         {
             var handled = false;
-
-            if (Cursor.IsEnabled && state.IsOnScreenObject && IsFocused)
+            switch (State)
             {
-                Cursor.Position = state.CellPosition;
+                case MapInputState.Throwing:
+                    if (Cursor.IsEnabled && state.IsOnScreenObject && IsFocused)
+                    {
+                        Cursor.Position = state.CellPosition;
 
-                if (state.Mouse.LeftButtonDown)
-                {
-                    CommandBobber.Throw(x: state.CellPosition.X, y: state.CellPosition.Y);
-                    SetState(MapInputState.Map);
-                }
-                handled = true;
+                        if (state.Mouse.LeftClicked)
+                        {
+                            CommandBobber.Throw(x: state.CellPosition.X, y: state.CellPosition.Y);
+                            SetState(MapInputState.Map);
+                        }
+                        handled = true;
+                    }
+                    break;
+
+                case MapInputState.Map:
+                    if (state.IsOnScreenObject && IsFocused)
+                    {
+                        if (state.Mouse.LeftClicked)
+                        {
+                            new DescWindow(state.CellPosition.X, state.CellPosition.Y, this);
+                            //SetState(MapInputState.Map);
+                        }
+                        handled = true;
+                    }
+                    break;
             }
+
 
             return handled;
         }
@@ -68,9 +86,12 @@ namespace Trial.Consoles
             if (keyboard.IsKeyPressed(Keys.T))
             {
                 IsFocused = false;
-
-                // We don't need to store this
                 new ThrowingWindow(40, 20, this);
+            }
+            else if (keyboard.IsKeyReleased(Keys.Tab))
+            {
+                IsFocused = false;
+                new InventoryWindow(40, 20, this);
             }
 
             handled = MapFocus.ProcessKeyboard(State, handled, keyboard, this);

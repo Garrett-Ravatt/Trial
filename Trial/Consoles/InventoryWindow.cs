@@ -5,12 +5,12 @@ using Trial.InputStates;
 
 namespace Trial.Consoles
 {
-    public class ThrowingWindow : Window
+    public class InventoryWindow : Window
     {
         private MapConsole _mapConsole;
 
         // we may very well overload this constructor with other consoles that may call this popup.
-        public ThrowingWindow(int width, int height, MapConsole mapConsole) : base(width, height)
+        public InventoryWindow(int width, int height, MapConsole mapConsole) : base(width, height)
         {
             _mapConsole = mapConsole;
 
@@ -19,11 +19,29 @@ namespace Trial.Consoles
             mapConsole.IsFocused = false;
 
             // This is what I am
-            Title = "Select an item to throw";
+            Title = "Inventory";
+
+            // X BUTTON
+            var xButton = new Button(1, 1)
+            {
+                Position = new Point(width-1, 0),
+                Text = "X"
+            };
+
+            xButton.MouseButtonClicked += (sender, args) =>
+            {
+                mapConsole.IsFocused = true;
+                mapConsole.SetState(MapInputState.Map);
+                Dispose();
+            };
+
+            Controls.Add(xButton);
+
+            // INVENTORY LIST
 
             // Fit list within the margin
-            var listwidth = width-2;
-            var listheight = height-3;
+            var listwidth = width - 2;
+            var listheight = height - 3;
 
             var listbox = new ListBox(listwidth, listheight)
             {
@@ -31,16 +49,19 @@ namespace Trial.Consoles
                 IsFocused = true,
                 UseKeyboard = true,
                 UseMouse = true,
-                SingleClickItemExecute = true,
+            };
+
+            listbox.SelectedItemChanged += (sender, args) =>
+            {
+                // TODO: populate a description of this item: Options, contents, description
             };
 
             listbox.SelectedItemExecuted += (sender, args) =>
             {
-                CommandBobber.Throw(index: 0);
-                Controls.Clear();
-                Hide();
+                //CommandBobber.Throw(index: 0);
+
                 mapConsole.IsFocused = true;
-                mapConsole.SetState(MapInputState.Throwing);
+                mapConsole.SetState(MapInputState.Map);
                 Dispose();
             };
 
@@ -59,6 +80,10 @@ namespace Trial.Consoles
             {
                 IsFocused = false;
                 _mapConsole.IsFocused = true;
+                _mapConsole.IsFocused = true;
+                _mapConsole.SetState(MapInputState.Map);
+                Dispose();
+                handled = true;
             }
 
             if (handled)
