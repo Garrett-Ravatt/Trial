@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Catalyster.Components
 {
     // TODO: Form (gas, powder, fluid, object)
@@ -15,6 +10,7 @@ namespace Catalyster.Components
     // TODO: Tightness enum
     public struct Container
     {
+        // TODO: check usage of BaseWeight
         public float Filled, FillCap, BaseWeight;
     }
 

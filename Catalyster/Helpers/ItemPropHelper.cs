@@ -8,22 +8,26 @@ namespace Catalyster.Helpers
 {
     public static class ItemPropHelper
     {
+        // TODO: Calculation for container's 
+
         // try to put something in a container.
         // returns true if it could put the content in the container
         public static bool Contain(Entity container, Entity content)
         {
             if (container.Has<Container, Item>() && content.Has<Item>())
             {
-                ref var item = ref content.Get<Item>();
+                var item = content.Get<Item>();
 
-                //TODO: Care about capacity
                 ref var c = ref container.Get<Container>();
                 ref var i = ref container.Get<Item>();
 
-                // update internal Filled
-                c.Filled += item.Fill;
+                // If it can't fit, don't
+                if ((c.FillCap - c.Filled) < item.Fill)
+                    return false;
 
-                // update weight
+                // update internal Filled and weight
+                c.Filled += item.Fill;
+                // TODO: update the weight of parent containers
                 i.Weight += item.Weight;
 
                 container.AddRelationship<Contains>(content);
@@ -58,8 +62,8 @@ namespace Catalyster.Helpers
         // moving one item from its first container to another
         public static bool ReContain(Entity source, Entity dest, Entity content)
         {
-            if (Detain(source, content))
-                if (Contain(dest, content))
+            if (Contain(dest, content))
+                if (Detain(source, content))
                     return true;
             return false;
         }
@@ -101,7 +105,28 @@ namespace Catalyster.Helpers
                     $"Weight: {item.Weight} ]");
             }
 
+            if (entity.Has<Container>())
+            {
+                var con = entity.Get<Container>();
+                bits.Add($"[ Space: {con.FillCap - con.Filled} ]");
+            }
+
+            // TODO: Show Contained items
+
             return string.Join(' ', bits);
+        }
+
+        // Get explosive properties of item (damage from the explosives inside)
+        public static DiceExpression BombOf(Entity container)
+        {
+            var explosives = new List<Explosive>();
+            foreach (var (content, relationship) in container.GetRelationships<Contains>())
+            {
+                if (content.Has<Explosive>())
+                    explosives.Add(content.Get<Explosive>());
+            }
+
+            return DetonationHelper.DamageDice(explosives);
         }
     }
 }

@@ -3,6 +3,7 @@ using Arch.Core.Extensions;
 using Inventory = Catalyster.Items.Inventory;
 using Catalyster.Components;
 using Catalyster.Helpers;
+using Catalyster.Hunks;
 using Arch.Relationships;
 
 namespace CatalysterTest.ComponentTesting
@@ -45,9 +46,17 @@ namespace CatalysterTest.ComponentTesting
                 new Explosive { }
                 );
 
-            ItemPropHelper.Contain(bottle, dust);
+            var rock = world.Create(
+                new Item { Fill = 1.1f, Weight = 1f }
+                );
 
+            // can fit the dust
+            Assert.IsTrue(ItemPropHelper.Contain(bottle, dust));
             Assert.IsTrue(bottle.HasRelationship<Contains>(dust));
+
+            // can't fit the rock
+            Assert.IsFalse(ItemPropHelper.Contain(bottle, rock));
+            Assert.IsFalse(bottle.HasRelationship<Contains>(rock));
 
             world.Dispose();
         }
@@ -100,8 +109,35 @@ namespace CatalysterTest.ComponentTesting
 
             var s = ItemPropHelper.StringifyItem(bottle);
             Console.WriteLine(s);
-            Assert.AreEqual("Bottle, [ Fill: 2, Weight: 2 ]", s);
+            Assert.AreEqual("Bottle, [ Fill: 2, Weight: 2 ] [ Space: 1 ]", s);
 
+            world.Dispose();
+        }
+
+        [TestMethod]
+        public void ItemEntityTest5()
+        {
+            var world = World.Create();
+
+            //make bomb
+            var bottle = world.Create(
+            new Token { Name = "Bottle" },
+            new Item { Fill = 2f, Weight = 1f },
+            new Container { FillCap = 2f }
+            );
+
+            var dust = world.Create(
+                new Item { Fill = 1f, Weight = 1f },
+                new Explosive {
+                    Potential = new IntHunk(new int[] { 1, 1 }),
+                    Resistance = new IntHunk(new int[2])}
+                );
+
+            ItemPropHelper.Contain(bottle, dust);
+
+            var dice = ItemPropHelper.BombOf(bottle);
+            Console.WriteLine(dice);
+            
             world.Dispose();
         }
     }
