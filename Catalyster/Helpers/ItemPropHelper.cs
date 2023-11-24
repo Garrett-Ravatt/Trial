@@ -120,10 +120,13 @@ namespace Catalyster.Helpers
         public static DiceExpression BombOf(Entity container)
         {
             var explosives = new List<Explosive>();
-            foreach (var (content, relationship) in container.GetRelationships<Contains>())
+            if (container.HasRelationship<Contains>())
             {
-                if (content.Has<Explosive>())
-                    explosives.Add(content.Get<Explosive>());
+                foreach (var (content, relationship) in container.GetRelationships<Contains>())
+                {
+                    if (content.Has<Explosive>())
+                        explosives.Add(content.Get<Explosive>());
+                }
             }
 
             return DetonationHelper.DamageDice(explosives);

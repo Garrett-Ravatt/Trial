@@ -1,8 +1,11 @@
 ﻿using Arch.Core;
 using Catalyster.Components;
 using Catalyster.Interfaces;
-using Catalyster.Items;
+using Inventory = Catalyster.Items.Inventory;
 using RogueSharp.DiceNotation;
+using Arch.Relationships;
+using Arch.Core.Extensions;
+using Catalyster.Helpers;
 
 namespace CatalysterTest.TestUtils
 {
@@ -36,6 +39,35 @@ namespace CatalysterTest.TestUtils
                 new Inventory(),
                 new Player { }
                 );
+        }
+
+        public static Entity BlackPowder(World world)
+        {
+            return world.Create(
+                new Position { },
+                new Token { Char = 'X', Name = "Black Powder", Color = 0xff101010 },
+                new Item { Fill = 0.3f, Weight = 1f },
+                new Explosive
+                {
+                    Resistance = new Catalyster.Hunks.IntHunk(new int[] { 0, 1 }),
+                    Potential = new Catalyster.Hunks.IntHunk(new int[] { 1, 1 })
+                }
+                );
+        }
+
+        public static Entity BasicBomb(World world)
+        {
+            var bomb = world.Create(
+                new Position { },
+                new Token { Name = "Bomb" },
+                new Item { Fill = 0.3f, Weight = 1f },
+                new Container { FillCap = 10f }
+            );
+            var powder = BlackPowder(world);
+            powder.Remove<Position>();
+            if (!ItemPropHelper.Contain(bomb, powder))
+                Console.WriteLine("Exfactory.BasicBomb is experiencing issues");
+            return bomb;
         }
     }
 }

@@ -160,5 +160,30 @@ namespace CatalysterTest.CoreTesting
             Assert.AreEqual("Rock",
                 player.Get<Inventory>().Items[0].Entity.Get<Token>().Name);
         }
+
+        [TestMethod]
+        public void CommandTest8()
+        {
+            var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
+            var command = gm.Command;
+            var world = GameMaster.World;
+
+            var player = ExFactory.Player(world);
+            player.Set(new Position { Y = 0, X = 0 });
+
+            var bomb = ExFactory.BasicBomb(world);
+            bomb.Set(new Position { X=0, Y=0 });
+            gm.Update();
+            command.Interact();
+
+            Assert.IsTrue(player.Get<Inventory>().Items.Count > 0);
+
+            command.Throw(1, 1, 0);
+
+            // the player should be hurt
+            Assert.IsTrue(player.Get<Health>().Points < player.Get<Health>().Max);
+        }
     }
 }
