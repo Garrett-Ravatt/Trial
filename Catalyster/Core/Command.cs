@@ -149,7 +149,7 @@ namespace Catalyster.Core
                                 DamageFormula = bombFormula
                             };
                             // Resolve an attack attempt
-                            ActionHelper.ResolveRanged(rangedAttack, bumped.Value);
+                            ActionHelper.ResolveRanged(rangedAttack, bumped.Value, attacker : "Bomb");
                         }
                     }
                 }

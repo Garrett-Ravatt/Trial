@@ -36,7 +36,7 @@ namespace Catalyster.Core
                         }
                         else
                         {
-                            Console.WriteLine($"Calling director {entity}");
+                            //Console.WriteLine($"Calling director {entity}");
                             ref var director = ref entity.Get<IDirector>();
                             director.Direct(entity, world);
                         }

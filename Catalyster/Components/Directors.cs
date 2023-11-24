@@ -30,7 +30,7 @@ namespace Catalyster.Components
             // does nothing if the player can't see it.
             if (!GameMaster.DungeonMap.IsInFov(pos.X, pos.Y))
             {
-                Console.WriteLine("They can't see me");
+                //Console.WriteLine("They can't see me");
                 return;
             }
 
