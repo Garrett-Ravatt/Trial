@@ -30,7 +30,7 @@ namespace Catalyster.Helpers
 
             if ( toHit > ac )
             {
-                Console.WriteLine($"{defender} is hurt.");
+                //Console.WriteLine($"{defender} is hurt.");
                 ref var health = ref defender.Get<Health>();
 
                 var damage = attack.DamageFormula.Roll().Value;
@@ -40,7 +40,7 @@ namespace Catalyster.Helpers
                 if (health.Points <=0)
                 {
                     GameMaster.MessageLog.IDAdd(defender, "dies!");
-                    Console.WriteLine($"{defender} dies!");
+                    //Console.WriteLine($"{defender} dies!");
                     //TODO: needs test coverage.
                     GameMaster.World.Destroy(defender);
                 }
