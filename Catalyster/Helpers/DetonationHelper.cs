@@ -102,5 +102,13 @@ namespace Catalyster.Helpers
             // TODO: make the die sides correspond to a more grounded dice table (prevent a d14, etc).
             return new DiceExpression().Dice(dSum, dMax * 2).Constant(tSum);
         }
+
+        // Return the range of an explosion resulting from 
+        public static int Range(List<Explosive> explosives)
+        {
+            // TODO: think about why we're doing this calculation twice
+            var exploded = Detonated(explosives);
+            return exploded.Count();
+        }
     }
 }

@@ -142,5 +142,43 @@ namespace CatalysterTest.ComponentTesting
             Assert.IsTrue(formula.Roll().Value > 0);
             Assert.IsNotNull(formula);
         }
+
+
+        [TestMethod]
+        public void ExplosiveTest6()
+        {
+            var explosives = new List<Explosive>
+            {
+                new Explosive
+                {
+                    Resistance = new IntHunk(new int[] { 0, 0 }),
+                    Potential = new IntHunk(new int[] { 1, 1 })
+                },
+                new Explosive
+                {
+                    Resistance = new IntHunk(new int[] { 2, 2 }),
+                    Potential = new IntHunk(new int[] { 1, 1 })
+                },
+                new Explosive
+                {
+                    Resistance = new IntHunk(new int[] { 2, 3 }),
+                    Potential = new IntHunk(new int[] { 1, 1 })
+                },
+                new Explosive
+                {
+                    Resistance = new IntHunk(new int[] { 0, 1 }),
+                    Potential = new IntHunk(new int[] { 0, 0 })
+                },
+                new Explosive
+                {
+                    Resistance = new IntHunk(new int[] { 0, 1 }),
+                    Potential = new IntHunk(new int[] { 0, 2 })
+                },
+            };
+
+            var range = DetonationHelper.Range(explosives);
+
+            Assert.IsTrue(range > 0);
+        }
     }
 }

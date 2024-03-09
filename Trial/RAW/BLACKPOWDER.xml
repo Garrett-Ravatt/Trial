@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<entity Scheme="item" Family="powder" RID="BLACKPOWDER" Density="0.1">
+	<token Name="Black Powder" Symbol='*'/>
+	<explosive>
+		<potential Fire="1" Pressure="0" />
+		<resistance Fire="0" Pressure="1" />
+	</explosive>
+</entity>
