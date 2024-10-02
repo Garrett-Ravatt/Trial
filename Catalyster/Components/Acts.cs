@@ -6,14 +6,14 @@ using System.Transactions;
 
 namespace Catalyster.Components
 {
-    public class MoveAct : IAct
+    public class WalkAct : IAct
     {
         public int Cost { get; set; } = 1000;
         
         public int X;
         public int Y;
 
-        public MoveAct(int x = 0, int y = 0)
+        public WalkAct(int x = 0, int y = 0)
         {
             X = x;
             Y = y;

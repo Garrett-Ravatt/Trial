@@ -12,8 +12,8 @@ namespace CatalysterTest.ActTesting
         [TestMethod]
         public void ActTest1()
         {
-            var act1 = new MoveAct(0, 1);
-            var act2 = new MoveAct();
+            var act1 = new WalkAct(0, 1);
+            var act2 = new WalkAct();
         }
 
         [TestMethod]
@@ -24,7 +24,7 @@ namespace CatalysterTest.ActTesting
             GameMaster.DungeonMap.SetAllWalkable();
 
             var player = ExFactory.SimpleCreature(GameMaster.World);
-            var act = new MoveAct(0, 1);
+            var act = new WalkAct(0, 1);
 
             var Y = player.Get<Position>().Y;
 

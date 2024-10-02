@@ -26,7 +26,7 @@ namespace Catalyster.Core
             if (Entity != null)
             {
                 var e = Entity.Value;
-                var walkAct = new MoveAct(X, Y);
+                var walkAct = new WalkAct(X, Y);
                 walkAct.Enter(Entity.Value, GameMaster.World);
                 EndAction(e.Get<Energy>().Points);
             }
