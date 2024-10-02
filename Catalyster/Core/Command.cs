@@ -25,37 +25,10 @@ namespace Catalyster.Core
             // TODO: Perform as Directive, or share code with a movement Directive using a Helper
             if (Entity != null)
             {
-                var entity = Entity.Value;
-
-                ref var energy = ref entity.Get<Energy>();
-
-                ref var position = ref entity.Get<Position>();
-                var newPos = new Position { X = position.X + X, Y = position.Y + Y };
-
-                if (GameMaster.DungeonMap.IsWalkable(newPos.X, newPos.Y))
-                {
-                    Entity? bumped = null;
-                    if (SpatialHelper.ClearOrAssign(position.X + X, position.Y + Y, ref bumped))
-                    {
-                        position = newPos;
-                        // TODO: refer to movement speed
-                        energy.Points -= WiggleHelper.Wiggle(1000, .1); 
-                    }
-
-                    else // Alchymer ran into a creature
-                    {
-                        ActionHelper.ResolveAttack(entity, bumped.Value);
-                        // TODO: refer to attack cost
-                        energy.Points -= WiggleHelper.Wiggle(1000, .1);
-                    }
-                }
-
-                else // Alchymer ran into a wall.
-                {
-                    GameMaster.MessageLog.Add("You bump into the wall. You fool.");
-                }
-
-                EndAction(energy.Points);
+                var e = Entity.Value;
+                var walkAct = new MoveAct(X, Y);
+                walkAct.Enter(Entity.Value, GameMaster.World);
+                EndAction(e.Get<Energy>().Points);
             }
             else
             {
