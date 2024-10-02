@@ -20,19 +20,21 @@ namespace Catalyster.Core
         }
 
         // try to go somewhere.
-        public void Move(int X, int Y)
+        public bool Move(int X, int Y)
         {
             // TODO: Perform as Directive, or share code with a movement Directive using a Helper
             if (Entity != null)
             {
                 var e = Entity.Value;
                 var walkAct = new WalkAct(X, Y);
-                walkAct.Enter(Entity.Value, GameMaster.World);
-                EndAction(e.Get<Energy>().Points);
+                var b = walkAct.Enter(Entity.Value, GameMaster.World);
+                CheckEnergy(e.Get<Energy>().Points);
+                return b;
             }
             else
             {
                 Console.WriteLine("Command.Entity is null");
+                return false;
             }
         }
 
@@ -66,12 +68,12 @@ namespace Catalyster.Core
         }
 
         // Attempt to throw an item from inventory at a tile
-        public void Throw(int x, int y, int i)
+        public bool Throw(int x, int y, int i)
         {
             var didThrow = false; // if true by the end, use up energy
 
             if (Entity == null || !GameMaster.DungeonMap.IsInFov(x, y))
-                return;
+                return false;
 
             var entity = Entity.Value;
 
@@ -81,7 +83,7 @@ namespace Catalyster.Core
             if (item == null)
             {
                 Console.WriteLine($"Invalid item index {i} was selected");
-                return;
+                return false;
             }
 
             // Check for a target.
@@ -94,6 +96,7 @@ namespace Catalyster.Core
                     // Resolve an attack attempt
                     ActionHelper.ResolveRanged(ItemPropHelper.ThrownAttack(item), bumped.Value);
                 }
+                //TODO: throw item at empty space
             }
 
             // Resolve an explosion
@@ -135,11 +138,12 @@ namespace Catalyster.Core
                 entity.Get<Inventory>().Items.RemoveAt(i);
             }
 
-            EndAction(energy.Points);
+            CheckEnergy(energy.Points);
+            return didThrow;
         }
 
         // Check if the player's turn is now over.
-        private void EndAction(int points)
+        private void CheckEnergy(int points)
         {
             if (points <= 0)
                 Entity = null;

@@ -92,6 +92,7 @@ namespace CatalysterTest.CoreTesting
 
             var player = ExFactory.Player(world);
             player.Set(new Position { X=0, Y=0 });
+            GameMaster.DungeonMap.UpdateFieldOfView(world);
 
             var items = new List<EntityReference> {
                 world.Create(new Item { Fill = 2, Weight = 2 }).Reference()
@@ -105,7 +106,6 @@ namespace CatalysterTest.CoreTesting
 
             var target = enemy.Get<Position>();
             command.Throw(target.X, target.Y, 0);
-
             Assert.IsTrue(player.Get<Energy>().Points <= 100);
 
             world.Dispose();
@@ -172,6 +172,7 @@ namespace CatalysterTest.CoreTesting
 
             var player = ExFactory.Player(world);
             player.Set(new Position { Y = 0, X = 0 });
+            GameMaster.DungeonMap.UpdateFieldOfView(world);
 
             var bomb = ExFactory.BasicBomb(world);
             bomb.Set(new Position { X=0, Y=0 });
