@@ -14,6 +14,9 @@ namespace Catalyster.Components
     // Range, then form and damage for a single ranged attack.
     public struct RangedAttack { public int Range; public DiceExpression AttackFormula, DamageFormula; };
 
+    // Range and damage for a single detonation
+    public struct Detonation { public int Range; public DiceExpression DamageFormula;  };
+
     // Turn Energy
     public struct Energy { public int Max, Regen, Points; };
 }

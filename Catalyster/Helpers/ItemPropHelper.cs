@@ -117,7 +117,7 @@ namespace Catalyster.Helpers
         }
 
         // Get explosive properties of item (damage from the explosives inside)
-        public static DiceExpression BombOf(Entity container)
+        public static Detonation BombOf(Entity container)
         {
             var explosives = new List<Explosive>();
             if (container.HasRelationship<Contains>())
@@ -129,7 +129,10 @@ namespace Catalyster.Helpers
                 }
             }
 
-            return DetonationHelper.DamageDice(explosives);
+            return new Detonation {
+                Range = DetonationHelper.Range(explosives),
+                DamageFormula = DetonationHelper.DamageDice(explosives)
+            };
         }
     }
 }

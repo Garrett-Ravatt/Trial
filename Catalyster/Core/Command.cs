@@ -102,11 +102,12 @@ namespace Catalyster.Core
             // Resolve an explosion
             // TODO: SpatialHash refactor point
             // TODO: refactor explosion resolution into helper somewhere
-            var bombFormula = ItemPropHelper.BombOf(item);
+            var bomb = ItemPropHelper.BombOf(item);
+            var bombFormula = bomb.DamageFormula;
             if (bombFormula.MinRoll().Value > 0)
             {
                 didThrow = true;
-                var radius = 2; // TODO: get this number from somewhere else \_-.-_/
+                var radius = bomb.Range;
                 for (var _x = x - radius; _x <= x + radius; _x++)
                 {
                     for (var _y = y - radius; _y <= y + radius; _y++)
