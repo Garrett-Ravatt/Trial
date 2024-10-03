@@ -37,11 +37,16 @@ namespace CatalysterTest.ActTesting
         public void ActTest3()
         {
             var gm = new GameMaster();
+            var world = GameMaster.World;
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
 
-            var player = ExFactory.SimpleCreature(GameMaster.World);
+            var creature = ExFactory.SimpleCreature(GameMaster.World);
             var act = new WalkAct(0, 1);
+
+            var Y = creature.Get<Position>().Y;
+            act.Enter(creature, world);
+            Assert.AreEqual(Y + 1, creature.Get<Position>().Y);
         }
     }
 }
