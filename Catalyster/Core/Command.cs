@@ -1,6 +1,7 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
 using Catalyster;
+using Catalyster.Acts;
 using Catalyster.Components;
 using Catalyster.Helpers;
 using Inventory = Catalyster.Items.Inventory;

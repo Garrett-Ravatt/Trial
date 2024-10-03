@@ -1,5 +1,6 @@
 ﻿using CatalysterTest.TestUtils;
 using Catalyster.Components;
+using Catalyster.Acts;
 using Catalyster;
 using Arch.Core.Extensions;
 
@@ -30,6 +31,17 @@ namespace CatalysterTest.ActTesting
 
             Assert.IsTrue(act.Enter(player, GameMaster.World));
             Assert.AreNotEqual(Y, player.Get<Position>().Y);
+        }
+
+        [TestMethod]
+        public void ActTest3()
+        {
+            var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
+
+            var player = ExFactory.SimpleCreature(GameMaster.World);
+            var act = new WalkAct(0, 1);
         }
     }
 }
