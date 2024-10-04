@@ -4,6 +4,7 @@ using Catalyster;
 using Catalyster.Acts;
 using Catalyster.Components;
 using Catalyster.Helpers;
+using CommunityToolkit.HighPerformance.Extensions;
 using Inventory = Catalyster.Items.Inventory;
 
 namespace Catalyster.Core
@@ -70,77 +71,14 @@ namespace Catalyster.Core
         // Attempt to throw an item from inventory at a tile
         public bool Throw(int x, int y, int i)
         {
-            // TODO: implement as Act
-            var didThrow = false; // if true by the end, use up energy
-
             if (Entity == null || !GameMaster.DungeonMap.IsInFov(x, y))
                 return false;
 
             var entity = Entity.Value;
+            var throwAct = new ThrowAct(GameMaster.World.Reference(entity), x, y, i);
 
-            ref var energy = ref entity.Get<Energy>();
-
-            var item = entity.Get<Inventory>().Items[i];
-            if (item == null)
-            {
-                Console.WriteLine($"Invalid item index {i} was selected");
-                return false;
-            }
-
-            // Check for a target.
-            {
-                Entity? bumped = null;
-                if (!SpatialHelper.ClearOrAssign(x, y, ref bumped))
-                {
-                    didThrow = true;
-
-                    // Resolve an attack attempt
-                    ActionHelper.ResolveRanged(ItemPropHelper.ThrownAttack(item), bumped.Value);
-                }
-                //TODO: throw item at empty space
-            }
-
-            // Resolve an explosion
-            // TODO: SpatialHash refactor point
-            // TODO: refactor explosion resolution into helper somewhere
-            var bomb = ItemPropHelper.BombOf(item);
-            var bombFormula = bomb.DamageFormula;
-            if (bombFormula.MinRoll().Value > 0)
-            {
-                didThrow = true;
-                var radius = bomb.Range;
-                for (var _x = x - radius; _x <= x + radius; _x++)
-                {
-                    for (var _y = y - radius; _y <= y + radius; _y++)
-                    {
-                        // Check for a target.
-                        Entity? bumped = null;
-                        if (!SpatialHelper.ClearOrAssign(_x, _y, ref bumped))
-                        {
-                            energy.Points -= WiggleHelper.Wiggle(1000, .1);
-
-                            // TODO: Some other method than this
-                            var rangedAttack = new RangedAttack
-                            {
-                                Range = 6,
-                                AttackFormula = RogueSharp.DiceNotation.Dice.Parse("20"),
-                                DamageFormula = bombFormula
-                            };
-                            // Resolve an attack attempt
-                            ActionHelper.ResolveRanged(rangedAttack, bumped.Value, attacker : "Bomb");
-                        }
-                    }
-                }
-            }
-
-            if (didThrow)
-            {
-                energy.Points -= WiggleHelper.Wiggle(1000, .1);
-                // TODO: Dispose of the thrown item entity and contents
-                entity.Get<Inventory>().Items.RemoveAt(i);
-            }
-
-            CheckEnergy(energy.Points);
+            var didThrow = throwAct.Execute();
+            CheckEnergy(entity.Get<Energy>().Points);
             return didThrow;
         }
 

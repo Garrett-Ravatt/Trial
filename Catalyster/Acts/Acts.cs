@@ -63,21 +63,19 @@ namespace Catalyster.Acts
     {
         public int Cost { get; set; } = 1000;
 
-        World? World;
-        //TODO: Use an EntityRef?
-        Entity? Entity; 
+        public EntityReference? EntityRef;
         int? X, Y, I;
-        public ThrowAct(World w, Entity? e = null, int? x = null, int? y = null, int? i = null)
+        public ThrowAct(EntityReference? e = null, int? x = null, int? y = null, int? i = null)
         {
-            World = w;
-            Entity = e;
+            EntityRef = e;
             X = x; Y = y; I = i;
         }
 
         public bool Execute()
         {
-            if (!Entity.HasValue || !X.HasValue || !Y.HasValue || !I.HasValue) return false;
-            var (entity, x, y, i) = (Entity.Value, X.Value, Y.Value, I.Value);
+            if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue || !I.HasValue)
+                return false;
+            var (entity, x, y, i) = (EntityRef.Value.Entity, X.Value, Y.Value, I.Value);
 
             var didThrow = false; // if true by the end, use up energy
 
@@ -123,8 +121,7 @@ namespace Catalyster.Acts
                         Entity? bumped = null;
                         if (!SpatialHelper.ClearOrAssign(_x, _y, ref bumped))
                         {
-                            energy.Points -= WiggleHelper.Wiggle(1000, .1);
-
+                            didThrow = true;
                             // TODO: Some other method than this
                             var rangedAttack = new RangedAttack
                             {
