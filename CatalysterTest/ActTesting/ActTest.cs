@@ -3,6 +3,9 @@ using Catalyster.Components;
 using Catalyster.Acts;
 using Catalyster;
 using Arch.Core.Extensions;
+using Inventory = Catalyster.Items.Inventory;
+using Arch.Core;
+using System.Numerics;
 
 namespace CatalysterTest.ActTesting
 {
@@ -47,6 +50,23 @@ namespace CatalysterTest.ActTesting
             var Y = creature.Get<Position>().Y;
             act.Execute();
             Assert.AreEqual(Y + 1, creature.Get<Position>().Y);
+        }
+
+        [TestMethod]
+        public void ThrowActTest1()
+        {
+            var gm = new GameMaster();
+            var world = GameMaster.World;
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
+
+            var c1 = ExFactory.SimpleCreature(GameMaster.World);
+            var items = new List<EntityReference> {
+                world.Create(new Item { Fill = 2, Weight = 2 }).Reference()
+            };
+            c1.Add(new Inventory(items));
+            var act = new ThrowAct(world.Reference(c1), 0, 1, 0);
+            Assert.IsTrue(act.Execute());
         }
     }
 }

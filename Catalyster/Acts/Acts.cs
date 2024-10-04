@@ -79,7 +79,7 @@ namespace Catalyster.Acts
 
             var didThrow = false; // if true by the end, use up energy
 
-            if (!GameMaster.DungeonMap.IsInFov(x, y))
+            if (entity.Has<Player>() && !GameMaster.DungeonMap.IsInFov(x, y))
                 return false;
 
             ref var energy = ref entity.Get<Energy>();
@@ -90,18 +90,17 @@ namespace Catalyster.Acts
                 Console.WriteLine($"Invalid item index {i} was selected");
                 return false;
             }
+            didThrow = true;
 
             // Check for a target.
             {
                 Entity? bumped = null;
                 if (!SpatialHelper.ClearOrAssign(x, y, ref bumped))
                 {
-                    didThrow = true;
-
                     // Resolve an attack attempt
                     ActionHelper.ResolveRanged(ItemPropHelper.ThrownAttack(item), bumped.Value);
                 }
-                //TODO: throw item at empty space
+                item.Entity.Add(new Position { X = x, Y = y });
             }
 
             // Resolve an explosion
@@ -111,7 +110,6 @@ namespace Catalyster.Acts
             var bombFormula = bomb.DamageFormula;
             if (bombFormula.MinRoll().Value > 0)
             {
-                didThrow = true;
                 var radius = bomb.Range;
                 for (var _x = x - radius; _x <= x + radius; _x++)
                 {
@@ -121,7 +119,6 @@ namespace Catalyster.Acts
                         Entity? bumped = null;
                         if (!SpatialHelper.ClearOrAssign(_x, _y, ref bumped))
                         {
-                            didThrow = true;
                             // TODO: Some other method than this
                             var rangedAttack = new RangedAttack
                             {
