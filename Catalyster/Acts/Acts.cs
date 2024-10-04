@@ -26,7 +26,7 @@ namespace Catalyster.Acts
         public bool Execute()
         {
             if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue) return false;
-            var (entity, world, x, y) = (EntityRef.Value.Entity, World.Worlds[EntityRef.Value.Entity.WorldId], X.Value, Y.Value);
+            var (entity, x, y) = (EntityRef.Value.Entity, X.Value, Y.Value);
             ref var energy = ref entity.Get<Energy>();
 
             ref var position = ref entity.Get<Position>();
@@ -44,9 +44,8 @@ namespace Catalyster.Acts
 
                 else // ran into a creature
                 {
-                    ActionHelper.ResolveAttack(entity, bumped.Value);
-                    // TODO: refer to attack cost
-                    energy.Points -= WiggleHelper.Wiggle(1000, .1);
+                    var attackAct = new MeleeAttackAct(EntityRef.Value, bumped.Value.Reference());
+                    attackAct.Execute();
                 }
             }
 
@@ -134,6 +133,46 @@ namespace Catalyster.Acts
             // TODO: Dispose of the thrown item entity and contents
             entity.Get<Inventory>().Items.RemoveAt(i);
 
+            return true;
+        }
+    }
+
+    public class MeleeAttackAct : IAct
+    {
+        public int Cost { get; set; } = 1000;
+
+        public EntityReference? Attacker;
+        public EntityReference? Defender;
+        public MeleeAttack? Attack;
+
+        public MeleeAttackAct(EntityReference? attacker = null, EntityReference? defender = null, MeleeAttack? attack = null)
+        {
+            Attacker = attacker;
+            Defender = defender;
+            Attack = attack;
+        }
+
+        public bool Execute()
+        {
+            Entity atkr;
+            Entity def;
+            MeleeAttack att;
+            if (!Defender.HasValue || !Attacker.HasValue)
+                return false;
+            else if (!Attack.HasValue)
+            {
+                (atkr, def) = (Attacker.Value.Entity, Defender.Value.Entity);
+                ActionHelper.ResolveAttack(atkr, def);
+            }
+            else
+            {
+                (atkr, def, att) = (Attacker.Value.Entity, Defender.Value.Entity, Attack.Value);
+                var name = "";
+                if (atkr.Has<Token>())
+                    ActionHelper.ResolveMelee(att, def, name);
+            }
+            ref var e = ref atkr.Get<Energy>();
+            e.Points -= WiggleHelper.Wiggle(Cost, 0.1);
             return true;
         }
     }

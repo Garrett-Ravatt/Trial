@@ -16,6 +16,8 @@ namespace CatalysterTest.ComponentTests
         public void DirectiveTest1()
         {
             new GameMaster();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
             var world = GameMaster.World;
 
             var e = world.Create(

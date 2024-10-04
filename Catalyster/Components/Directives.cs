@@ -2,6 +2,7 @@
 using Arch.Core.Extensions;
 using Catalyster.Interfaces;
 using Catalyster.Helpers;
+using Catalyster.Acts;
 
 namespace Catalyster.Components
 {
@@ -11,21 +12,14 @@ namespace Catalyster.Components
         public RightMover() { }
         public bool Enter(EntityReference entityref)
         {
-            var (entity, world) = (entityref.Entity, World.Worlds[entityref.Entity.WorldId]);
-            try
-            {
-                // Fail out if we can't perform the action.
-                ref var energy = ref entity.Get<Energy>();
-                if (energy.Points <= 0) return false;
+            var entity = entityref.Entity;
+            // Fail out if we can't perform the action.
+            ref var energy = ref entity.Get<Energy>();
+            if (energy.Points <= 0) return false;
 
-                ref var position = ref entity.Get<Position>();
-                // TODO: make sure entity can move there
-                position.X++;
-
-                energy.Points -= WiggleHelper.Wiggle(Cost, .1);
-                return true;
-            }
-            catch { return false; }
+            var moveAct = new WalkAct(entityref, 1, 0);
+            moveAct.Cost = Cost;
+            return moveAct.Execute();
         }
     }
 
@@ -51,7 +45,6 @@ namespace Catalyster.Components
                     // TODO: check range
                     if (!expended && target!=entity)
                     {
-                        //ActionHelper.ResolveMelee(entity.Get<MeleeAttack>(), target);
                         ActionHelper.ResolveAttack(entity, target);
 
                         expended = true;
