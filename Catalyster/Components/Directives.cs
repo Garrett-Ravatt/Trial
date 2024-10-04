@@ -45,18 +45,11 @@ namespace Catalyster.Components
                     // TODO: check range
                     if (!expended && target!=entity)
                     {
-                        ActionHelper.ResolveAttack(entity, target);
-
-                        expended = true;
+                        expended = ActionHelper.ResolveAttack(entity, target);
                     }
                 });
 
-                if (expended)
-                {
-                    energy.Points -= WiggleHelper.Wiggle(Cost, .1);
-                    return true;
-                }
-                return false;
+                return expended;
             }
             catch { return false; }
         }
