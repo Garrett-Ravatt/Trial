@@ -77,8 +77,6 @@ namespace Catalyster.Acts
                 return false;
             var (entity, x, y, i) = (EntityRef.Value.Entity, X.Value, Y.Value, I.Value);
 
-            var didThrow = false; // if true by the end, use up energy
-
             if (entity.Has<Player>() && !GameMaster.DungeonMap.IsInFov(x, y))
                 return false;
 
@@ -90,7 +88,6 @@ namespace Catalyster.Acts
                 Console.WriteLine($"Invalid item index {i} was selected");
                 return false;
             }
-            didThrow = true;
 
             // Check for a target.
             {
@@ -133,14 +130,11 @@ namespace Catalyster.Acts
                 }
             }
 
-            if (didThrow)
-            {
-                energy.Points -= WiggleHelper.Wiggle(1000, .1);
-                // TODO: Dispose of the thrown item entity and contents
-                entity.Get<Inventory>().Items.RemoveAt(i);
-            }
+            energy.Points -= WiggleHelper.Wiggle(1000, .1);
+            // TODO: Dispose of the thrown item entity and contents
+            entity.Get<Inventory>().Items.RemoveAt(i);
 
-            return didThrow;
+            return true;
         }
     }
 }

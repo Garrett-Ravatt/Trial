@@ -2,6 +2,7 @@
 using SadConsole.UI.Controls;
 using SadConsole.Input;
 using Trial.InputStates;
+using Catalyster.Core;
 
 namespace Trial.Consoles
 {
@@ -36,7 +37,7 @@ namespace Trial.Consoles
 
             listbox.SelectedItemExecuted += (sender, args) =>
             {
-                CommandBobber.Throw(index: 0);
+                CommandBobber.Throw(index: listbox.SelectedIndex);
                 Controls.Clear();
                 Hide();
                 mapConsole.IsFocused = true;

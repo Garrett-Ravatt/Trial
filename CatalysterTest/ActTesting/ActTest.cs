@@ -61,12 +61,14 @@ namespace CatalysterTest.ActTesting
             GameMaster.DungeonMap.SetAllWalkable();
 
             var c1 = ExFactory.SimpleCreature(GameMaster.World);
+            var item = world.Create(new Item { Fill = 2, Weight = 2 });
             var items = new List<EntityReference> {
-                world.Create(new Item { Fill = 2, Weight = 2 }).Reference()
+                item.Reference()
             };
             c1.Add(new Inventory(items));
             var act = new ThrowAct(world.Reference(c1), 0, 1, 0);
             Assert.IsTrue(act.Execute());
+            Assert.IsTrue(item.Has<Position>());
         }
     }
 }
