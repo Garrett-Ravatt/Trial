@@ -11,8 +11,6 @@ namespace Catalyster.Acts
     {
         public int Cost { get; set; } = 1000;
 
-        public World World; //NOTE: only non-nullable
-        //TODO: Use an EntityRef?
         public EntityReference? EntityRef;
 
         public int? X;
@@ -28,7 +26,7 @@ namespace Catalyster.Acts
         public bool Execute()
         {
             if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue) return false;
-            var (entity, world, x, y) = (EntityRef.Value.Entity, EntityRef.Value.Entity, X.Value, Y.Value);
+            var (entity, world, x, y) = (EntityRef.Value.Entity, World.Worlds[EntityRef.Value.Entity.WorldId], X.Value, Y.Value);
             ref var energy = ref entity.Get<Energy>();
 
             ref var position = ref entity.Get<Position>();

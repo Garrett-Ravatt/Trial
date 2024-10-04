@@ -25,7 +25,7 @@ namespace CatalysterTest.ComponentTests
 
             // Perform directive
             var dir = new RightMover { Cost = 100 };
-            dir.Enter(e, world);
+            dir.Enter(world.Reference(e));
 
             Assert.AreEqual(1, e.Get<Position>().X);
             Assert.IsTrue(e.Get<Energy>().Points <= 100);
@@ -48,7 +48,7 @@ namespace CatalysterTest.ComponentTests
             // Perform directive
             var dir = new MeleeNearest { };
 
-            Assert.IsTrue(dir.Enter(attacker, world));
+            Assert.IsTrue(dir.Enter(world.Reference(attacker)));
             Assert.IsTrue(initialHp > defender.Get<Health>().Points);
 
             World.Destroy(world);

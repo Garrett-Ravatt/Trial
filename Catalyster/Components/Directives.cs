@@ -9,8 +9,9 @@ namespace Catalyster.Components
     {
         public int Cost { get; set; } = 1000;
         public RightMover() { }
-        public bool Enter(Entity entity, World world)
+        public bool Enter(EntityReference entityref)
         {
+            var (entity, world) = (entityref.Entity, World.Worlds[entityref.Entity.WorldId]);
             try
             {
                 // Fail out if we can't perform the action.
@@ -32,8 +33,9 @@ namespace Catalyster.Components
     {
         public int Cost { get; set; } = 1000;
         public MeleeNearest() { }
-        public bool Enter(Entity entity, World world)
+        public bool Enter(EntityReference entityref)
         {
+            var (entity, world) = (entityref.Entity, World.Worlds[entityref.Entity.WorldId]);
             try
             {
                 ref var energy = ref entity.Get<Energy>();

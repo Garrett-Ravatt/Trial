@@ -12,7 +12,7 @@ namespace Catalyster.Components
         public void Direct(Entity entity, World world)
         {
             // Run until Directive fails :)
-            while (Directive.Enter(entity, world)) {}
+            while (Directive.Enter(world.Reference(entity))) {}
         }
     }
 
