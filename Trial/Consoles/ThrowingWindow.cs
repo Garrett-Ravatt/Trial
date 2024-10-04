@@ -6,6 +6,7 @@ using Catalyster.Core;
 
 namespace Trial.Consoles
 {
+    //TODO: x or escape out of window
     public class ThrowingWindow : Window
     {
         private MapConsole _mapConsole;
