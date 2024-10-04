@@ -10,7 +10,7 @@ namespace Catalyster.Core
 {
     public class Command
     {
-        // The Entity being controlled
+        // The EntityRef being controlled
         public Entity? Entity;
         public Command() { }
 
@@ -23,18 +23,17 @@ namespace Catalyster.Core
         // try to go somewhere.
         public bool Move(int X, int Y)
         {
-            // TODO: Perform as Directive, or share code with a movement Directive using a Helper
             if (Entity != null)
             {
                 var e = Entity.Value;
-                var walkAct = new WalkAct(X, Y);
-                var b = walkAct.Enter(Entity.Value, GameMaster.World);
+                var walkAct = new WalkAct(GameMaster.World.Reference(e), X, Y);
+                var b = walkAct.Execute();
                 CheckEnergy(e.Get<Energy>().Points);
                 return b;
             }
             else
             {
-                Console.WriteLine("Command.Entity is null");
+                Console.WriteLine("Command.EntityRef is null");
                 return false;
             }
         }
@@ -71,6 +70,7 @@ namespace Catalyster.Core
         // Attempt to throw an item from inventory at a tile
         public bool Throw(int x, int y, int i)
         {
+            // TODO: implement as Act
             var didThrow = false; // if true by the end, use up energy
 
             if (Entity == null || !GameMaster.DungeonMap.IsInFov(x, y))

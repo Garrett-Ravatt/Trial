@@ -11,21 +11,24 @@ namespace Catalyster.Acts
     {
         public int Cost { get; set; } = 1000;
 
+        public World World; //NOTE: only non-nullable
+        //TODO: Use an EntityRef?
+        public EntityReference? EntityRef;
+
         public int? X;
         public int? Y;
 
-        public WalkAct(int? x = null, int? y = 0)
+        public WalkAct(EntityReference? e = null, int? x = null, int? y = 0)
         {
+            EntityRef = e;
             X = x;
             Y = y;
         }
 
-        public bool Enter(Entity entity, World world)
+        public bool Execute()
         {
-            if (!X.HasValue || !Y.HasValue) return false;
-
-            var (x, y) = (X.Value, Y.Value);
-
+            if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue) return false;
+            var (entity, world, x, y) = (EntityRef.Value.Entity, EntityRef.Value.Entity, X.Value, Y.Value);
             ref var energy = ref entity.Get<Energy>();
 
             ref var position = ref entity.Get<Position>();
@@ -62,16 +65,21 @@ namespace Catalyster.Acts
     {
         public int Cost { get; set; } = 1000;
 
+        World? World;
+        //TODO: Use an EntityRef?
+        Entity? Entity; 
         int? X, Y, I;
-        public ThrowAct(int? x = null, int? y = null, int? i = null)
+        public ThrowAct(World w, Entity? e = null, int? x = null, int? y = null, int? i = null)
         {
+            World = w;
+            Entity = e;
             X = x; Y = y; I = i;
         }
 
-        public bool Enter(Entity entity, World world)
+        public bool Execute()
         {
-            if (!X.HasValue || !Y.HasValue || !I.HasValue) return false;
-            var (x, y, i) = (X.Value, Y.Value, I.Value);
+            if (!Entity.HasValue || !X.HasValue || !Y.HasValue || !I.HasValue) return false;
+            var (entity, x, y, i) = (Entity.Value, X.Value, Y.Value, I.Value);
 
             var didThrow = false; // if true by the end, use up energy
 

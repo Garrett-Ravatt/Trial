@@ -151,7 +151,7 @@ namespace Trial.InputStates
                 handled = true;
             }
 
-            // Enter
+            // Execute
             else if (keyboard.IsKeyPressed(Keys.Enter))
             {
                 CommandBobber.Throw(x: mapConsole.Cursor.Position.X, y: mapConsole.Cursor.Position.Y);

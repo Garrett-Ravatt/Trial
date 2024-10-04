@@ -13,7 +13,7 @@ namespace CatalysterTest.ActTesting
         [TestMethod]
         public void ActTest1()
         {
-            var act1 = new WalkAct(0, 1);
+            var act1 = new WalkAct(x: 0, y: 1);
             var act2 = new WalkAct();
         }
 
@@ -24,13 +24,13 @@ namespace CatalysterTest.ActTesting
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
 
-            var player = ExFactory.SimpleCreature(GameMaster.World);
-            var act = new WalkAct(0, 1);
+            var creature = ExFactory.SimpleCreature(GameMaster.World);
+            var act = new WalkAct(GameMaster.World.Reference(creature), 0, 1);
 
-            var Y = player.Get<Position>().Y;
+            var Y = creature.Get<Position>().Y;
 
-            Assert.IsTrue(act.Enter(player, GameMaster.World));
-            Assert.AreNotEqual(Y, player.Get<Position>().Y);
+            Assert.IsTrue(act.Execute());
+            Assert.AreNotEqual(Y, creature.Get<Position>().Y);
         }
 
         [TestMethod]
@@ -42,10 +42,10 @@ namespace CatalysterTest.ActTesting
             GameMaster.DungeonMap.SetAllWalkable();
 
             var creature = ExFactory.SimpleCreature(GameMaster.World);
-            var act = new WalkAct(0, 1);
+            var act = new WalkAct(world.Reference(creature), 0, 1);
 
             var Y = creature.Get<Position>().Y;
-            act.Enter(creature, world);
+            act.Execute();
             Assert.AreEqual(Y + 1, creature.Get<Position>().Y);
         }
     }
