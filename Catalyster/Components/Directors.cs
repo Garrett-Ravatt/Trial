@@ -12,7 +12,13 @@ namespace Catalyster.Components
         public void Direct(Entity entity, World world)
         {
             // Run until Directive fails :)
-            while (Directive.Enter(world.Reference(entity))) {}
+            while (Directive.Enter(world.Reference(entity)))
+            {
+                if (entity.Get<Energy>().Points <= 0)
+                {
+                    return;
+                }
+            }
         }
     }
 

@@ -24,9 +24,11 @@ namespace Catalyster.Helpers
 
         public static bool ResolveMelee(MeleeAttack attack, Entity defender, string attacker = "")
         {
+            if (!defender.Has<Defense>())
+                return false;
             //NOTE: implementation assumes defender has Defense and Health components
             var toHit = attack.AttackFormula.Roll().Value;
-            var ac = defender.Get<Defense>().Class; // TODO: Diagnose error encountered here while attacking goblin
+            var ac = defender.Get<Defense>().Class;
 
             if ( toHit > ac )
             {
@@ -61,7 +63,10 @@ namespace Catalyster.Helpers
         {
             //NOTE: implementation assumes defender has Defense and Health components
             var toHit = attack.AttackFormula.Roll().Value;
-            var ac = defender.Get<Defense>().Class;
+            Defense def;
+            if (!defender.TryGet(out def))
+                return false;
+            var ac = def.Class;
 
             if (toHit > ac)
             {

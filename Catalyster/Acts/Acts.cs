@@ -16,11 +16,15 @@ namespace Catalyster.Acts
         public int? X;
         public int? Y;
 
-        public WalkAct(EntityReference? e = null, int? x = null, int? y = 0)
+        // Won't automatically attack if true
+        public bool Passive;
+
+        public WalkAct(EntityReference? e = null, int? x = null, int? y = 0, bool passive = false)
         {
             EntityRef = e;
             X = x;
             Y = y;
+            Passive = passive;
         }
 
         public bool Execute()
@@ -40,18 +44,21 @@ namespace Catalyster.Acts
                     position = newPos;
                     // TODO: refer to movement speed
                     energy.Points -= WiggleHelper.Wiggle(1000, .1);
+                    return true;
                 }
 
-                else // ran into a creature
+                else if (!Passive) // ran into a creature; attack them
                 {
+                    // TODO: swap places with friendly creature
                     var attackAct = new MeleeAttackAct(EntityRef.Value, bumped.Value.Reference());
-                    attackAct.Execute();
+                    return attackAct.Execute();
                 }
             }
 
             else if (entity.Has<Player>())
             {
                 GameMaster.MessageLog.Add("You bump into the wall. You fool.");
+                // TODO: wall bump depth check
             }
 
             return true;
@@ -157,7 +164,7 @@ namespace Catalyster.Acts
             Entity atkr;
             Entity def;
             MeleeAttack att;
-            if (!Defender.HasValue || !Attacker.HasValue)
+            if (!Defender.HasValue || !Attacker.HasValue || !Defender.Value.IsAlive())
                 return false;
             else if (!Attack.HasValue)
             {

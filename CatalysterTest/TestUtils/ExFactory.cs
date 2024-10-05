@@ -11,6 +11,7 @@ namespace CatalysterTest.TestUtils
 {
     public class ExFactory
     {
+        // NOTE: no director by default
         public static Entity SimpleCreature(World world)
         {
             return world.Create(

@@ -9,6 +9,7 @@ namespace Catalyster.Components
     public struct RightMover : IDirective
     {
         public int Cost { get; set; } = 1000;
+        public bool Passive { get; set; } = false;
         public RightMover() { }
         public bool Enter(EntityReference entityref)
         {
@@ -17,7 +18,7 @@ namespace Catalyster.Components
             ref var energy = ref entity.Get<Energy>();
             if (energy.Points <= 0) return false;
 
-            var moveAct = new WalkAct(entityref, 1, 0);
+            var moveAct = new WalkAct(entityref, 1, 0, Passive);
             moveAct.Cost = Cost;
             return moveAct.Execute();
         }
@@ -52,6 +53,41 @@ namespace Catalyster.Components
                 return expended;
             }
             catch { return false; }
+        }
+    }
+
+    public struct PursueDir : IDirective
+    {
+        public int Cost { get; set; } = 1000;
+        private EntityReference? _markRef = null;
+        public PursueDir() { }
+        public bool Enter(EntityReference entityref)
+        {
+            var entity = entityref.Entity;
+
+            Position target;
+            if (!_markRef.HasValue || !_markRef.Value.IsAlive())
+            {
+                Faction faction;
+                if (!entity.TryGet<Faction>(out faction))
+                    throw new Exception("Faction component not found.");
+                _markRef = QueryHelper.ListByQuery(faction.HostileDesc).FirstOrDefault();
+                if (_markRef == null)
+                {
+                    _markRef = null;
+                    return false;
+                }
+            }
+            target = _markRef.Value.Entity.Get<Position>();
+            var pos = entity.Get<Position>();
+
+            var x = target.X - pos.X;
+            x = Math.Clamp(x, -1, 1);
+            var y = target.Y - pos.Y;
+            y = Math.Clamp(y, -1, 1);
+
+            var move = new WalkAct(entityref, x, y);
+            return move.Execute();
         }
     }
 }

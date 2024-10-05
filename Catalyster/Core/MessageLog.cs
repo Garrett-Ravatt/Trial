@@ -3,6 +3,7 @@ using Arch.Core;
 using Arch.Core.Extensions;
 using Catalyster.Components;
 
+//TODO: EventBus (non source generated) refactor
 namespace Catalyster.Core
 {
     public struct MessageMoment
@@ -30,6 +31,7 @@ namespace Catalyster.Core
             var s = $":: :: {message}";
             Messages.Add(s);
             if (Handler != null) Handler(s);
+            Console.WriteLine($"MESSAGE: {s}");
         }
 
         // Adds a message with an identification of its source

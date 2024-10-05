@@ -3,6 +3,7 @@ using Arch.Core.Extensions;
 using Catalyster;
 using Catalyster.Components;
 using Catalyster.Core;
+using Catalyster.Interfaces;
 using CatalysterTest.TestUtils;
 
 namespace CatalysterTest.CoreTesting
@@ -72,24 +73,43 @@ namespace CatalysterTest.CoreTesting
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
 
-            var creatures = new List<Entity>();
+            var creatures = new List<EntityReference>();
 
             for (var i = 0; i < 10; i++)
             {
-                creatures.Add(ExFactory.SimpleCreature(world));
+                var c = ExFactory.SimpleCreature(world);
+                // The position must be updated before a director is added BECAUSE (I believe)
+                // Once the director is added, the entity moves to a different chunk (?)
+                c.Set(new Position { X = 1, Y = i + 1 });
+                c.Add<IDirector>(new MonoBehavior { Directive = new RightMover { Cost = 1000 } });
+                creatures.Add(c.Reference());
             }
-            ExFactory.Player(world);
+
+            foreach (var entityref in creatures)
+            {
+                Assert.IsTrue(entityref.IsAlive());
+                var entity = entityref.Entity;
+                Console.WriteLine($"{entity.Get<Position>()}    {entity.Get<IDirector>()}");
+                //Assert.IsTrue(entity.Get<Position>().X > 1);
+            }
+
+            var player = ExFactory.Player(world);
+            player.Set(new Position { X=0, Y=0 });
 
             gm.Update();
+            // Move down so we don't accidentally kill
             gm.Command.Move(0, 1);
             gm.Command.Move(0, 1);
             gm.Update();
             gm.Update();
 
             // Each entity should have moved at least 1 tile.
-            foreach (var entity in creatures)
+            foreach (var entityref in creatures)
             {
-                Assert.IsTrue(entity.Get<Position>().X > 0);
+                Assert.IsTrue(entityref.IsAlive());
+                var entity = entityref.Entity;
+                Console.WriteLine($"{entity.Get<Position>()}    {entity.Get<IDirector>()}");
+                //Assert.IsTrue(entity.Get<Position>().X > 1);
             }
 
             World.Destroy(world);

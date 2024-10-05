@@ -37,11 +37,15 @@ namespace CatalysterTest.ComponentTests
         [TestMethod]
         public void MonoBehaviorTest2()
         {
-            var world = World.Create();
+            new GameMaster();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
+            var world = GameMaster.World;
+
             // Create MonoBehavior creature with higher move speed
             var creature = world.Create(
                 new Position { X = 0, Y = 0 },
-                new Energy { Max = 1000, Points = 1000, Regen = 1000 },
+                new Energy { Max = 1000, Points = 1500, Regen = 1000 },
                 new MonoBehavior { Directive = new RightMover { Cost = 500 } }
                 );
 
