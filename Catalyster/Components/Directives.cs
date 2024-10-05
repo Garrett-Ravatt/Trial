@@ -26,7 +26,6 @@ namespace Catalyster.Components
 
     public struct MeleeNearest : IDirective
     {
-        public int Cost { get; set; } = 1000;
         public MeleeNearest() { }
         public bool Enter(EntityReference entityref)
         {
@@ -58,7 +57,6 @@ namespace Catalyster.Components
 
     public struct PursueDir : IDirective
     {
-        public int Cost { get; set; } = 1000;
         private EntityReference? _markRef = null;
         public PursueDir() { }
         public bool Enter(EntityReference entityref)
