@@ -31,19 +31,22 @@ namespace CatalysterTest.CoreTesting
             var world = World.Create();
             var order = new TurnOrder();
 
-            var e1 = ExFactory.SimpleCreature(world);
-            var e2 = ExFactory.SimpleCreature(world);
+            var e1 = ExFactory.SimpleCreature(world).Reference();
+            var e2 = ExFactory.SimpleCreature(world).Reference();
 
-            var iPosX1 = e1.Get<Position>().X;
-            var iPosX2 = e2.Get<Position>().X;
+            e1.Entity.Add(new MonoBehavior { Directive = new RightMover { Cost = 500 } });
+            e2.Entity.Add(new MonoBehavior { Directive = new RightMover { Cost = 500 } });
+
+            var iPosX1 = e1.Entity.Get<Position>().X;
+            var iPosX2 = e2.Entity.Get<Position>().X;
 
             order.Update(world);
 
-            Assert.IsTrue(e1.Get<Energy>().Points <= 0);
-            Assert.IsTrue(e2.Get<Energy>().Points <= 0);
+            Assert.IsTrue(e1.Entity.Get<Energy>().Points <= 0);
+            Assert.IsTrue(e2.Entity.Get<Energy>().Points <= 0);
 
-            Assert.IsTrue(e1.Get<Position>().X > iPosX1);
-            Assert.IsTrue(e2.Get<Position>().X > iPosX2);
+            Assert.IsTrue(e1.Entity.Get<Position>().X > iPosX1);
+            Assert.IsTrue(e2.Entity.Get<Position>().X > iPosX2);
 
             World.Destroy(world);
         }
@@ -87,19 +90,5 @@ namespace CatalysterTest.CoreTesting
 
             World.Destroy(world);
         }
-
-        //[TestMethod]
-        //public void TurnTest5()
-        //{
-        //    new GameMaster();
-        //    var world = GameMaster.World;
-        //    var order = new TurnOrder();
-
-        //    ExFactory.SimpleCreature(world);
-        //    ExFactory.SimpleCreature(world);
-        //    var player = ExFactory.Player(world);
-
-
-        //}
     }
 }
