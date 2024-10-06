@@ -41,17 +41,19 @@ namespace CatalysterTest.ComponentTests
             new GameMaster();
             var world = GameMaster.World;
             // Create cat
-            var attacker = ExFactory.SimpleCreature(world);
+            var atkr = ExFactory.SimpleCreature(world).Reference();
+            atkr.Entity.Set(new Position { X = 0, Y = 0 });
             // Create mouse
-            var defender = ExFactory.SimpleCreature(world);
+            var def = ExFactory.SimpleCreature(world).Reference();
+            def.Entity.Set(new Position { X = 1, Y = 0 });
 
-            var initialHp = defender.Get<Health>().Points;
+            var initialHp = def.Entity.Get<Health>().Points;
 
             // Perform directive
             var dir = new MeleeNearest { };
 
-            Assert.IsTrue(dir.Enter(world.Reference(attacker)));
-            Assert.IsTrue(initialHp > defender.Get<Health>().Points);
+            Assert.IsTrue(dir.Enter(atkr));
+            Assert.IsTrue(initialHp > def.Entity.Get<Health>().Points);
 
             World.Destroy(world);
         }

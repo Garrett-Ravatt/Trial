@@ -53,6 +53,21 @@ namespace CatalysterTest.ActTesting
         }
 
         [TestMethod]
+        public void MeleeActTest1()
+        {
+            var gm = new GameMaster();
+            var world = GameMaster.World;
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
+
+            var c1 = ExFactory.SimpleCreature(GameMaster.World);
+            var c2 = ExFactory.SimpleCreature(GameMaster.World);
+
+            var act = new MeleeAttackAct(c1.Reference(), c2.Reference());
+            Assert.IsTrue(act.Execute());
+        }
+
+        [TestMethod]
         public void ThrowActTest1()
         {
             var gm = new GameMaster();

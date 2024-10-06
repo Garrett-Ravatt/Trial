@@ -164,12 +164,27 @@ namespace Catalyster.Acts
             Entity atkr;
             Entity def;
             MeleeAttack att;
-            if (!Defender.HasValue || !Attacker.HasValue || !Defender.Value.IsAlive())
+            if (!Defender.HasValue || !Attacker.HasValue)
+            {
+                //TODO: generate Moment(?)
                 return false;
+            }
+            else if (!Attacker.Value.IsAlive() || !Defender.Value.IsAlive())
+            {
+                Console.Error.WriteLine($"Stale Entity Reference: {Attacker.Value} {Defender.Value}");
+                return false;
+            }
             else if (!Attack.HasValue)
             {
                 (atkr, def) = (Attacker.Value.Entity, Defender.Value.Entity);
-                ActionHelper.ResolveAttack(atkr, def);
+                if (ActionHelper.ResolveAttack(atkr, def))
+                {
+                    //atkr not defined omg
+                    var energy = atkr.Get<Energy>().Points;
+                    atkr.Get<Energy>().Points -= WiggleHelper.Wiggle(Cost, 0.1);
+                    return true;
+                }
+                return false;
             }
             else
             {
@@ -177,10 +192,10 @@ namespace Catalyster.Acts
                 var name = "";
                 if (atkr.Has<Token>())
                     ActionHelper.ResolveMelee(att, def, name);
+                ref var e = ref atkr.Get<Energy>();
+                e.Points -= WiggleHelper.Wiggle(Cost, 0.1);
+                return true;
             }
-            ref var e = ref atkr.Get<Energy>();
-            e.Points -= WiggleHelper.Wiggle(Cost, 0.1);
-            return true;
         }
     }
 }

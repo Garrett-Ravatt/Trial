@@ -11,6 +11,7 @@ namespace Catalyster.Components
         public int Cost { get; set; } = 1000;
         public bool Passive { get; set; } = false;
         public RightMover() { }
+        public IAct Act(EntityReference entityref) { return new WalkAct(entityref, x: 1, y: 0, passive: Passive); }
         public bool Enter(EntityReference entityref)
         {
             var entity = entityref.Entity;
@@ -18,8 +19,7 @@ namespace Catalyster.Components
             ref var energy = ref entity.Get<Energy>();
             if (energy.Points <= 0) return false;
 
-            var moveAct = new WalkAct(entityref, 1, 0, Passive);
-            moveAct.Cost = Cost;
+            var moveAct = (WalkAct) Act(entityref);
             return moveAct.Execute();
         }
     }
@@ -27,6 +27,7 @@ namespace Catalyster.Components
     public struct MeleeNearest : IDirective
     {
         public MeleeNearest() { }
+        public IAct Act(EntityReference entityref) { return new MeleeAttackAct(attacker:entityref); }
         public bool Enter(EntityReference entityref)
         {
             var (entity, world) = (entityref.Entity, World.Worlds[entityref.Entity.WorldId]);
@@ -38,6 +39,8 @@ namespace Catalyster.Components
 
                 var desc = new QueryDescription().WithAll<Position, Health, Defense>();
 
+                // prepare an attack action
+                var act = (MeleeAttackAct)Act(entityref);
                 var expended = false;
                 // For now, attack the first entity.
                 world.Query(in desc, (Entity target) =>
@@ -45,10 +48,11 @@ namespace Catalyster.Components
                     // TODO: check range
                     if (!expended && target!=entity)
                     {
-                        expended = ActionHelper.ResolveAttack(entity, target);
+                        //expended = ActionHelper.ResolveAttack(entity, target);
+                        act.Defender = target.Reference();
+                        expended = act.Execute();
                     }
                 });
-
                 return expended;
             }
             catch { return false; }
@@ -59,6 +63,7 @@ namespace Catalyster.Components
     {
         private EntityReference? _markRef = null;
         public PursueDir() { }
+        public IAct Act(EntityReference entityref) { return new WalkAct(entityref); }
         public bool Enter(EntityReference entityref)
         {
             var entity = entityref.Entity;
@@ -84,7 +89,9 @@ namespace Catalyster.Components
             var y = target.Y - pos.Y;
             y = Math.Clamp(y, -1, 1);
 
-            var move = new WalkAct(entityref, x, y);
+            var move = (WalkAct)Act(entityref);
+            move.X = x;
+            move.Y = y;
             return move.Execute();
         }
     }
