@@ -23,7 +23,7 @@ namespace CatalysterTest.Muck
     }
 
     [TestClass]
-    internal class EventBusMuck
+    internal class ArchEventBusMuck
     {
         [TestMethod]
         public void Test1()
