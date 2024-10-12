@@ -1,0 +1,2 @@
+﻿Muck tests are not integration tests, they are example code to learn how to use external packages in accordance with the principles of TDD.
+Being that the results of these tests do not change, once Muck test file runs successfully, its tests are made internal to prevent them from cluttering the unit testing environment.
