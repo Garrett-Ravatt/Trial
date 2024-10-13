@@ -3,15 +3,9 @@ using Arch.Core;
 using Arch.Core.Extensions;
 using Catalyster.Components;
 
-//TODO: EventBus (non source generated) refactor
 namespace Catalyster.Core
 {
-    public struct MessageMoment
-    {
-        public string Speaker;
-        public string Message;
-    }
-
+    // TODO: phase out
     public delegate void Callback(string message);
 
     public class MessageLog
@@ -19,11 +13,13 @@ namespace Catalyster.Core
         public List<string> Messages = new List<string>();
         public Callback Handler;
 
-        public MessageLog() { }
 
-        public MessageLog(List<string> messages)
+        public MessageLog(List<string>? messages = null)
         {
-            Messages = messages;
+            if (messages != null)
+                Messages = messages;
+
+            // TODO: Set up Subscriptions
         }
 
         public void Add(string message)
@@ -50,7 +46,7 @@ namespace Catalyster.Core
             }
             else
             {
-                IDAdd("unknown", message);
+                IDAdd("???", message);
             }
         }
 

@@ -13,10 +13,10 @@ namespace CatalysterTest.Muck
     }
 
     [TestClass]
-    public class EventBusMuck
+    internal class TinyMessengerMuck
     {
         [TestMethod]
-        internal void BusTest1()
+        public void BusTest1()
         {
             var messengerHub = new TinyMessengerHub();
 
