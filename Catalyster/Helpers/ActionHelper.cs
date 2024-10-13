@@ -1,6 +1,7 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
 using Catalyster.Components;
+using Catalyster.Messages;
 
 namespace Catalyster.Helpers
 {
@@ -37,11 +38,14 @@ namespace Catalyster.Helpers
 
                 var damage = attack.DamageFormula.Roll().Value;
                 GameMaster.MessageLog.IDAdd(attacker, $"hits [{toHit}] for {damage} damage");
+                GameMaster.MessageLog.Hub.Publish(new MeleeAttackMessage(attack, attacker, toHit, damage));
                 
                 health.Points -= damage;
                 if (health.Points <=0)
                 {
                     GameMaster.MessageLog.IDAdd(defender, "dies!");
+                    // TODO: Publish
+
                     //Console.WriteLine($"{defender} dies!");
                     //TODO: needs test coverage.
                     GameMaster.World.Destroy(defender);
@@ -52,10 +56,11 @@ namespace Catalyster.Helpers
             else
             {
                 GameMaster.MessageLog.IDAdd(attacker, $"misses [{toHit}]");
+                // TODO: Publish
             }
 
             GameMaster.MessageLog.IDAdd(defender, "successfully defends.");
-            Console.WriteLine($"{defender} successfully defends.");
+            // TODO: Publish
             return false;
         }
 
