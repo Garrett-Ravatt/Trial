@@ -13,6 +13,7 @@ namespace Catalyster
 
         public static MessageLog MessageLog { get; private set; }
 
+        // TODO: Consolidate constructors
         public GameMaster(DungeonMap dungeonMap)
         {
             DungeonMap = dungeonMap;

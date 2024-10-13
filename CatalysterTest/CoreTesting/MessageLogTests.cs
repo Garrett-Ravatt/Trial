@@ -1,4 +1,5 @@
 ﻿using Catalyster.Core;
+using Catalyster.Messages;
 
 namespace CatalysterTest.CoreTesting
 {
@@ -18,6 +19,18 @@ namespace CatalysterTest.CoreTesting
         {
             var log = new MessageLog();
             log.IDAdd("Wizard", "I, me, a Wizard!");
+            Assert.AreEqual(":: Wizard :: I, me, a Wizard!", log.Messages.First());
+        }
+
+        [TestMethod]
+        public void MessageLogTest3()
+        {
+            var log = new MessageLog();
+            //hub.Subscribe<DialogueMessage>(msg => log.IDAdd(msg.Source, msg.Content));
+
+            var msg = new DialogueMessage(this, "Wizard", "I, me, a Wizard!");
+            log.Hub.Publish(msg);
+
             Assert.AreEqual(":: Wizard :: I, me, a Wizard!", log.Messages.First());
         }
     }
