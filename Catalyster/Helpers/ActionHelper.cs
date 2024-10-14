@@ -60,8 +60,7 @@ namespace Catalyster.Helpers
             }
 
             GameMaster.MessageLog.Hub.Publish(msg);
-            // TODO: Publish
-            return false;
+            return true;
         }
 
         public static bool ResolveRanged(RangedAttack attack, Entity defender, Entity attacker)
