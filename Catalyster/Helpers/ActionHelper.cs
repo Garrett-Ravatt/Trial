@@ -80,7 +80,9 @@ namespace Catalyster.Helpers
 
                 var damage = attack.DamageFormula.Roll().Value;
                 // TODO: Message
-                GameMaster.MessageLog.IDAdd(attacker, $"hits [{toHit}] for {damage} damage");
+                GameMaster.MessageLog.Hub.Publish(
+                    new RangedAttackMessage(attack, attacker.Reference(), defender.Reference(), toHit, damage
+                    ));
 
                 health.Points -= damage;
                 if (health.Points <= 0)
@@ -93,13 +95,10 @@ namespace Catalyster.Helpers
                 return true;
             }
 
-            else
-            {
-                GameMaster.MessageLog.IDAdd(attacker, $"misses [{toHit}]");
-            }
+            GameMaster.MessageLog.Hub.Publish(
+                    new RangedAttackMessage(attack, attacker.Reference(), defender.Reference(), toHit, hit:false
+                    ));
 
-            GameMaster.MessageLog.IDAdd(defender, "successfully defends.");
-            Console.WriteLine($"{defender} successfully defends.");
             return false;
         }
     }

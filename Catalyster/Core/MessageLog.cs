@@ -4,6 +4,7 @@ using Arch.Core.Extensions;
 using TinyMessenger;
 using Catalyster.Components;
 using Catalyster.Messages;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Catalyster.Core
 {
@@ -35,7 +36,18 @@ namespace Catalyster.Core
                 }
             });
 
-            Hub.Subscribe<DeathMessage>(msg => IDAdd(msg.Ref.Entity.Get<Token>().Name, "dies!"));
+            Hub.Subscribe<RangedAttackMessage>(msg =>
+            {
+                if (msg.Hit)
+                    IDAdd(msg.Attacker, $"hits [{msg.ToHit}] for {msg.Damage} damage");
+                else
+                {
+                    IDAdd(msg.Attacker, $"misses [{msg.ToHit}]");
+                    IDAdd(msg.Defender, "successfully defends.");
+                }
+            });
+
+                Hub.Subscribe<DeathMessage>(msg => IDAdd(msg.Ref.Entity.Get<Token>().Name, "dies!"));
         }
 
         public void Add(string content)
