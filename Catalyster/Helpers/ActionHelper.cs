@@ -2,8 +2,6 @@
 using Arch.Core.Extensions;
 using Catalyster.Components;
 using Catalyster.Messages;
-using TinyMessenger;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Catalyster.Helpers
 {
@@ -33,7 +31,6 @@ namespace Catalyster.Helpers
             {
                 msg.Hit = true;
 
-                //Console.WriteLine($"{defender} is hurt.");
                 ref var health = ref defender.Get<Health>();
 
                 var damage = attack.DamageFormula.Roll().Value;
@@ -55,8 +52,6 @@ namespace Catalyster.Helpers
             else
             {
                 msg.Hit = false;
-                //GameMaster.MessageLog.IDAdd(attacker, $"misses [{toHit}]");
-                // TODO: Publish
             }
 
             GameMaster.MessageLog.Hub.Publish(msg);

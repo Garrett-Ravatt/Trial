@@ -4,7 +4,6 @@ using Arch.Core.Extensions;
 using TinyMessenger;
 using Catalyster.Components;
 using Catalyster.Messages;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Catalyster.Core
 {
