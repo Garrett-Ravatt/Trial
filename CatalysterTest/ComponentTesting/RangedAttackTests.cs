@@ -32,7 +32,7 @@ namespace CatalysterTest.ComponentTesting
 
             var hp_0 = defender.Get<Health>().Points;
 
-            Assert.IsTrue(ActionHelper.ResolveRanged(attacker.Get<RangedAttack>(), defender));
+            Assert.IsTrue(ActionHelper.ResolveRanged(attacker.Get<RangedAttack>(), defender, attacker));
 
             var hp_1 = defender.Get<Health>().Points;
 
@@ -52,7 +52,7 @@ namespace CatalysterTest.ComponentTesting
 
             var hp_0 = defender.Get<Health>().Points;
 
-            Assert.IsTrue(ActionHelper.ResolveRanged(attacker.Get<RangedAttack>(), defender));
+            Assert.IsTrue(ActionHelper.ResolveRanged(attacker.Get<RangedAttack>(), defender, attacker));
 
             var hp_1 = defender.Get<Health>().Points;
 

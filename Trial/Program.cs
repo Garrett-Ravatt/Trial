@@ -47,7 +47,7 @@ namespace Trial
             GameMaster = new GameMaster(map);
             DrawingMap = map;
 
-            // EntityRef generation
+            // Ref generation
             var worldModel = new Model<World>()
                 .Step(new POIGen(map))
                 .Step(new POIPlayer())

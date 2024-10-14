@@ -8,7 +8,7 @@ namespace Catalyster.Components
     // Are you ok? This is the stat for that
     public struct  Health { public int Points, Max; };
 
-    // Form and damage for a single attack. An EntityRef can have many.
+    // Form and damage for a single attack. An Ref can have many.
     public struct MeleeAttack { public DiceExpression AttackFormula, DamageFormula; };
 
     // Range, then form and damage for a single ranged attack.

@@ -11,7 +11,7 @@ namespace Catalyster.Core
 {
     public class Command
     {
-        // The EntityRef being controlled
+        // The Ref being controlled
         public Entity? Entity;
         public Command() { }
 
@@ -34,7 +34,7 @@ namespace Catalyster.Core
             }
             else
             {
-                Console.WriteLine("Command.EntityRef is null");
+                Console.WriteLine("Command.Ref is null");
                 return false;
             }
         }

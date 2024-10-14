@@ -2,6 +2,8 @@
 using Arch.Core.Extensions;
 using Catalyster.Components;
 using Catalyster.Messages;
+using TinyMessenger;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Catalyster.Helpers
 {
@@ -9,21 +11,15 @@ namespace Catalyster.Helpers
     {
         public static bool ResolveAttack(Entity attacker, Entity defender)
         {
-            var attackerName = "";
-            if (attacker.Has<Token>())
-            {
-                attackerName = attacker.Get<Token>().Name;
-            }
-
             if ( attacker.Has<MeleeAttack>() )
             {
-                return ResolveMelee(attacker.Get<MeleeAttack>(), defender, attackerName);
+                return ResolveMelee(attacker.Get<MeleeAttack>(), defender, attacker);
             }
 
             return false;
         }
 
-        public static bool ResolveMelee(MeleeAttack attack, Entity defender, string attacker = "")
+        public static bool ResolveMelee(MeleeAttack attack, Entity defender, Entity attacker)
         {
             if (!defender.Has<Defense>())
                 return false;
@@ -31,22 +27,25 @@ namespace Catalyster.Helpers
             var toHit = attack.AttackFormula.Roll().Value;
             var ac = defender.Get<Defense>().Class;
 
+            var msg = new MeleeAttackMessage(attack, attacker.Reference(), defender.Reference(), toHit);
+
             if ( toHit > ac )
             {
+                msg.Hit = true;
+
                 //Console.WriteLine($"{defender} is hurt.");
                 ref var health = ref defender.Get<Health>();
 
                 var damage = attack.DamageFormula.Roll().Value;
-                GameMaster.MessageLog.IDAdd(attacker, $"hits [{toHit}] for {damage} damage");
-                GameMaster.MessageLog.Hub.Publish(new MeleeAttackMessage(attack, attacker, toHit, damage));
+                msg.Damage = damage;
                 
+                GameMaster.MessageLog.Hub.Publish(msg);
+
                 health.Points -= damage;
                 if (health.Points <=0)
                 {
-                    GameMaster.MessageLog.IDAdd(defender, "dies!");
-                    // TODO: Publish
+                    GameMaster.MessageLog.Hub.Publish(new DeathMessage(attack, defender.Reference()));
 
-                    //Console.WriteLine($"{defender} dies!");
                     //TODO: needs test coverage.
                     GameMaster.World.Destroy(defender);
                 }
@@ -55,16 +54,17 @@ namespace Catalyster.Helpers
             
             else
             {
-                GameMaster.MessageLog.IDAdd(attacker, $"misses [{toHit}]");
+                msg.Hit = false;
+                //GameMaster.MessageLog.IDAdd(attacker, $"misses [{toHit}]");
                 // TODO: Publish
             }
 
-            GameMaster.MessageLog.IDAdd(defender, "successfully defends.");
+            GameMaster.MessageLog.Hub.Publish(msg);
             // TODO: Publish
             return false;
         }
 
-        public static bool ResolveRanged(RangedAttack attack, Entity defender, string attacker = "")
+        public static bool ResolveRanged(RangedAttack attack, Entity defender, Entity attacker)
         {
             //NOTE: implementation assumes defender has Defense and Health components
             var toHit = attack.AttackFormula.Roll().Value;
@@ -79,12 +79,13 @@ namespace Catalyster.Helpers
                 ref var health = ref defender.Get<Health>();
 
                 var damage = attack.DamageFormula.Roll().Value;
+                // TODO: Message
                 GameMaster.MessageLog.IDAdd(attacker, $"hits [{toHit}] for {damage} damage");
 
                 health.Points -= damage;
                 if (health.Points <= 0)
                 {
-                    GameMaster.MessageLog.IDAdd(defender, "dies!");
+                    GameMaster.MessageLog.Hub.Publish(new DeathMessage(attack, defender.Reference()));
                     Console.WriteLine($"{defender} dies!");
                     //TODO: needs test coverage.
                     GameMaster.World.Destroy(defender);

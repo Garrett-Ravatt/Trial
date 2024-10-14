@@ -22,8 +22,20 @@ namespace Catalyster.Core
             if (messages != null)
                 Messages = messages;
 
-            // TODO: Set up Subscriptions
+            // Set up Message Subscriptions
             Hub.Subscribe<DialogueMessage>(msg => IDAdd(msg.Source, msg.Content));
+
+            Hub.Subscribe<MeleeAttackMessage>(msg => {
+                if (msg.Hit)
+                    IDAdd(msg.Attacker, $"hits [{msg.ToHit}] for {msg.Damage} damage");
+                else
+                {
+                    IDAdd(msg.Attacker, $"misses [{msg.ToHit}]");
+                    IDAdd(msg.Defender, "successfully defends.");
+                }
+            });
+
+            Hub.Subscribe<DeathMessage>(msg => IDAdd(msg.Ref.Entity.Get<Token>().Name, "dies!"));
         }
 
         public void Add(string content)

@@ -101,7 +101,7 @@ namespace Catalyster.Acts
                 if (!SpatialHelper.ClearOrAssign(x, y, ref bumped))
                 {
                     // Resolve an attack attempt
-                    ActionHelper.ResolveRanged(ItemPropHelper.ThrownAttack(item), bumped.Value);
+                    ActionHelper.ResolveRanged(ItemPropHelper.ThrownAttack(item), bumped.Value, entity.Reference());
                 }
                 item.Entity.Add(new Position { X = x, Y = y });
             }
@@ -130,7 +130,7 @@ namespace Catalyster.Acts
                                 DamageFormula = bombFormula
                             };
                             // Resolve an attack attempt
-                            ActionHelper.ResolveRanged(rangedAttack, bumped.Value, attacker: "Bomb");
+                            ActionHelper.ResolveRanged(rangedAttack, bumped.Value, attacker: item);
                         }
                     }
                 }
@@ -191,7 +191,7 @@ namespace Catalyster.Acts
                 (atkr, def, att) = (Attacker.Value.Entity, Defender.Value.Entity, Attack.Value);
                 var name = "";
                 if (atkr.Has<Token>())
-                    ActionHelper.ResolveMelee(att, def, name);
+                    ActionHelper.ResolveMelee(att, def, atkr);
                 ref var e = ref atkr.Get<Energy>();
                 e.Points -= WiggleHelper.Wiggle(Cost, 0.1);
                 return true;
