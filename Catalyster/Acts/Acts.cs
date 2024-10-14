@@ -180,8 +180,6 @@ namespace Catalyster.Acts
                 (atkr, def) = (Attacker.Value.Entity, Defender.Value.Entity);
                 if (ActionHelper.ResolveAttack(atkr, def))
                 {
-                    //atkr not defined omg
-                    var energy = atkr.Get<Energy>().Points;
                     atkr.Get<Energy>().Points -= WiggleHelper.Wiggle(Cost, 0.1);
                     return true;
                 }
@@ -190,9 +188,7 @@ namespace Catalyster.Acts
             else
             {
                 (atkr, def, att) = (Attacker.Value.Entity, Defender.Value.Entity, Attack.Value);
-                var name = "";
-                if (atkr.Has<Token>())
-                    ActionHelper.ResolveMelee(att, def, atkr);
+                ActionHelper.ResolveMelee(att, def, atkr);
                 ref var e = ref atkr.Get<Energy>();
                 e.Points -= WiggleHelper.Wiggle(Cost, 0.1);
                 return true;

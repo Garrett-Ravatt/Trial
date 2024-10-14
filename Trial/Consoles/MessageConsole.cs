@@ -1,6 +1,9 @@
 ﻿using SadConsole.Instructions;
-using Catalyster.Core;
+using Catalyster.Messages;
 using Catalyster;
+using Arch.Core;
+using Arch.Core.Extensions;
+using Catalyster.Components;
 
 namespace Trial.Consoles
 {
@@ -19,7 +22,52 @@ namespace Trial.Consoles
             Cursor.IsVisible = true;
 
             Type(":: :: Your task comes to hand.");
-            GameMaster.MessageLog.Handler += Type;
+            //GameMaster.MessageLog.Handler += Type;
+
+            var hub = GameMaster.MessageLog.Hub;
+
+            hub.Subscribe<DialogueMessage>(msg => IDType(msg.Source, msg.Content));
+
+            hub.Subscribe<MeleeAttackMessage>(msg => {
+                if (msg.Hit)
+                    IDType(msg.Attacker, $"hits [{msg.ToHit}] for {msg.Damage} damage");
+                else
+                {
+                    IDType(msg.Attacker, $"misses [{msg.ToHit}]");
+                    IDType(msg.Defender, "successfully defends.");
+                }
+            });
+
+            hub.Subscribe<RangedAttackMessage>(msg =>
+            {
+                if (msg.Hit)
+                    IDType(msg.Attacker, $"hits [{msg.ToHit}] for {msg.Damage} damage");
+                else
+                {
+                    IDType(msg.Attacker, $"misses [{msg.ToHit}]");
+                    IDType(msg.Defender, "successfully defends.");
+                }
+            });
+
+            hub.Subscribe<DeathMessage>(msg => IDType(msg.Ref.Entity.Get<Token>().Name, "dies!"));
+
+            hub.Subscribe<WallBumpMessage>(msg => Type(":: :: You bump into the wall. You fool."));
+
+            hub.Subscribe<ItemCollectedMessage>(msg => Type($"{msg.ItemEntity.Entity.Get<Token>().Name} Collected."));
+        }
+
+        public void IDType(EntityReference source, string message)
+        {
+            string name = "";
+            Token t;
+            if (source.IsAlive() && source.Entity.TryGet<Token>(out t))
+                name = t.Name;
+            IDType(name, message);
+        }
+
+        public void IDType(string source, string message)
+        {
+            Type($":: {source} :: {message}");
         }
 
         public void Type(string message)

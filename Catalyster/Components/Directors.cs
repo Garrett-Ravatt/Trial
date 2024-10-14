@@ -1,5 +1,6 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
+using Catalyster.Acts;
 using Catalyster.Helpers;
 using Catalyster.Interfaces;
 
@@ -59,8 +60,8 @@ namespace Catalyster.Components
             {
                 if (SpatialHelper.LazyDist(pos, target) <= 1)
                 {
-                    ActionHelper.ResolveAttack(entity, _markRef.Value.Entity);
-                    energy.Points -= WiggleHelper.Wiggle(1000, .1); // TODO: replace with attack cost
+                    var att = new MeleeAttackAct(entity.Reference(), _markRef.Value);
+                    att.Execute();
                 }
                 else
                 {
@@ -69,22 +70,24 @@ namespace Catalyster.Components
                     var y = target.Y - pos.Y;
                     y = Math.Clamp(y, -1, 1);
                     
+                    var act = new WalkAct(entity.Reference());
+
                     // TODO: refactor to static method elsewhere.
                     if (GameMaster.DungeonMap.IsWalkable(pos.X+x, pos.Y+y))
                     {
-                        pos.X += x;
-                        pos.Y += y;
+                        act.X = x;
+                        act.Y = y;
                     }
                     else if (GameMaster.DungeonMap.IsWalkable(pos.X+x, pos.Y))
                     {
-                        pos.X += x;
+                        act.X = x;
                     }
                     else if (GameMaster.DungeonMap.IsWalkable(pos.X, pos.Y+y))
                     {
-                        pos.Y += y;
+                        act.Y += y;
                     }
 
-                    energy.Points -= WiggleHelper.Wiggle(1000, .1); // TODO: replace with movement cost
+                    act.Execute();
                 }
             }
 
