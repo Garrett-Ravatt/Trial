@@ -4,7 +4,7 @@ using Catalyster;
 using Catalyster.Acts;
 using Catalyster.Components;
 using Catalyster.Helpers;
-using CommunityToolkit.HighPerformance.Extensions;
+using Catalyster.Messages;
 using Inventory = Catalyster.Items.Inventory;
 
 namespace Catalyster.Core
@@ -52,7 +52,7 @@ namespace Catalyster.Core
             var inv = player.Get<Inventory>();
 
             // Look for items, collect them
-            // TODO: Move somewhere else?
+            // TODO: Refactor as an Act
             GameMaster.World.Query(
                 in new QueryDescription().WithAll<Token, Position, Item>(),
                 (Entity entity, ref Token token, ref Position pos, ref Item item) =>
@@ -61,9 +61,11 @@ namespace Catalyster.Core
                     // TODO: Check inventory capacity
                     if (SpatialHelper.LazyDist(position, pos) <= 1)
                     {
-                        entity.Remove<Position>(); //NOTE: potentially unsafe.
-                        inv.Items.Add(entity.Reference());
-                        GameMaster.MessageLog.Add($"{token.Name} Collected.");
+                        var entityRef = entity.Reference();
+                        entity.Remove<Position>();
+                        inv.Items.Add(entityRef);
+                        GameMaster.MessageLog.Hub.Publish(new ItemCollectedMessage(player, player.Reference(), entityRef, item));
+                        //GameMaster.MessageLog.Add($"{token.Name} Collected.");
                     }
                 });
         }

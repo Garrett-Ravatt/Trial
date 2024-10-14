@@ -4,6 +4,7 @@ using Catalyster.Components;
 using Catalyster.Helpers;
 using Catalyster.Interfaces;
 using Catalyster.Items;
+using Catalyster.Messages;
 
 namespace Catalyster.Acts
 {
@@ -57,7 +58,7 @@ namespace Catalyster.Acts
 
             else if (entity.Has<Player>())
             {
-                GameMaster.MessageLog.Add("You bump into the wall. You fool.");
+                GameMaster.MessageLog.Hub.Publish(new WallBumpMessage(this, x, y, entity.Reference()));
                 // TODO: wall bump depth check
             }
 

@@ -47,7 +47,11 @@ namespace Catalyster.Core
                 }
             });
 
-                Hub.Subscribe<DeathMessage>(msg => IDAdd(msg.Ref.Entity.Get<Token>().Name, "dies!"));
+            Hub.Subscribe<DeathMessage>(msg => IDAdd(msg.Ref.Entity.Get<Token>().Name, "dies!"));
+
+            Hub.Subscribe<WallBumpMessage>(msg => Add("You bump into the wall. You fool."));
+
+            Hub.Subscribe<ItemCollectedMessage>(msg => Add($"{msg.ItemEntity.Entity.Get<Token>().Name} Collected."));
         }
 
         public void Add(string content)
