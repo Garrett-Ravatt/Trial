@@ -41,10 +41,15 @@ namespace Catalyster.Core
                             while (energy.Points > 0)
                             {
                                 var act = director.Direct(entity, world);
-                                if (act != null)
-                                    act.Execute();
-                                else
+                                
+                                if (act == null)
+                                {
+                                    // TODO: Throw or warn
                                     break;
+                                }
+
+                                while (act != null && energy.Points > 0)
+                                    act = act.Execute();
                             }
                         }
                     }
