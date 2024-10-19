@@ -36,9 +36,16 @@ namespace Catalyster.Core
                         }
                         else
                         {
-                            //Console.WriteLine($"Calling director {entity}");
                             ref var director = ref entity.Get<IDirector>();
-                            director.Direct(entity, world);
+                            ref var energy = ref entity.Get<Energy>();
+                            while (energy.Points > 0)
+                            {
+                                var act = director.Direct(entity, world);
+                                if (act != null)
+                                    act.Execute();
+                                else
+                                    break;
+                            }
                         }
                     }
                 }

@@ -6,6 +6,8 @@ using Arch.Core.Extensions;
 using Inventory = Catalyster.Items.Inventory;
 using Arch.Core;
 using System.Numerics;
+using Catalyster.Messages;
+using Microsoft.VisualBasic.FileIO;
 
 namespace CatalysterTest.ActTesting
 {
@@ -31,8 +33,7 @@ namespace CatalysterTest.ActTesting
             var act = new WalkAct(GameMaster.World.Reference(creature), 0, 1);
 
             var Y = creature.Get<Position>().Y;
-
-            Assert.IsTrue(act.Execute());
+            Assert.IsNull(act.Execute());
             Assert.AreNotEqual(Y, creature.Get<Position>().Y);
         }
 
@@ -53,6 +54,23 @@ namespace CatalysterTest.ActTesting
         }
 
         [TestMethod]
+        public void ActTest4()
+        {
+            var gm = new GameMaster();
+            var world = GameMaster.World;
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
+
+            var creature = ExFactory.SimpleCreature(GameMaster.World);
+            creature.Get<Energy>().Points += 1000;
+            var act = new WalkAct(creature.Reference(), 0, 1);
+
+            var Y = creature.Get<Position>().Y;
+            Assert.IsNull(act.Execute());
+            Assert.AreEqual(Y + 1, creature.Get<Position>().Y);
+        }
+
+        [TestMethod]
         public void MeleeActTest1()
         {
             var gm = new GameMaster();
@@ -64,7 +82,11 @@ namespace CatalysterTest.ActTesting
             var c2 = ExFactory.SimpleCreature(GameMaster.World);
 
             var act = new MeleeAttackAct(c1.Reference(), c2.Reference());
-            Assert.IsTrue(act.Execute());
+
+            var formed = false;
+            GameMaster.MessageLog.Hub.Subscribe<MeleeAttackMessage>(msg => formed = true);
+            act.Execute();
+            Assert.IsTrue(formed);
         }
 
         [TestMethod]
@@ -82,7 +104,8 @@ namespace CatalysterTest.ActTesting
             };
             c1.Add(new Inventory(items));
             var act = new ThrowAct(world.Reference(c1), 0, 1, 0);
-            Assert.IsTrue(act.Execute());
+            //TODO: verify act did resolve
+            Assert.IsNull(act.Execute());
             Assert.IsTrue(item.Has<Position>());
         }
     }

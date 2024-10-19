@@ -2,6 +2,7 @@
 using Arch.Core.Extensions;
 using Catalyster;
 using Catalyster.Components;
+using Catalyster.Components.Directors;
 using Catalyster.Helpers;
 using Catalyster.Interfaces;
 using Catalyster.Messages;

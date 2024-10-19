@@ -19,14 +19,19 @@ namespace Catalyster.Acts
             X = x; Y = y; I = i;
         }
 
-        public bool Execute()
+        public IAct? Execute()
         {
             if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue || !I.HasValue)
-                return false;
+            {
+                //TODO: throw error
+                return null;
+            }
             var (entity, x, y, i) = (EntityRef.Value.Entity, X.Value, Y.Value, I.Value);
 
             if (entity.Has<Player>() && !GameMaster.DungeonMap.IsInFov(x, y))
-                return false;
+            {
+                return null;
+            }
 
             ref var energy = ref entity.Get<Energy>();
 
@@ -34,7 +39,8 @@ namespace Catalyster.Acts
             if (item == null)
             {
                 Console.WriteLine($"Invalid item index {i} was selected");
-                return false;
+                //TODO: error or input polling
+                return null;
             }
 
             // Check for a target.
@@ -45,6 +51,7 @@ namespace Catalyster.Acts
                     // Resolve an attack attempt
                     ActionHelper.ResolveRanged(ItemPropHelper.ThrownAttack(item), bumped.Value, entity.Reference());
                 }
+                //TODO: Message publication
                 item.Entity.Add(new Position { X = x, Y = y });
             }
 
@@ -82,7 +89,7 @@ namespace Catalyster.Acts
             // TODO: Dispose of the thrown item entity and contents
             entity.Get<Inventory>().Items.RemoveAt(i);
 
-            return true;
+            return null;
         }
     }
 }

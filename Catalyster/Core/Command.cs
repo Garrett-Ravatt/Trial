@@ -22,7 +22,7 @@ namespace Catalyster.Core
         }
 
         // try to go somewhere.
-        public bool Move(int X, int Y)
+        public void Move(int X, int Y)
         {
             if (Entity != null)
             {
@@ -30,12 +30,12 @@ namespace Catalyster.Core
                 var walkAct = new WalkAct(GameMaster.World.Reference(e), X, Y);
                 var b = walkAct.Execute();
                 CheckEnergy(e.Get<Energy>().Points);
-                return b;
+                return;
             }
             else
             {
                 Console.WriteLine("Command.Ref is null");
-                return false;
+                return;
             }
         }
 
@@ -79,9 +79,9 @@ namespace Catalyster.Core
             var entity = Entity.Value;
             var throwAct = new ThrowAct(GameMaster.World.Reference(entity), x, y, i);
 
-            var didThrow = throwAct.Execute();
+            throwAct.Execute();
             CheckEnergy(entity.Get<Energy>().Points);
-            return didThrow;
+            return true;
         }
 
         // Check if the player's turn is now over.

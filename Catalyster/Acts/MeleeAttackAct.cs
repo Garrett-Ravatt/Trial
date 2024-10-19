@@ -21,7 +21,7 @@ namespace Catalyster.Acts
             Attack = attack;
         }
 
-        public bool Execute()
+        public IAct? Execute()
         {
             Entity atkr;
             Entity def;
@@ -29,12 +29,12 @@ namespace Catalyster.Acts
             if (!Defender.HasValue || !Attacker.HasValue)
             {
                 //TODO: generate Moment(?)
-                return false;
+                return null;
             }
             else if (!Attacker.Value.IsAlive() || !Defender.Value.IsAlive())
             {
                 Console.Error.WriteLine($"Stale Entity Reference: {Attacker.Value} {Defender.Value}");
-                return false;
+                return null;
             }
             else if (!Attack.HasValue)
             {
@@ -42,9 +42,9 @@ namespace Catalyster.Acts
                 if (ActionHelper.ResolveAttack(atkr, def))
                 {
                     atkr.Get<Energy>().Points -= WiggleHelper.Wiggle(Cost, 0.1);
-                    return true;
+                    //return true;
                 }
-                return false;
+                return null;
             }
             else
             {
@@ -52,7 +52,8 @@ namespace Catalyster.Acts
                 ActionHelper.ResolveMelee(att, def, atkr);
                 ref var e = ref atkr.Get<Energy>();
                 e.Points -= WiggleHelper.Wiggle(Cost, 0.1);
-                return true;
+                //return true;
+                return null;
             }
         }
     }

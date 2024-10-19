@@ -1,9 +1,7 @@
 ﻿using Catalyster.Components;
+using Catalyster.Components.Directives;
 using Arch.Core;
 using Arch.Core.Extensions;
-using Catalyster.Interfaces;
-using RogueSharp.DiceNotation;
-using Catalyster.Helpers;
 using CatalysterTest.TestUtils;
 using Catalyster;
 
@@ -27,7 +25,9 @@ namespace CatalysterTest.ComponentTests
 
             // Perform directive
             var dir = new RightMover { Cost = 100 };
-            dir.Enter(world.Reference(e));
+            var act = dir.Enter(world.Reference(e));
+            Assert.IsNotNull(act);
+            Assert.IsNull(act.Execute());
 
             Assert.AreEqual(1, e.Get<Position>().X);
             Assert.IsTrue(e.Get<Energy>().Points <= 100);
@@ -52,7 +52,9 @@ namespace CatalysterTest.ComponentTests
             // Perform directive
             var dir = new MeleeNearest { };
 
-            Assert.IsTrue(dir.Enter(atkr));
+            var act = dir.Enter(atkr);
+            Assert.IsNotNull(act);
+            act.Execute();
             Assert.IsTrue(initialHp > def.Entity.Get<Health>().Points);
 
             World.Destroy(world);
@@ -78,7 +80,9 @@ namespace CatalysterTest.ComponentTests
             // Perform directive
             var dir = new PursueDir { };
 
-            Assert.IsTrue(dir.Enter(world.Reference(cat)));
+            var act = dir.Enter(world.Reference(cat));
+            Assert.IsNotNull(act);
+            act.Execute();
             Assert.AreEqual(cat.Get<Position>().Y, 1);
             Assert.AreEqual(cat.Get<Position>().X, 1);
 
@@ -104,7 +108,9 @@ namespace CatalysterTest.ComponentTests
             // Perform directive
             var dir = new PursueDir { };
 
-            Assert.IsTrue(dir.Enter(world.Reference(cat)));
+            var act = dir.Enter(world.Reference(cat));
+            Assert.IsNotNull(act);
+            act.Execute();
             Assert.AreEqual(cat.Get<Position>().Y, 0);
             Assert.AreEqual(cat.Get<Position>().X, 0);
 

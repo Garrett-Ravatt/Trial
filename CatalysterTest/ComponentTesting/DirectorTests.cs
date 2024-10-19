@@ -2,6 +2,8 @@
 using Arch.Core.Extensions;
 using Catalyster;
 using Catalyster.Components;
+using Catalyster.Components.Directives;
+using Catalyster.Components.Directors;
 using Catalyster.Helpers;
 using Catalyster.Interfaces;
 using CatalysterTest.TestUtils;
@@ -14,7 +16,11 @@ namespace CatalysterTest.ComponentTests
         [TestMethod]
         public void MonoBehaviorTest1()
         {
-            var world = World.Create();
+            new GameMaster();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
+            var world = GameMaster.World;
+
             // Create MonoBehavior creature
             var creature = world.Create(
                 new Position { X = 0, Y = 0 },
@@ -23,9 +29,13 @@ namespace CatalysterTest.ComponentTests
                 );
 
             // Simulate one turn
-            world.Query(in new QueryDescription().WithAll<MonoBehavior>(), (Entity e, ref MonoBehavior behavior) =>
+            world.Query(in new QueryDescription().WithAll<MonoBehavior, Energy>(), (Entity e, ref MonoBehavior behavior, ref Energy energy) =>
             {
-                behavior.Direct(e, world);
+                while (energy.Points > 0)
+                {
+                    var act = behavior.Direct(e, world);
+                    act.Execute();
+                }
             });
 
             Assert.IsTrue(creature.Get<Position>().X >= 1);
@@ -50,9 +60,13 @@ namespace CatalysterTest.ComponentTests
                 );
 
             // Simulate a turn (where creature should have two moves)
-            world.Query(in new QueryDescription().WithAll<MonoBehavior>(), (Entity e, ref MonoBehavior behavior) =>
+            world.Query(in new QueryDescription().WithAll<MonoBehavior, Energy>(), (Entity e, ref MonoBehavior behavior, ref Energy energy) =>
             {
-                behavior.Direct(e, world);
+                while (energy.Points > 0)
+                {
+                    var act = behavior.Direct(e, world);
+                    act.Execute();
+                }
             });
 
             // Assert.AreEqual(2, creature.Get<Position>().X);
@@ -73,9 +87,15 @@ namespace CatalysterTest.ComponentTests
                 );
 
             // Simulate one turn
-            world.Query(in new QueryDescription().WithAll<IDirector>(), (Entity e, ref IDirector behavior) =>
+
+            world.Query(in new QueryDescription().WithAll<IDirector, Energy>(), (Entity e, ref IDirector behavior, ref Energy energy) =>
             {
-                behavior.Direct(e, world);
+                while (energy.Points > 0)
+                {
+                    var act = behavior.Direct(e, world);
+                    if (act != null)
+                        act.Execute();
+                }
             });
 
             Assert.IsTrue(creature.Get<Position>().X > 0);

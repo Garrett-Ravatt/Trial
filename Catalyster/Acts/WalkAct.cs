@@ -27,9 +27,9 @@ namespace Catalyster.Acts
             Passive = passive;
         }
 
-        public bool Execute()
+        public IAct? Execute()
         {
-            if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue) return false;
+            if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue) return null;
             var (entity, x, y) = (EntityRef.Value.Entity, X.Value, Y.Value);
             ref var energy = ref entity.Get<Energy>();
 
@@ -44,14 +44,16 @@ namespace Catalyster.Acts
                     position = newPos;
                     // TODO: refer to movement speed
                     energy.Points -= WiggleHelper.Wiggle(1000, .1);
-                    return true;
+                    //return true;
+                    return null;
                 }
 
                 else if (!Passive) // ran into a creature; attack them
                 {
                     // TODO: swap places with friendly creature
                     var attackAct = new MeleeAttackAct(EntityRef.Value, bumped.Value.Reference());
-                    return attackAct.Execute();
+                    return attackAct;
+                    //return attackAct.Execute();
                 }
             }
 
@@ -61,7 +63,8 @@ namespace Catalyster.Acts
                 // TODO: wall bump depth check
             }
 
-            return true;
+            //return true;
+            return null;
         }
     }
 }

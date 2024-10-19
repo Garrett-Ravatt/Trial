@@ -1,5 +1,6 @@
 ﻿using Arch.Core;
 using Catalyster.Components;
+using Catalyster.Components.Directors;
 using Catalyster.Interfaces;
 using Inventory = Catalyster.Items.Inventory;
 using RogueSharp.DiceNotation;

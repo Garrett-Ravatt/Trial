@@ -2,6 +2,8 @@
 using Arch.Core.Extensions;
 using Catalyster;
 using Catalyster.Components;
+using Catalyster.Components.Directives;
+using Catalyster.Components.Directors;
 using Catalyster.Core;
 using Catalyster.Interfaces;
 using CatalysterTest.TestUtils;

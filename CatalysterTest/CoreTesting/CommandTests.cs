@@ -105,6 +105,7 @@ namespace CatalysterTest.CoreTesting
             command.Entity = player;
 
             var target = enemy.Get<Position>();
+            //TODO: verify act resolved
             Assert.IsTrue(command.Throw(target.X, target.Y, 0));
             Assert.IsTrue(player.Get<Energy>().Points <= 100);
 

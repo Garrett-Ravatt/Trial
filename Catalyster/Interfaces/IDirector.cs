@@ -4,6 +4,7 @@ namespace Catalyster.Interfaces
 {
     public interface IDirector
     {
-        public void Direct(Entity entity, World world);
+        //TODO: refactor form
+        public IAct? Direct(Entity entity, World world);
     }
 }
