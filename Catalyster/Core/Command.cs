@@ -30,7 +30,7 @@ namespace Catalyster.Core
                 var walkAct = new WalkAct(GameMaster.World.Reference(e), X, Y);
                 // TODO: Refactor
                 var act = walkAct.Consume();
-                CheckEnergy(e.Get<Energy>().Points);
+                CheckEnergy();
                 return;
             }
             else
@@ -82,7 +82,7 @@ namespace Catalyster.Core
 
             // TODO: Refactor
             throwAct.Consume();
-            CheckEnergy(entity.Get<Energy>().Points);
+            CheckEnergy();
             return true;
         }
 
@@ -90,6 +90,15 @@ namespace Catalyster.Core
         private void CheckEnergy(int points)
         {
             if (points <= 0)
+                Entity = null;
+        }
+
+        public void CheckEnergy()
+        {
+            if (Entity == null)
+                return;
+            var entity = Entity.Value;
+            if (entity.Get<Energy>().Points <= 0)
                 Entity = null;
         }
 

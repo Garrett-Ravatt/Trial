@@ -1,12 +1,14 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
 using Catalyster;
+using Catalyster.Acts;
 using Catalyster.Components;
 using Catalyster.Components.Directors;
 using Catalyster.Helpers;
 using Catalyster.Interfaces;
 using Catalyster.Messages;
 using CatalysterTest.TestUtils;
+using Microsoft.VisualBasic.FileIO;
 
 
 namespace CatalysterTest.Messages
@@ -49,6 +51,37 @@ namespace CatalysterTest.Messages
             Assert.IsTrue(GameMaster.MessageLog.Messages.Count >= 1);
 
             World.Destroy(world);
+        }
+
+        [TestMethod]
+        public void ConfirmationMessageTest()
+        {
+            var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(30, 30);
+            GameMaster.DungeonMap.SetAllWalkable();
+            var world = GameMaster.World;
+
+            var player = ExFactory.Player(world);
+            var act = new DieOnPurposeAct(player.Reference());
+
+            var hub = GameMaster.MessageLog.Hub;
+            var formed = false;
+            Decide? d = null;
+            hub.Subscribe<ConfirmationMessage>(msg => {
+                formed = true;
+                Console.WriteLine(msg.Message);
+                d = msg.D;
+            });
+            Assert.IsTrue(act.Consume().Suspended);
+            Assert.IsTrue(formed);
+
+            Assert.IsNotNull(d);
+            d.Invoke(true);
+
+            formed = false;
+            Assert.IsFalse(act.Consume().Suspended);
+            Assert.IsTrue(act.Resolved);
+            Assert.IsFalse(formed);
         }
     }
 }

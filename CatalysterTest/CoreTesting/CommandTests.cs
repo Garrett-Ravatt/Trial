@@ -74,6 +74,7 @@ namespace CatalysterTest.CoreTesting
             command.Entity = player;
             command.Move(0, 1);
             command.Move(0, 1);
+            //gm.Update();
 
             Assert.IsTrue(player.Get<Energy>().Points <= 0);
             Assert.IsNull(command.Entity);

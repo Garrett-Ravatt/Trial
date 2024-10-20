@@ -1,13 +1,14 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
 using Catalyster.Interfaces;
+using Catalyster.Messages;
 
 namespace Catalyster.Acts
 {
     public class DieOnPurposeAct : IAct
     {
         public int Cost { get; set; } = 1000;
-        public bool Resolved { get; } = false;
+        public bool Resolved { get; set; } = false;
         public bool Suspended { get; set; } = false;
 
         public bool Confirmed = false;
@@ -26,11 +27,26 @@ namespace Catalyster.Acts
                 return this;
             }
 
+            var hub = GameMaster.MessageLog.Hub;
             var entity = EntityReference.Value.Entity;
 
-            // TODO: Poll input
+            if (Confirmed)
+            {
+                hub.Publish(new DeathMessage(this, EntityReference.Value));
+                GameMaster.World.Destroy(entity);
+                Resolved = true;
+                return this;
+            }
+
+            // Suspended set BEFORE publishing in case delegate is instantly called
             Suspended = true;
+            hub.Publish(new ConfirmationMessage(entity, "Are you sure you want to die?", b => {
+                Confirmed = b;
+                Suspended = false;
+                }));
             return this;
         }
+
+
     }
 }

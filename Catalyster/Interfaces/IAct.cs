@@ -14,7 +14,7 @@ namespace Catalyster.Interfaces
     {
         public static IAct Consume(this IAct act)
         {
-            while (!act.Resolved)
+            while (!act.Resolved && !act.Suspended)
                 act = act.Execute();
             return act;
         }

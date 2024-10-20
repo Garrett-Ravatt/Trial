@@ -20,6 +20,19 @@ namespace Catalyster.Core
         private Queue<EntityReference> _entities;
         public TurnOrder() { }
 
+        public bool Resolve()
+        {
+            if (SuspendedAct != null)
+            {
+                SuspendedAct = SuspendedAct.Consume();
+                var s = SuspendedAct.Suspended;
+                if (SuspendedAct.Resolved)
+                    SuspendedAct = null;
+                return !s;
+            }
+            return true;
+        }
+
         public Entity? Update(World world)
         {
             if (!PlayerLock)

@@ -1,9 +1,13 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
+using Catalyster.Acts;
+using Catalyster.Interfaces;
+using Catalyster;
 using Catalyster.Components;
 using Catalyster.Components.Directives;
 using Catalyster.Components.Directors;
 using Catalyster.Core;
+using Catalyster.Messages;
 using CatalysterTest.TestUtils;
 
 namespace CatalysterTest.CoreTesting
@@ -90,6 +94,42 @@ namespace CatalysterTest.CoreTesting
             Assert.AreEqual(player, order.Update(world));
 
             World.Destroy(world);
+        }
+
+        [TestMethod]
+        public void TurnTest5()
+        {
+            var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(30, 30);
+            GameMaster.DungeonMap.SetAllWalkable();
+            var world = GameMaster.World;
+
+            var player = ExFactory.Player(world);
+            var act = new DieOnPurposeAct(player.Reference());
+
+            var hub = GameMaster.MessageLog.Hub;
+            var formed = false;
+            Decide? d = null;
+            hub.Subscribe<ConfirmationMessage>(msg => {
+                formed = true;
+                Console.WriteLine(msg.Message);
+                d = msg.D;
+            });
+            Assert.IsTrue(act.Consume().Suspended);
+            Assert.IsTrue(formed);
+
+            var torder = new TurnOrder();
+            torder.SuspendedAct = act;
+            torder.Resolve();
+            torder.Update(world);
+            Assert.AreEqual(act, torder.SuspendedAct);
+
+            Assert.IsNotNull(d);
+            d.Invoke(true);
+
+            torder.Resolve();
+            torder.Update(world);
+            Assert.IsNull(torder.SuspendedAct);
         }
     }
 }
