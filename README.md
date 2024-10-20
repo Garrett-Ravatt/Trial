@@ -7,6 +7,7 @@ Like every foolish roguelike author, I looked at several open source roguelike p
 - Entity-Component Turn Loop
 - Item Entity Management
 - Actions Shared Between Monster & Player
+
 with more planned to come.
 
 # Projects
