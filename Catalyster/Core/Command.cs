@@ -28,7 +28,10 @@ namespace Catalyster.Core
             {
                 var e = Entity.Value;
                 var walkAct = new WalkAct(GameMaster.World.Reference(e), X, Y);
-                var b = walkAct.Execute();
+                var act = walkAct.Execute();
+                // TODO: Refactor
+                while (act != null)
+                    act = act.Execute();
                 CheckEnergy(e.Get<Energy>().Points);
                 return;
             }
@@ -79,6 +82,7 @@ namespace Catalyster.Core
             var entity = Entity.Value;
             var throwAct = new ThrowAct(GameMaster.World.Reference(entity), x, y, i);
 
+            // TODO: Refactor
             throwAct.Execute();
             CheckEnergy(entity.Get<Energy>().Points);
             return true;

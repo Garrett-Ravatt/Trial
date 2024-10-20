@@ -1,6 +1,7 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
 using Catalyster;
+using Catalyster.Acts;
 using Catalyster.Components;
 using Catalyster.Components.Directives;
 using Catalyster.Components.Directors;
@@ -134,6 +135,29 @@ namespace CatalysterTest.ComponentTests
                 player.Get<Position>());
 
             Assert.IsTrue(initialDist > finalDist);
+
+            World.Destroy(world);
+        }
+
+        [TestMethod]
+        public void PlayerDirectorTest1()
+        {
+            var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(30, 30);
+            GameMaster.DungeonMap.SetAllWalkable();
+            var world = GameMaster.World;
+
+            var player = ExFactory.SimpleCreature(world);
+            player.Set<IDirector>(new PlayerDirector { });
+
+            var x = player.Get<Position>().X;
+
+            PlayerDirector.nextAct = new WalkAct(player.Reference(), x:1, y:0);
+
+            GameMaster.DungeonMap.UpdateFieldOfView(GameMaster.World);
+            gm.Update();
+
+            Assert.IsTrue(x < player.Get<Position>().X);
 
             World.Destroy(world);
         }
