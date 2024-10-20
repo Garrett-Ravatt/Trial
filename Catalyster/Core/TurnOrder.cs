@@ -11,6 +11,10 @@ namespace Catalyster.Core
             .WithAll<Energy>()
             .WithAny<Player, IDirector>();
 
+        // Act to be resolved before returning to the turn order
+        public IAct? SuspendedAct;
+
+        // TODO: Phase out
         public bool PlayerLock = false;
 
         private Queue<EntityReference> _entities;
@@ -48,8 +52,8 @@ namespace Catalyster.Core
                                     break;
                                 }
 
-                                while (act != null && energy.Points > 0)
-                                    act = act.Execute();
+                                var result = act.Consume();
+                                //if (result.Suspended)
                             }
                         }
                     }

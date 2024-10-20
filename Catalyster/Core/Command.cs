@@ -1,7 +1,7 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
-using Catalyster;
 using Catalyster.Acts;
+using Catalyster.Interfaces;
 using Catalyster.Components;
 using Catalyster.Helpers;
 using Catalyster.Messages;
@@ -28,10 +28,8 @@ namespace Catalyster.Core
             {
                 var e = Entity.Value;
                 var walkAct = new WalkAct(GameMaster.World.Reference(e), X, Y);
-                var act = walkAct.Execute();
                 // TODO: Refactor
-                while (act != null)
-                    act = act.Execute();
+                var act = walkAct.Consume();
                 CheckEnergy(e.Get<Energy>().Points);
                 return;
             }
@@ -83,7 +81,7 @@ namespace Catalyster.Core
             var throwAct = new ThrowAct(GameMaster.World.Reference(entity), x, y, i);
 
             // TODO: Refactor
-            throwAct.Execute();
+            throwAct.Consume();
             CheckEnergy(entity.Get<Energy>().Points);
             return true;
         }

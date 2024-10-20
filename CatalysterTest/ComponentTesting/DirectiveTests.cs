@@ -27,7 +27,7 @@ namespace CatalysterTest.ComponentTests
             var dir = new RightMover { Cost = 100 };
             var act = dir.Enter(world.Reference(e));
             Assert.IsNotNull(act);
-            Assert.IsNull(act.Execute());
+            Assert.IsTrue(act.Execute().Resolved);
 
             Assert.AreEqual(1, e.Get<Position>().X);
             Assert.IsTrue(e.Get<Energy>().Points <= 100);
@@ -54,7 +54,7 @@ namespace CatalysterTest.ComponentTests
 
             var act = dir.Enter(atkr);
             Assert.IsNotNull(act);
-            act.Execute();
+            Assert.IsTrue(act.Execute().Resolved);
             Assert.IsTrue(initialHp > def.Entity.Get<Health>().Points);
 
             World.Destroy(world);

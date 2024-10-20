@@ -10,6 +10,8 @@ namespace Catalyster.Acts
     public class ThrowAct : IAct
     {
         public int Cost { get; set; } = 1000;
+        public bool Resolved { get; set; } = false;
+        public bool Suspended { get; set; } = false;
 
         public EntityReference? EntityRef;
         int? X, Y, I;
@@ -19,18 +21,18 @@ namespace Catalyster.Acts
             X = x; Y = y; I = i;
         }
 
-        public IAct? Execute()
+        public IAct Execute()
         {
             if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue || !I.HasValue)
             {
                 //TODO: throw error
-                return null;
+                return this;
             }
             var (entity, x, y, i) = (EntityRef.Value.Entity, X.Value, Y.Value, I.Value);
 
             if (entity.Has<Player>() && !GameMaster.DungeonMap.IsInFov(x, y))
             {
-                return null;
+                return this;
             }
 
             ref var energy = ref entity.Get<Energy>();
@@ -40,7 +42,7 @@ namespace Catalyster.Acts
             {
                 Console.WriteLine($"Invalid item index {i} was selected");
                 //TODO: error or input polling
-                return null;
+                return this;
             }
 
             // Check for a target.
@@ -86,10 +88,11 @@ namespace Catalyster.Acts
             }
 
             energy.Points -= WiggleHelper.Wiggle(1000, .1);
+            Resolved = true;
             // TODO: Dispose of the thrown item entity and contents
             entity.Get<Inventory>().Items.RemoveAt(i);
 
-            return null;
+            return this;
         }
     }
 }

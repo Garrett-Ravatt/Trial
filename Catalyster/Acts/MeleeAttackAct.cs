@@ -9,6 +9,8 @@ namespace Catalyster.Acts
     public class MeleeAttackAct : IAct
     {
         public int Cost { get; set; } = 1000;
+        public bool Resolved { get; set; } = false;
+        public bool Suspended { get; set; } = false;
 
         public EntityReference? Attacker;
         public EntityReference? Defender;
@@ -21,20 +23,20 @@ namespace Catalyster.Acts
             Attack = attack;
         }
 
-        public IAct? Execute()
+        public IAct Execute()
         {
             Entity atkr;
             Entity def;
             MeleeAttack att;
             if (!Defender.HasValue || !Attacker.HasValue)
             {
-                //TODO: generate Moment(?)
-                return null;
+                Console.Error.WriteLine($"Melee Attack Act Malformation");
+                //TODO: generate error / poll
             }
             else if (!Attacker.Value.IsAlive() || !Defender.Value.IsAlive())
             {
                 Console.Error.WriteLine($"Stale Entity Reference: {Attacker.Value} {Defender.Value}");
-                return null;
+                // TODO: generate error
             }
             else if (!Attack.HasValue)
             {
@@ -42,9 +44,9 @@ namespace Catalyster.Acts
                 if (ActionHelper.ResolveAttack(atkr, def))
                 {
                     atkr.Get<Energy>().Points -= WiggleHelper.Wiggle(Cost, 0.1);
-                    //return true;
+                    Resolved = true;
                 }
-                return null;
+                //TODO: generate error
             }
             else
             {
@@ -52,9 +54,9 @@ namespace Catalyster.Acts
                 ActionHelper.ResolveMelee(att, def, atkr);
                 ref var e = ref atkr.Get<Energy>();
                 e.Points -= WiggleHelper.Wiggle(Cost, 0.1);
-                //return true;
-                return null;
+                Resolved = true;
             }
+            return this;
         }
     }
 }

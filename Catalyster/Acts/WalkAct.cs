@@ -10,6 +10,8 @@ namespace Catalyster.Acts
     public class WalkAct : IAct
     {
         public int Cost { get; set; } = 1000;
+        public bool Resolved { get; set; } = false;
+        public bool Suspended { get; set; } = false;
 
         public EntityReference? EntityRef;
 
@@ -27,9 +29,10 @@ namespace Catalyster.Acts
             Passive = passive;
         }
 
-        public IAct? Execute()
+        public IAct Execute()
         {
-            if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue) return null;
+            // TODO: throw malformed
+            if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue) return this;
             var (entity, x, y) = (EntityRef.Value.Entity, X.Value, Y.Value);
             ref var energy = ref entity.Get<Energy>();
 
@@ -43,28 +46,27 @@ namespace Catalyster.Acts
                 {
                     position = newPos;
                     // TODO: refer to movement speed
-                    energy.Points -= WiggleHelper.Wiggle(1000, .1);
-                    //return true;
-                    return null;
+                    energy.Points -= WiggleHelper.Wiggle(Cost, .1);
+                    Resolved = true;
+                    return this;
                 }
 
                 else if (!Passive) // ran into a creature; attack them
                 {
                     // TODO: swap places with friendly creature
                     var attackAct = new MeleeAttackAct(EntityRef.Value, bumped.Value.Reference());
+                    Resolved = true;
                     return attackAct;
-                    //return attackAct.Execute();
                 }
             }
 
             else if (entity.Has<Player>())
             {
-                GameMaster.MessageLog.Hub.Publish(new WallBumpMessage(this, x, y, entity.Reference()));
-                // TODO: wall bump depth check
+                Resolved = true;
+                return new ProbeAct(EntityRef, newPos.X, newPos.Y);
             }
 
-            //return true;
-            return null;
+            return this;
         }
     }
 }
