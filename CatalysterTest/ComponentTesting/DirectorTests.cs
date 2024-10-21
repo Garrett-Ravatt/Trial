@@ -152,9 +152,10 @@ namespace CatalysterTest.ComponentTests
 
             var x = player.Get<Position>().X;
 
-            CommandInjectionAct.InjectedAct = new WalkAct(player.Reference(), x:1, y:0);
-
             GameMaster.DungeonMap.UpdateFieldOfView(GameMaster.World);
+            gm.Update();
+
+            CommandInjectionAct.InjectedAct = new WalkAct(player.Reference(), x: 1, y: 0);
             gm.Update();
 
             Assert.IsTrue(x < player.Get<Position>().X);

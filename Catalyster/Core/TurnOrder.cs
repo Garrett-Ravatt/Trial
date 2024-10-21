@@ -61,12 +61,20 @@ namespace Catalyster.Core
                                 
                                 if (act == null)
                                 {
-                                    // TODO: Throw or warn
+                                    Console.Error.WriteLine($"Director output null: {director}");
                                     break;
                                 }
 
                                 var result = act.Consume();
-                                //if (result.Suspended)
+                                if (result == null)
+                                {
+                                    Console.Error.WriteLine($"Act output null: {act}");
+                                }
+                                if (result.Suspended)
+                                {
+                                    SuspendedAct = result;
+                                    return null;
+                                }
                             }
                         }
                     }

@@ -6,12 +6,13 @@ namespace Catalyster.Acts
     {
         public int Cost { get; set; } = 1000;
         public bool Resolved { get; set; } = false;
-        public bool Suspended { get { return InjectedAct == null && !Resolved; } }
-        public static IAct? InjectedAct { get; set; }
+        public bool Suspended { get { if (Resolved) return false; return InjectedAct == null; } }
+        public static IAct? InjectedAct { get; set; } = null;
 
         public CommandInjectionAct(IAct? injectedAct = null)
         {
-            InjectedAct = injectedAct;
+            if (injectedAct != null)
+                InjectedAct = injectedAct;
         }
 
         public IAct Execute()

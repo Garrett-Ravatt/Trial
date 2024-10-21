@@ -181,8 +181,11 @@ namespace CatalysterTest.ActTesting
             var result = act.Execute();
             Assert.IsTrue(act.Resolved);
             Assert.IsFalse(act.Suspended);
+
+            Assert.IsNull(CommandInjectionAct.InjectedAct);
             
-            Assert.IsTrue(result.Execute().Resolved); Assert.IsFalse(result.Suspended);
+            Assert.IsTrue(result.Execute().Resolved);
+            Assert.IsFalse(result.Suspended);
         }
     }
 }
