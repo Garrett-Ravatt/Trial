@@ -30,7 +30,7 @@ namespace Catalyster.Acts
             MeleeAttack att;
             if (!Defender.HasValue || !Attacker.HasValue)
             {
-                Console.Error.WriteLine($"Melee Attack Act Malformation");
+                Console.Error.WriteLine($"Melee Attack InjectedAct Malformation");
                 //TODO: generate error / poll
             }
             else if (!Attacker.Value.IsAlive() || !Defender.Value.IsAlive())

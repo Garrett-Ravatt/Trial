@@ -158,5 +158,31 @@ namespace CatalysterTest.ActTesting
             Assert.IsFalse(act.Execute().Resolved);
             Assert.IsTrue(act.Suspended);
         }
+
+        [TestMethod]
+        public void CommandInjectionTest()
+        {
+            var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
+
+            var player = ExFactory.Player(GameMaster.World);
+            var act = new CommandInjectionAct();
+
+            Assert.IsFalse(act.Execute().Resolved);
+            Assert.IsTrue(act.Suspended);
+
+            // Inject player instruction
+            var walkAct = new WalkAct(player.Reference(), 1, 1);
+            CommandInjectionAct.InjectedAct = walkAct;
+            Assert.IsFalse(act.Suspended);
+
+            // Assess
+            var result = act.Execute();
+            Assert.IsTrue(act.Resolved);
+            Assert.IsFalse(act.Suspended);
+            
+            Assert.IsTrue(result.Execute().Resolved); Assert.IsFalse(result.Suspended);
+        }
     }
 }

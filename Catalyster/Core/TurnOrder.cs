@@ -11,7 +11,7 @@ namespace Catalyster.Core
             .WithAll<Energy>()
             .WithAny<Player, IDirector>();
 
-        // Act to be resolved before returning to the turn order
+        // InjectedAct to be resolved before returning to the turn order
         public IAct? SuspendedAct;
 
         // TODO: Phase out

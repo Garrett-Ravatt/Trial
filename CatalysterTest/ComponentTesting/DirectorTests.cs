@@ -152,7 +152,7 @@ namespace CatalysterTest.ComponentTests
 
             var x = player.Get<Position>().X;
 
-            PlayerDirector.nextAct = new WalkAct(player.Reference(), x:1, y:0);
+            CommandInjectionAct.InjectedAct = new WalkAct(player.Reference(), x:1, y:0);
 
             GameMaster.DungeonMap.UpdateFieldOfView(GameMaster.World);
             gm.Update();

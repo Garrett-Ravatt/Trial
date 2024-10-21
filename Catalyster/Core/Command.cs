@@ -53,7 +53,7 @@ namespace Catalyster.Core
             var inv = player.Get<Inventory>();
 
             // Look for items, collect them
-            // TODO: Refactor as an Act
+            // TODO: Refactor as an InjectedAct
             GameMaster.World.Query(
                 in new QueryDescription().WithAll<Token, Position, Item>(),
                 (Entity entity, ref Token token, ref Position pos, ref Item item) =>
