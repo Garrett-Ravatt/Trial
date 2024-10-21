@@ -6,7 +6,7 @@ namespace Catalyster.Acts
     {
         public int Cost { get; set; } = 1000;
         public bool Resolved { get; set; } = false;
-        public bool Suspended { get { return !Resolved && InjectedAct == null; } }
+        public bool Suspended { get { return InjectedAct == null && !Resolved; } }
         public static IAct? InjectedAct { get; set; }
 
         public CommandInjectionAct(IAct? injectedAct = null)
@@ -21,7 +21,10 @@ namespace Catalyster.Acts
                 return this;
             }
             Resolved = true;
-            return InjectedAct;
+            // return static member to null before exiting
+            var act = InjectedAct;
+            InjectedAct = null;
+            return act;
         }
     }
 }
