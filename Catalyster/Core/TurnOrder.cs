@@ -14,9 +14,6 @@ namespace Catalyster.Core
         // InjectedAct to be resolved before returning to the turn order
         public IAct? SuspendedAct;
 
-        // TODO: Phase out
-        public bool PlayerLock = false;
-
         private LinkedList<EntityReference> _entities;
         public TurnOrder() { }
 
@@ -26,6 +23,7 @@ namespace Catalyster.Core
                 return true;
             SuspendedAct = SuspendedAct.Consume();
             var s = SuspendedAct.Suspended;
+            // TODO: Consider nullifying the CommandInjectionAct as well as the suspended act
             if (SuspendedAct.Resolved)
                 SuspendedAct = null;
             return !s;
