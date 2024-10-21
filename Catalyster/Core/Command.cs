@@ -82,9 +82,6 @@ namespace Catalyster.Core
             var entity = Entity.Value;
             var throwAct = new ThrowAct(GameMaster.World.Reference(entity), x, y, i);
             CommandInjectionAct.InjectedAct = throwAct;
-            // TODO: Refactor
-            //throwAct.Consume();
-            //CheckEnergy();
             return true;
         }
 

@@ -40,17 +40,6 @@ namespace Catalyster
             if (_turnOrder.Resolve())
             {
                 Command.Entity = _turnOrder.Update(World);
-                //if (e != null)
-                //    Command.Entity = e;
-                //if (!_turnOrder.PlayerLock)
-                //{
-                //    Command.Entity = _turnOrder.Update(World);
-                //}
-                //else if (Command.Entity == null)
-                //{
-                //    _turnOrder.PlayerLock = false;
-                //    Command.Entity = _turnOrder.Update(World);
-                //}
             }
         }
     }
