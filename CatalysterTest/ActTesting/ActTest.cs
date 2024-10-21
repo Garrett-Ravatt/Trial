@@ -187,5 +187,26 @@ namespace CatalysterTest.ActTesting
             Assert.IsTrue(result.Execute().Resolved);
             Assert.IsFalse(result.Suspended);
         }
+
+        [TestMethod]
+        public void WaitActTest()
+        {
+            var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.SetAllWalkable();
+
+            var player = ExFactory.Player(GameMaster.World);
+            CommandInjectionAct.InjectedAct = new WaitAct(player.Reference());
+
+            gm.Update();
+
+            Assert.AreEqual(0, player.Get<Energy>().Points);
+        }
+
+        [TestMethod]
+        public void ThrowActTest()
+        {
+
+        }
     }
 }

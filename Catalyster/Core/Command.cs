@@ -18,7 +18,11 @@ namespace Catalyster.Core
         // yield control away.
         public void Wait()
         {
-            Entity = null;
+            if (Entity != null)
+            {
+                CommandInjectionAct.InjectedAct = new WaitAct(Entity.Value.Reference());
+                Entity = null;
+            }
         }
 
         // try to go somewhere.
@@ -28,9 +32,7 @@ namespace Catalyster.Core
             {
                 var e = Entity.Value;
                 var walkAct = new WalkAct(GameMaster.World.Reference(e), X, Y);
-                // TODO: Refactor
-                var act = walkAct.Consume();
-                CheckEnergy();
+                CommandInjectionAct.InjectedAct = walkAct;
                 return;
             }
             else
@@ -53,7 +55,7 @@ namespace Catalyster.Core
             var inv = player.Get<Inventory>();
 
             // Look for items, collect them
-            // TODO: Refactor as an InjectedAct
+            // TODO: Refactor as an Injected Act
             GameMaster.World.Query(
                 in new QueryDescription().WithAll<Token, Position, Item>(),
                 (Entity entity, ref Token token, ref Position pos, ref Item item) =>
@@ -79,20 +81,14 @@ namespace Catalyster.Core
 
             var entity = Entity.Value;
             var throwAct = new ThrowAct(GameMaster.World.Reference(entity), x, y, i);
-
+            CommandInjectionAct.InjectedAct = throwAct;
             // TODO: Refactor
-            throwAct.Consume();
-            CheckEnergy();
+            //throwAct.Consume();
+            //CheckEnergy();
             return true;
         }
 
         // Check if the player's turn is now over.
-        private void CheckEnergy(int points)
-        {
-            if (points <= 0)
-                Entity = null;
-        }
-
         public void CheckEnergy()
         {
             if (Entity == null)

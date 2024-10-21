@@ -59,6 +59,9 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void TurnTest3()
         {
+            new GameMaster();
+            GameMaster.DungeonMap.Initialize(10, 10);
+            GameMaster.DungeonMap.SetAllWalkable();
             var world = World.Create();
             var order = new TurnOrder();
 
@@ -103,6 +106,7 @@ namespace CatalysterTest.CoreTesting
             GameMaster.DungeonMap.Initialize(30, 30);
             GameMaster.DungeonMap.SetAllWalkable();
             var world = GameMaster.World;
+            CommandInjectionAct.InjectedAct = null;
 
             var player = ExFactory.Player(world);
             var act = new DieOnPurposeAct(player.Reference());
@@ -120,15 +124,15 @@ namespace CatalysterTest.CoreTesting
 
             var torder = new TurnOrder();
             torder.SuspendedAct = act;
-            torder.Resolve();
-            torder.Update(world);
+            if (torder.Resolve())
+                torder.Update(world);
             Assert.AreEqual(act, torder.SuspendedAct);
 
             Assert.IsNotNull(d);
             d.Invoke(true);
 
-            torder.Resolve();
-            torder.Update(world);
+            if (torder.Resolve())
+                torder.Update(world);
             Assert.IsNull(torder.SuspendedAct);
         }
     }

@@ -40,7 +40,8 @@ namespace CatalysterTest.TestUtils
                 new MeleeAttack { AttackFormula = Dice.Parse("1d20+2"), DamageFormula = Dice.Parse("1d4") },
                 new Sense { Range=5 },
                 new Inventory(),
-                new Player { }
+                new Player { },
+                (IDirector) new PlayerDirector { }
                 );
         }
 

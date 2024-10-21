@@ -34,6 +34,8 @@ namespace CatalysterTest.CoreTesting
         public void GameMasterTest3()
         {
             var gm = new GameMaster();
+            GameMaster.DungeonMap.Initialize(10, 10);
+            GameMaster.DungeonMap.SetAllWalkable();
             for (var i = 0; i < 10; i++)
             {
                 ExFactory.SimpleCreature(GameMaster.World);
@@ -57,14 +59,14 @@ namespace CatalysterTest.CoreTesting
             {
                 ExFactory.SimpleCreature(GameMaster.World);
             }
-            ExFactory.Player(GameMaster.World);
+            var p = ExFactory.Player(GameMaster.World);
+            p.Set(new Energy { Max = 500, Points = 500, Regen = 500 });
             gm.Update();
 
             gm.Command.Move(0, 1);
-            gm.Command.Move(0, 1);
+            gm.Update();
 
             Assert.IsNull(gm.Command.Entity);
-
         }
 
         [TestMethod]

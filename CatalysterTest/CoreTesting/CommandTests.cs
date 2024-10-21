@@ -23,6 +23,7 @@ namespace CatalysterTest.CoreTesting
 
             command.Entity = ExFactory.Player(world);
             command.Move(0, 0);
+            gm.Update();
 
             World.Destroy(world);
         }
@@ -56,6 +57,7 @@ namespace CatalysterTest.CoreTesting
 
             command.Entity = player;
             command.Move(0, 1);
+            gm.Update();
 
             Assert.AreEqual(iPos.Y + 1, player.Get<Position>().Y);
         }
@@ -70,11 +72,15 @@ namespace CatalysterTest.CoreTesting
             var world = GameMaster.World;
 
             var player = ExFactory.Player(world);
+            var iPos = player.Get<Position>();
 
             command.Entity = player;
+            player.Get<Energy>().Points = 500;
+            player.Get<Energy>().Regen = 0;
             command.Move(0, 1);
-            command.Move(0, 1);
-            //gm.Update();
+            gm.Update();
+
+            Assert.AreEqual(iPos.Y + 1, player.Get<Position>().Y);
 
             Assert.IsTrue(player.Get<Energy>().Points <= 0);
             Assert.IsNull(command.Entity);
@@ -108,6 +114,7 @@ namespace CatalysterTest.CoreTesting
             var target = enemy.Get<Position>();
             //TODO: verify act resolved
             Assert.IsTrue(command.Throw(target.X, target.Y, 0));
+            gm.Update();
             Assert.IsTrue(player.Get<Energy>().Points <= 100);
 
             world.Dispose();
@@ -184,6 +191,7 @@ namespace CatalysterTest.CoreTesting
             Assert.IsTrue(player.Get<Inventory>().Items.Count > 0);
 
             command.Throw(1, 1, 0);
+            gm.Update();
 
             // the player should be hurt
             Assert.IsTrue(player.Get<Health>().Points < player.Get<Health>().Max);
