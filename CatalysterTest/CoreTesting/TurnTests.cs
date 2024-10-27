@@ -15,6 +15,14 @@ namespace CatalysterTest.CoreTesting
     [TestClass]
     public class TurnTests
     {
+        [TestInitialize]
+        public void Initialize()
+        {
+            GameMaster.Instance().Reset();
+            GameMaster.DungeonMap.Initialize(40, 40);
+            GameMaster.DungeonMap.Clear();
+        }
+
         [TestMethod]
         public void TurnTest1()
         {
@@ -59,7 +67,7 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void TurnTest3()
         {
-            new GameMaster();
+            GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(10, 10);
             GameMaster.DungeonMap.SetAllWalkable();
             var world = World.Create();
@@ -102,7 +110,7 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void TurnTest5()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(30, 30);
             GameMaster.DungeonMap.SetAllWalkable();
             var world = GameMaster.World;

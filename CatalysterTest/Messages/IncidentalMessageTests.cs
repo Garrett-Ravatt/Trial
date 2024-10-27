@@ -16,12 +16,19 @@ namespace CatalysterTest.Messages
     [TestClass]
     public class IncidentalMessageTests
     {
+        [TestCleanup]
+        public void Initialize()
+        {
+            GameMaster.Instance().Reset();
+        }
+
         [TestMethod]
         public void AttackMessageTest1()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
+            //var gm = new GameMaster();
             GameMaster.DungeonMap.Initialize(30, 30);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.DungeonMap.Clear();
             var world = GameMaster.World;
 
             var creature = ExFactory.SimpleCreature(world);
@@ -56,7 +63,7 @@ namespace CatalysterTest.Messages
         [TestMethod]
         public void ConfirmationMessageTest()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(30, 30);
             GameMaster.DungeonMap.SetAllWalkable();
             var world = GameMaster.World;

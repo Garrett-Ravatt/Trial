@@ -11,7 +11,7 @@ namespace CatalysterTest.HelperTesting
         [TestMethod]
         public void QueryHelperTest1()
         {
-            new GameMaster();
+            GameMaster.Instance();
             ExFactory.Player(GameMaster.World);
             ExFactory.Player(GameMaster.World);
             Assert.AreEqual(2, QueryHelper.ListByComponent<Player>().Count);

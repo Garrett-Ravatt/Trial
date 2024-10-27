@@ -11,11 +11,18 @@ namespace CatalysterTest.CoreTesting
     [TestClass]
     public class CommandTests
     {
+        [TestInitialize]
+        public void Initialize()
+        {
+            GameMaster.Instance().Reset();
+        }
+
         [TestMethod]
         public void CommandTest1()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(10, 10);
+            GameMaster.DungeonMap.Clear();
             var world = GameMaster.World;
             var command = gm.Command;
             
@@ -31,7 +38,7 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void CommandTest2()
         {
-            new GameMaster();
+            GameMaster.Instance();
             var world = GameMaster.World;
             var command = new Command();
             var order = new TurnOrder();
@@ -47,7 +54,7 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void CommandTest3()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var command = gm.Command;
@@ -65,7 +72,7 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void CommandTest4()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var command = gm.Command;
@@ -91,7 +98,7 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void CommandTest5()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var command = gm.Command;
@@ -123,7 +130,7 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void CommandTest6()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var command = gm.Command;
@@ -148,7 +155,7 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void CommandTest7()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var command = gm.Command;
@@ -173,7 +180,7 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void CommandTest8()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var command = gm.Command;

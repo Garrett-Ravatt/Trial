@@ -24,7 +24,7 @@ namespace CatalysterTest.ActTesting
         [TestMethod]
         public void ActTest2()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
 
@@ -39,7 +39,7 @@ namespace CatalysterTest.ActTesting
         [TestMethod]
         public void ActTest3()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             var world = GameMaster.World;
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
@@ -55,7 +55,7 @@ namespace CatalysterTest.ActTesting
         [TestMethod]
         public void ActTest4()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             var world = GameMaster.World;
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
@@ -72,7 +72,7 @@ namespace CatalysterTest.ActTesting
         [TestMethod]
         public void MeleeActTest1()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             var world = GameMaster.World;
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
@@ -91,7 +91,7 @@ namespace CatalysterTest.ActTesting
         [TestMethod]
         public void ThrowActTest1()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             var world = GameMaster.World;
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
@@ -111,7 +111,7 @@ namespace CatalysterTest.ActTesting
         [TestMethod]
         public void ProbeActTest1()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             GameMaster.DungeonMap.SetCellProperties(0, 1, false, false);
@@ -128,7 +128,7 @@ namespace CatalysterTest.ActTesting
         [TestMethod]
         public void AlternateActTest()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             GameMaster.DungeonMap.SetCellProperties(0, 1, false, false);
@@ -148,7 +148,7 @@ namespace CatalysterTest.ActTesting
         [TestMethod]
         public void ActSuspensionTest()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
 
@@ -162,7 +162,7 @@ namespace CatalysterTest.ActTesting
         [TestMethod]
         public void CommandInjectionTest()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
 
@@ -191,7 +191,7 @@ namespace CatalysterTest.ActTesting
         [TestMethod]
         public void WaitActTest()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
 
@@ -207,6 +207,12 @@ namespace CatalysterTest.ActTesting
         public void ThrowActTest()
         {
 
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            GameMaster.Instance().Reset();
         }
     }
 }

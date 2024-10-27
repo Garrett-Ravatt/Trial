@@ -2,17 +2,20 @@
 using Catalyster;
 using Catalyster.Components;
 using Catalyster.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CatalysterTest.HelperTesting
 {
     [TestClass]
     public class SpatialTest
     {
+        [TestInitialize]
+        public void Initialize()
+        {
+            GameMaster.Instance().Reset();
+            GameMaster.DungeonMap.Initialize(40,40);
+            GameMaster.DungeonMap.Clear();
+        }
+
         [TestMethod]
         public void SpatialHelperTest1()
         {
@@ -30,7 +33,7 @@ namespace CatalysterTest.HelperTesting
         [TestMethod]
         public void SpatialHelperTest2()
         {
-            new GameMaster();
+            GameMaster.Instance();
             var world = GameMaster.World;
 
             var position = new Position { X = 0, Y = 0 };
@@ -48,7 +51,7 @@ namespace CatalysterTest.HelperTesting
         [TestMethod]
         public void SpatialHelperTest3()
         {
-            new GameMaster();
+            GameMaster.Instance();
             var world = GameMaster.World;
 
             var position = new Position { X = 0, Y = 0 };

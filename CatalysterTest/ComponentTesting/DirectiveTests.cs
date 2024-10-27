@@ -10,10 +10,16 @@ namespace CatalysterTest.ComponentTests
     [TestClass]
     public class DirectiveTests
     {
+        [TestCleanup]
+        public void Cleanup()
+        {
+            GameMaster.Instance().Reset();
+        }
+
         [TestMethod]
         public void DirectiveTest1()
         {
-            new GameMaster();
+            GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var world = GameMaster.World;
@@ -38,7 +44,7 @@ namespace CatalysterTest.ComponentTests
         [TestMethod]
         public void DirectiveTest2()
         {
-            new GameMaster();
+            GameMaster.Instance();
             var world = GameMaster.World;
             // Create cat
             var atkr = ExFactory.SimpleCreature(world).Reference();
@@ -64,7 +70,7 @@ namespace CatalysterTest.ComponentTests
         [TestMethod]
         public void DirectiveTest3()
         {
-            new GameMaster();
+            GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var world = GameMaster.World;
@@ -92,7 +98,7 @@ namespace CatalysterTest.ComponentTests
         [TestMethod]
         public void DirectiveTest4()
         {
-            new GameMaster();
+            GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var world = GameMaster.World;

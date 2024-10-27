@@ -13,10 +13,16 @@ namespace CatalysterTest.CoreTesting
     [TestClass]
     public class GameMasterTests
     {
+        [TestCleanup]
+        public void Cleanup()
+        {
+            GameMaster.Instance().Reset();
+        }
+
         [TestMethod]
         public void GameMasterTest1()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             Assert.IsNotNull(gm);
             Assert.IsNotNull(GameMaster.World);
             gm.Update();
@@ -33,7 +39,7 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void GameMasterTest3()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(10, 10);
             GameMaster.DungeonMap.SetAllWalkable();
             for (var i = 0; i < 10; i++)
@@ -52,7 +58,7 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void GameMasterTest4()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             for (var i = 0; i < 10; i++)
@@ -72,7 +78,7 @@ namespace CatalysterTest.CoreTesting
         [TestMethod]
         public void GameMasterTest5()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             var world = GameMaster.World;
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();

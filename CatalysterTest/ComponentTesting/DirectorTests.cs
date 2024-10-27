@@ -14,10 +14,16 @@ namespace CatalysterTest.ComponentTests
     [TestClass]
     public class DirectorTests
     {
+        [TestCleanup]
+        public void Cleanup()
+        {
+            GameMaster.Instance().Reset();
+        }
+
         [TestMethod]
         public void MonoBehaviorTest1()
         {
-            new GameMaster();
+            GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var world = GameMaster.World;
@@ -48,7 +54,7 @@ namespace CatalysterTest.ComponentTests
         [TestMethod]
         public void MonoBehaviorTest2()
         {
-            new GameMaster();
+            GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var world = GameMaster.World;
@@ -79,7 +85,10 @@ namespace CatalysterTest.ComponentTests
         [TestMethod]
         public void InterfaceTest1()
         {
-            var world = World.Create();
+            GameMaster.Instance();
+            var world = GameMaster.World;
+            GameMaster.DungeonMap.Initialize(10, 10);
+            GameMaster.DungeonMap.Clear();
             // Create MonoBehavior creature
             var creature = world.Create(
                 new Position { X = 0, Y = 0 },
@@ -108,7 +117,7 @@ namespace CatalysterTest.ComponentTests
         [TestMethod]
         public void CrazedHunterTest1()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(30, 30);
             GameMaster.DungeonMap.SetAllWalkable();
             var world = GameMaster.World;
@@ -141,7 +150,7 @@ namespace CatalysterTest.ComponentTests
         [TestMethod]
         public void PlayerDirectorTest1()
         {
-            var gm = new GameMaster();
+            var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(30, 30);
             GameMaster.DungeonMap.SetAllWalkable();
             var world = GameMaster.World;

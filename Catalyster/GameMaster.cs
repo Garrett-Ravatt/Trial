@@ -1,4 +1,5 @@
 ﻿using Arch.Core;
+using Catalyster.Acts;
 using Catalyster.Core;
 
 namespace Catalyster
@@ -22,7 +23,7 @@ namespace Catalyster
         }
         public void Reset()
         {
-            World.Dispose();
+            //World.Dispose();
             _gameMaster = new GameMaster();
         }
 
@@ -33,6 +34,8 @@ namespace Catalyster
             Command = new Command();
             _turnOrder = new TurnOrder();
             MessageLog = new MessageLog();
+            // TODO: Wonder about if this should be here
+            //CommandInjectionAct.InjectedAct = null;
         }
 
         public void Update()
