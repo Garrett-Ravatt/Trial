@@ -6,21 +6,19 @@ namespace Catalyster
     public class GameMaster
     {
         public static World World { get; private set; }
-        public static DungeonMap DungeonMap { get; private set; }
+        public static DungeonMap DungeonMap { get; set; }
 
         public Command Command;
         private TurnOrder _turnOrder;
 
         public static MessageLog MessageLog { get; private set; }
 
-        // TODO: Consolidate constructors
-        public GameMaster(DungeonMap dungeonMap)
+        public static GameMaster _gameMaster;
+        public static GameMaster Instance()
         {
-            DungeonMap = dungeonMap;
-            World = World.Create();
-            Command = new Command();
-            _turnOrder = new TurnOrder();
-            MessageLog = new MessageLog();
+            if (_gameMaster == null)
+                _gameMaster = new GameMaster();
+            return _gameMaster;
         }
 
         public GameMaster()

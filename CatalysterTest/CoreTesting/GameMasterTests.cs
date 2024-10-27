@@ -22,13 +22,13 @@ namespace CatalysterTest.CoreTesting
             gm.Update();
         }
 
-        [TestMethod]
-        public void GameMasterTest2()
-        {
-            var map = new DungeonMap();
-            var gm = new GameMaster(map);
-            Assert.AreEqual(GameMaster.DungeonMap, map);
-        }
+        //[TestMethod]
+        //public void GameMasterTest2()
+        //{
+        //    var map = new DungeonMap();
+        //    var gm = new GameMaster(map);
+        //    Assert.AreEqual(GameMaster.DungeonMap, map);
+        //}
 
         [TestMethod]
         public void GameMasterTest3()

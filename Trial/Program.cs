@@ -44,7 +44,8 @@ namespace Trial
             var map = new DrawingMap();
             mapModel.Process(map);
             
-            GameMaster = new GameMaster(map);
+            GameMaster = GameMaster.Instance();
+            GameMaster.DungeonMap = map;
             DrawingMap = map;
 
             // Ref generation
