@@ -23,7 +23,7 @@ namespace CatalysterTest.CoreTesting
             var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(10, 10);
             GameMaster.DungeonMap.Clear();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
             var command = gm.Command;
             
             command.Move(0, 0);
@@ -39,7 +39,7 @@ namespace CatalysterTest.CoreTesting
         public void CommandTest2()
         {
             GameMaster.Instance();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
             var command = new Command();
             var order = new TurnOrder();
 
@@ -59,7 +59,7 @@ namespace CatalysterTest.CoreTesting
             GameMaster.DungeonMap.SetAllWalkable();
             var command = gm.Command;
 
-            var player = ExFactory.Player(GameMaster.World);
+            var player = ExFactory.Player(GameMaster.Instance().World);
             var iPos = player.Get<Position>();
 
             command.Entity = player;
@@ -76,7 +76,7 @@ namespace CatalysterTest.CoreTesting
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var command = gm.Command;
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
 
             var player = ExFactory.Player(world);
             var iPos = player.Get<Position>();
@@ -102,7 +102,7 @@ namespace CatalysterTest.CoreTesting
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var command = gm.Command;
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
 
             var player = ExFactory.Player(world);
             player.Set(new Position { X=0, Y=0 });
@@ -134,7 +134,7 @@ namespace CatalysterTest.CoreTesting
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var command = gm.Command;
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
 
             var player = ExFactory.Player(world);
             player.Set(new Position { X = 0, Y = 0 });
@@ -159,7 +159,7 @@ namespace CatalysterTest.CoreTesting
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var command = gm.Command;
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
 
             var player = ExFactory.Player(world);
             player.Set(new Position { X = 0, Y = 0 });
@@ -184,7 +184,7 @@ namespace CatalysterTest.CoreTesting
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
             var command = gm.Command;
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
 
             var player = ExFactory.Player(world);
             player.Set(new Position { Y = 0, X = 0 });

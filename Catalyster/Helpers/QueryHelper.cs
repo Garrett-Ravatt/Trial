@@ -16,7 +16,7 @@ namespace Catalyster.Helpers
             var list = new List<EntityReference>();
             var desc = new QueryDescription().WithAll<T>();
 
-            GameMaster.World.Query(in desc, (Entity e) =>
+            GameMaster.Instance().World.Query(in desc, (Entity e) =>
             {
                 list.Add(e.Reference());
             });
@@ -28,7 +28,7 @@ namespace Catalyster.Helpers
         {
             var list = new List<EntityReference>();
 
-            GameMaster.World.Query(in desc, (Entity e) =>
+            GameMaster.Instance().World.Query(in desc, (Entity e) =>
             {
                 list.Add(e.Reference());
             });

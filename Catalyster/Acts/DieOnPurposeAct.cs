@@ -33,7 +33,7 @@ namespace Catalyster.Acts
             if (Confirmed)
             {
                 hub.Publish(new DeathMessage(this, EntityReference.Value));
-                GameMaster.World.Destroy(entity);
+                GameMaster.Instance().World.Destroy(entity);
                 Resolved = true;
                 return this;
             }

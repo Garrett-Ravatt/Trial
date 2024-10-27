@@ -18,7 +18,7 @@ namespace Catalyster.Helpers
         public static bool IsClear(int x, int y)
         {
             var isClear = true;
-            GameMaster.World.Query(in new QueryDescription().WithAll<Position>(), (ref Position position) =>
+            GameMaster.Instance().World.Query(in new QueryDescription().WithAll<Position>(), (ref Position position) =>
             {
                 if (position.X == x && position.Y == y) isClear = false;
             });
@@ -30,7 +30,7 @@ namespace Catalyster.Helpers
         {
             var isClear = true;
             Entity? temp = foundEntity;
-            GameMaster.World.Query(in new QueryDescription().WithAll<Position>(), (Entity entity, ref Position position) =>
+            GameMaster.Instance().World.Query(in new QueryDescription().WithAll<Position>(), (Entity entity, ref Position position) =>
             {
                 if (position.X == x && position.Y == y)
                 {

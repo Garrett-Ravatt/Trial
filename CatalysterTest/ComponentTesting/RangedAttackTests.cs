@@ -25,7 +25,7 @@ namespace CatalysterTest.ComponentTesting
         public void RangedAttackTest()
         {
             GameMaster.Instance();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
             // RangedMon written so they hit every time, but won't die in one hit.
             var attacker = RangedMon(world);
             var defender = RangedMon(world);
@@ -45,7 +45,7 @@ namespace CatalysterTest.ComponentTesting
         public void RangedEnemyTest()
         {
             GameMaster.Instance();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
             // RangedMon written so they hit every time, but won't die in one hit.
             var attacker = RangedMon(world);
             var defender = RangedMon(world);

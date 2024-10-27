@@ -16,7 +16,7 @@ namespace CatalysterTest.ComponentTests
         public void TestCreature()
         {
             GameMaster.Instance();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
             // ExFactory makes our monsters for us.
             ExFactory.SimpleCreature(world);
             World.Destroy(world);
@@ -36,7 +36,7 @@ namespace CatalysterTest.ComponentTests
         public void TestAttackWorks()
         {
             GameMaster.Instance();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
             // ActionHelper returns true if the attack lands.
             Assert.IsTrue(ActionHelper.ResolveAttack(ExFactory.SimpleCreature(world), ExFactory.SimpleCreature(world)));
             World.Destroy(world);
@@ -47,7 +47,7 @@ namespace CatalysterTest.ComponentTests
         public void TestAttackDamage()
         {
             GameMaster.Instance();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
 
             // Using ExFactory to make simple creatures.
             // Defense Class is always 0, so attacks always hit.

@@ -6,7 +6,7 @@ namespace Catalyster
 {
     public class GameMaster
     {
-        public static World World { get; private set; }
+        public World World { get; private set; }
         public static DungeonMap DungeonMap { get; set; }
 
         public Command Command;
@@ -29,7 +29,7 @@ namespace Catalyster
             _gameMaster = new GameMaster();
         }
 
-        public GameMaster()
+        private GameMaster()
         {
             DungeonMap = new DungeonMap();
             World = World.Create();

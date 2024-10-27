@@ -34,7 +34,7 @@ namespace CatalysterTest.HelperTesting
         public void SpatialHelperTest2()
         {
             GameMaster.Instance();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
 
             var position = new Position { X = 0, Y = 0 };
 
@@ -45,14 +45,14 @@ namespace CatalysterTest.HelperTesting
             world.Create(position);
             Assert.IsFalse(SpatialHelper.IsClear(0, 0));
 
-            GameMaster.World.Dispose();
+            GameMaster.Instance().World.Dispose();
         }
 
         [TestMethod]
         public void SpatialHelperTest3()
         {
             GameMaster.Instance();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
 
             var position = new Position { X = 0, Y = 0 };
 
@@ -65,7 +65,7 @@ namespace CatalysterTest.HelperTesting
             world.Create(position);
             Assert.IsFalse(SpatialHelper.ClearOrAssign(0, 0, ref holder));
 
-            GameMaster.World.Dispose();
+            GameMaster.Instance().World.Dispose();
         }
     }
 }

@@ -29,7 +29,7 @@ namespace CatalysterTest.Messages
             //var gm = new GameMaster();
             GameMaster.DungeonMap.Initialize(30, 30);
             GameMaster.DungeonMap.Clear();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
 
             var creature = ExFactory.SimpleCreature(world);
             creature.Set<IDirector>(new CrazedHunter { });
@@ -42,7 +42,7 @@ namespace CatalysterTest.Messages
                 creature.Get<Position>(),
                 player.Get<Position>());
 
-            GameMaster.DungeonMap.UpdateFieldOfView(GameMaster.World);
+            GameMaster.DungeonMap.UpdateFieldOfView(GameMaster.Instance().World);
             gm.Update();
             gm.Command.Wait();
             gm.Update();
@@ -66,7 +66,7 @@ namespace CatalysterTest.Messages
             var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(30, 30);
             GameMaster.DungeonMap.SetAllWalkable();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
 
             var player = ExFactory.Player(world);
             var act = new DieOnPurposeAct(player.Reference());

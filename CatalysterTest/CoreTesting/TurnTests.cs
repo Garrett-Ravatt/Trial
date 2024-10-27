@@ -113,7 +113,7 @@ namespace CatalysterTest.CoreTesting
             var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(30, 30);
             GameMaster.DungeonMap.SetAllWalkable();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
             CommandInjectionAct.InjectedAct = null;
 
             var player = ExFactory.Player(world);

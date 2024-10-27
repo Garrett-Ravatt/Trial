@@ -26,7 +26,7 @@ namespace CatalysterTest.ComponentTests
             GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
 
             // Create MonoBehavior creature
             var creature = world.Create(
@@ -57,7 +57,7 @@ namespace CatalysterTest.ComponentTests
             GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(40, 40);
             GameMaster.DungeonMap.SetAllWalkable();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
 
             // Create MonoBehavior creature with higher move speed
             var creature = world.Create(
@@ -86,7 +86,7 @@ namespace CatalysterTest.ComponentTests
         public void InterfaceTest1()
         {
             GameMaster.Instance();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
             GameMaster.DungeonMap.Initialize(10, 10);
             GameMaster.DungeonMap.Clear();
             // Create MonoBehavior creature
@@ -120,7 +120,7 @@ namespace CatalysterTest.ComponentTests
             var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(30, 30);
             GameMaster.DungeonMap.SetAllWalkable();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
 
             var creature = ExFactory.SimpleCreature(world);
             creature.Set<IDirector>(new CrazedHunter { });
@@ -133,7 +133,7 @@ namespace CatalysterTest.ComponentTests
                 creature.Get<Position>(),
                 player.Get<Position>());
 
-            GameMaster.DungeonMap.UpdateFieldOfView(GameMaster.World);
+            GameMaster.DungeonMap.UpdateFieldOfView(GameMaster.Instance().World);
             gm.Update();
             gm.Command.Wait();
             gm.Update();
@@ -153,14 +153,14 @@ namespace CatalysterTest.ComponentTests
             var gm = GameMaster.Instance();
             GameMaster.DungeonMap.Initialize(30, 30);
             GameMaster.DungeonMap.SetAllWalkable();
-            var world = GameMaster.World;
+            var world = GameMaster.Instance().World;
 
             var player = ExFactory.SimpleCreature(world);
             player.Set<IDirector>(new PlayerDirector { });
 
             var x = player.Get<Position>().X;
 
-            GameMaster.DungeonMap.UpdateFieldOfView(GameMaster.World);
+            GameMaster.DungeonMap.UpdateFieldOfView(GameMaster.Instance().World);
             gm.Update();
 
             CommandInjectionAct.InjectedAct = new WalkAct(player.Reference(), x: 1, y: 0);

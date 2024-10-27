@@ -31,7 +31,7 @@ namespace Catalyster.Core
             if (Entity != null)
             {
                 var e = Entity.Value;
-                var walkAct = new WalkAct(GameMaster.World.Reference(e), X, Y);
+                var walkAct = new WalkAct(GameMaster.Instance().World.Reference(e), X, Y);
                 CommandInjectionAct.InjectedAct = walkAct;
                 return;
             }
@@ -56,7 +56,7 @@ namespace Catalyster.Core
 
             // Look for items, collect them
             // TODO: Refactor as an Injected Act
-            GameMaster.World.Query(
+            GameMaster.Instance().World.Query(
                 in new QueryDescription().WithAll<Token, Position, Item>(),
                 (Entity entity, ref Token token, ref Position pos, ref Item item) =>
                 {
@@ -80,7 +80,7 @@ namespace Catalyster.Core
                 return false;
 
             var entity = Entity.Value;
-            var throwAct = new ThrowAct(GameMaster.World.Reference(entity), x, y, i);
+            var throwAct = new ThrowAct(GameMaster.Instance().World.Reference(entity), x, y, i);
             CommandInjectionAct.InjectedAct = throwAct;
             return true;
         }

@@ -44,7 +44,7 @@ namespace Catalyster.Helpers
                     GameMaster.MessageLog.Hub.Publish(new DeathMessage(attack, defender.Reference()));
 
                     //TODO: needs test coverage.
-                    GameMaster.World.Destroy(defender);
+                    GameMaster.Instance().World.Destroy(defender);
                 }
                 return true;
             }
@@ -84,7 +84,7 @@ namespace Catalyster.Helpers
                     GameMaster.MessageLog.Hub.Publish(new DeathMessage(attack, defender.Reference()));
                     Console.WriteLine($"{defender} dies!");
                     //TODO: needs test coverage.
-                    GameMaster.World.Destroy(defender);
+                    GameMaster.Instance().World.Destroy(defender);
                 }
                 return true;
             }
