@@ -23,7 +23,9 @@ namespace Catalyster
         }
         public void Reset()
         {
-            //World.Dispose();
+            World.Dispose();
+            // TODO: Wonder about if this should be here
+            CommandInjectionAct.InjectedAct = null;
             _gameMaster = new GameMaster();
         }
 
@@ -34,8 +36,6 @@ namespace Catalyster
             Command = new Command();
             _turnOrder = new TurnOrder();
             MessageLog = new MessageLog();
-            // TODO: Wonder about if this should be here
-            //CommandInjectionAct.InjectedAct = null;
         }
 
         public void Update()

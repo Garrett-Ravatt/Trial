@@ -16,7 +16,7 @@ namespace CatalysterTest.Messages
     [TestClass]
     public class IncidentalMessageTests
     {
-        [TestCleanup]
+        [TestInitialize]
         public void Initialize()
         {
             GameMaster.Instance().Reset();
