@@ -30,7 +30,7 @@ namespace Catalyster.Acts
             }
             var (entity, x, y, i) = (EntityRef.Value.Entity, X.Value, Y.Value, I.Value);
 
-            if (entity.Has<Player>() && !GameMaster.DungeonMap.IsInFov(x, y))
+            if (entity.Has<Player>() && !GameMaster.Instance().DungeonMap.IsInFov(x, y))
             {
                 return this;
             }

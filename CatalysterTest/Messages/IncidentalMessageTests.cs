@@ -27,8 +27,8 @@ namespace CatalysterTest.Messages
         {
             var gm = GameMaster.Instance();
             //var gm = new GameMaster();
-            GameMaster.DungeonMap.Initialize(30, 30);
-            GameMaster.DungeonMap.Clear();
+            GameMaster.Instance().DungeonMap.Initialize(30, 30);
+            GameMaster.Instance().DungeonMap.Clear();
             var world = GameMaster.Instance().World;
 
             var creature = ExFactory.SimpleCreature(world);
@@ -42,20 +42,20 @@ namespace CatalysterTest.Messages
                 creature.Get<Position>(),
                 player.Get<Position>());
 
-            GameMaster.DungeonMap.UpdateFieldOfView(GameMaster.Instance().World);
+            GameMaster.Instance().DungeonMap.UpdateFieldOfView(GameMaster.Instance().World);
             gm.Update();
             gm.Command.Wait();
             gm.Update();
 
             // Assert the message
             var called = false;
-            GameMaster.MessageLog.Hub.Subscribe<MeleeAttackMessage>(msg => { called = true; });
+            GameMaster.Instance().MessageLog.Hub.Subscribe<MeleeAttackMessage>(msg => { called = true; });
 
             // Assert the message log
-            foreach (string s in GameMaster.MessageLog.Messages)
+            foreach (string s in GameMaster.Instance().MessageLog.Messages)
                 Console.WriteLine(s);
 
-            Assert.IsTrue(GameMaster.MessageLog.Messages.Count >= 1);
+            Assert.IsTrue(GameMaster.Instance().MessageLog.Messages.Count >= 1);
 
             World.Destroy(world);
         }
@@ -64,14 +64,14 @@ namespace CatalysterTest.Messages
         public void ConfirmationMessageTest()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(30, 30);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(30, 30);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
             var world = GameMaster.Instance().World;
 
             var player = ExFactory.Player(world);
             var act = new DieOnPurposeAct(player.Reference());
 
-            var hub = GameMaster.MessageLog.Hub;
+            var hub = GameMaster.Instance().MessageLog.Hub;
             var formed = false;
             Decide? d = null;
             hub.Subscribe<ConfirmationMessage>(msg => {

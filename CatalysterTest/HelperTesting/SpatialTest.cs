@@ -12,8 +12,8 @@ namespace CatalysterTest.HelperTesting
         public void Initialize()
         {
             GameMaster.Instance().Reset();
-            GameMaster.DungeonMap.Initialize(40,40);
-            GameMaster.DungeonMap.Clear();
+            GameMaster.Instance().DungeonMap.Initialize(40,40);
+            GameMaster.Instance().DungeonMap.Clear();
         }
 
         [TestMethod]

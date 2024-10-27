@@ -19,8 +19,8 @@ namespace CatalysterTest.CoreTesting
         public void Initialize()
         {
             GameMaster.Instance().Reset();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.Clear();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.Clear();
         }
 
         [TestMethod]
@@ -68,8 +68,8 @@ namespace CatalysterTest.CoreTesting
         public void TurnTest3()
         {
             GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(10, 10);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(10, 10);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
             var world = World.Create();
             var order = new TurnOrder();
 
@@ -111,15 +111,15 @@ namespace CatalysterTest.CoreTesting
         public void TurnTest5()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(30, 30);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(30, 30);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
             var world = GameMaster.Instance().World;
             CommandInjectionAct.InjectedAct = null;
 
             var player = ExFactory.Player(world);
             var act = new DieOnPurposeAct(player.Reference());
 
-            var hub = GameMaster.MessageLog.Hub;
+            var hub = GameMaster.Instance().MessageLog.Hub;
             var formed = false;
             Decide? d = null;
             hub.Subscribe<ConfirmationMessage>(msg => {

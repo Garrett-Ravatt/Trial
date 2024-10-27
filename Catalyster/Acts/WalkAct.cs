@@ -39,7 +39,7 @@ namespace Catalyster.Acts
             ref var position = ref entity.Get<Position>();
             var newPos = new Position { X = position.X + x, Y = position.Y + y };
 
-            if (GameMaster.DungeonMap.IsWalkable(newPos.X, newPos.Y))
+            if (GameMaster.Instance().DungeonMap.IsWalkable(newPos.X, newPos.Y))
             {
                 Entity? bumped = null;
                 if (SpatialHelper.ClearOrAssign(position.X + x, position.Y + y, ref bumped))

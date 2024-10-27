@@ -25,8 +25,8 @@ namespace CatalysterTest.ActTesting
         public void ActTest2()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
 
             var creature = ExFactory.SimpleCreature(GameMaster.Instance().World);
             var act = new WalkAct(GameMaster.Instance().World.Reference(creature), 0, 1);
@@ -41,8 +41,8 @@ namespace CatalysterTest.ActTesting
         {
             var gm = GameMaster.Instance();
             var world = GameMaster.Instance().World;
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
 
             var creature = ExFactory.SimpleCreature(GameMaster.Instance().World);
             var act = new WalkAct(world.Reference(creature), 0, 1);
@@ -57,8 +57,8 @@ namespace CatalysterTest.ActTesting
         {
             var gm = GameMaster.Instance();
             var world = GameMaster.Instance().World;
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
 
             var creature = ExFactory.SimpleCreature(GameMaster.Instance().World);
             creature.Get<Energy>().Points += 1000;
@@ -74,8 +74,8 @@ namespace CatalysterTest.ActTesting
         {
             var gm = GameMaster.Instance();
             var world = GameMaster.Instance().World;
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
 
             var c1 = ExFactory.SimpleCreature(GameMaster.Instance().World);
             var c2 = ExFactory.SimpleCreature(GameMaster.Instance().World);
@@ -83,7 +83,7 @@ namespace CatalysterTest.ActTesting
             var act = new MeleeAttackAct(c1.Reference(), c2.Reference());
 
             var formed = false;
-            GameMaster.MessageLog.Hub.Subscribe<MeleeAttackMessage>(msg => formed = true);
+            GameMaster.Instance().MessageLog.Hub.Subscribe<MeleeAttackMessage>(msg => formed = true);
             Assert.IsTrue(act.Execute().Resolved);
             Assert.IsTrue(formed);
         }
@@ -93,8 +93,8 @@ namespace CatalysterTest.ActTesting
         {
             var gm = GameMaster.Instance();
             var world = GameMaster.Instance().World;
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
 
             var c1 = ExFactory.SimpleCreature(GameMaster.Instance().World);
             var item = world.Create(new Item { Fill = 2, Weight = 2 });
@@ -112,15 +112,15 @@ namespace CatalysterTest.ActTesting
         public void ProbeActTest1()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
-            GameMaster.DungeonMap.SetCellProperties(0, 1, false, false);
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.SetCellProperties(0, 1, false, false);
 
             var creature = ExFactory.Player(GameMaster.Instance().World);
             var act = new ProbeAct(GameMaster.Instance().World.Reference(creature), 0, 1);
 
             var formed = false;
-            GameMaster.MessageLog.Hub.Subscribe<WallBumpMessage>(msg => formed = true);
+            GameMaster.Instance().MessageLog.Hub.Subscribe<WallBumpMessage>(msg => formed = true);
             Assert.IsTrue(act.Execute().Resolved);
             Assert.IsTrue(formed);
         }
@@ -129,15 +129,15 @@ namespace CatalysterTest.ActTesting
         public void AlternateActTest()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
-            GameMaster.DungeonMap.SetCellProperties(0, 1, false, false);
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.SetCellProperties(0, 1, false, false);
 
             var creature = ExFactory.Player(GameMaster.Instance().World);
             var act = new WalkAct(GameMaster.Instance().World.Reference(creature), 0, 1);
 
             var formed = false;
-            GameMaster.MessageLog.Hub.Subscribe<WallBumpMessage>(msg => formed = true);
+            GameMaster.Instance().MessageLog.Hub.Subscribe<WallBumpMessage>(msg => formed = true);
             Assert.IsTrue(act.Execute().Execute().Resolved);
             Assert.IsTrue(formed);
 
@@ -149,8 +149,8 @@ namespace CatalysterTest.ActTesting
         public void ActSuspensionTest()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
 
             var player = ExFactory.Player(GameMaster.Instance().World);
             var act = new DieOnPurposeAct(player.Reference());
@@ -163,8 +163,8 @@ namespace CatalysterTest.ActTesting
         public void CommandInjectionTest()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
 
             var player = ExFactory.Player(GameMaster.Instance().World);
             var act = new CommandInjectionAct();
@@ -192,8 +192,8 @@ namespace CatalysterTest.ActTesting
         public void WaitActTest()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
 
             var player = ExFactory.Player(GameMaster.Instance().World);
             CommandInjectionAct.InjectedAct = new WaitAct(player.Reference());

@@ -36,12 +36,12 @@ namespace Catalyster.Helpers
                 var damage = attack.DamageFormula.Roll().Value;
                 msg.Damage = damage;
                 
-                GameMaster.MessageLog.Hub.Publish(msg);
+                GameMaster.Instance().MessageLog.Hub.Publish(msg);
 
                 health.Points -= damage;
                 if (health.Points <=0)
                 {
-                    GameMaster.MessageLog.Hub.Publish(new DeathMessage(attack, defender.Reference()));
+                    GameMaster.Instance().MessageLog.Hub.Publish(new DeathMessage(attack, defender.Reference()));
 
                     //TODO: needs test coverage.
                     GameMaster.Instance().World.Destroy(defender);
@@ -54,7 +54,7 @@ namespace Catalyster.Helpers
                 msg.Hit = false;
             }
 
-            GameMaster.MessageLog.Hub.Publish(msg);
+            GameMaster.Instance().MessageLog.Hub.Publish(msg);
             return true;
         }
 
@@ -74,14 +74,14 @@ namespace Catalyster.Helpers
 
                 var damage = attack.DamageFormula.Roll().Value;
                 // TODO: Message
-                GameMaster.MessageLog.Hub.Publish(
+                GameMaster.Instance().MessageLog.Hub.Publish(
                     new RangedAttackMessage(attack, attacker.Reference(), defender.Reference(), toHit, damage
                     ));
 
                 health.Points -= damage;
                 if (health.Points <= 0)
                 {
-                    GameMaster.MessageLog.Hub.Publish(new DeathMessage(attack, defender.Reference()));
+                    GameMaster.Instance().MessageLog.Hub.Publish(new DeathMessage(attack, defender.Reference()));
                     Console.WriteLine($"{defender} dies!");
                     //TODO: needs test coverage.
                     GameMaster.Instance().World.Destroy(defender);
@@ -89,7 +89,7 @@ namespace Catalyster.Helpers
                 return true;
             }
 
-            GameMaster.MessageLog.Hub.Publish(
+            GameMaster.Instance().MessageLog.Hub.Publish(
                     new RangedAttackMessage(attack, attacker.Reference(), defender.Reference(), toHit, hit:false
                     ));
 

@@ -33,15 +33,15 @@ namespace CatalysterTest.CoreTesting
         //{
         //    var map = new DungeonMap();
         //    var gm = new GameMaster(map);
-        //    Assert.AreEqual(GameMaster.DungeonMap, map);
+        //    Assert.AreEqual(GameMaster.Instance().DungeonMap, map);
         //}
 
         [TestMethod]
         public void GameMasterTest3()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(10, 10);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(10, 10);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
             for (var i = 0; i < 10; i++)
             {
                 ExFactory.SimpleCreature(GameMaster.Instance().World);
@@ -59,8 +59,8 @@ namespace CatalysterTest.CoreTesting
         public void GameMasterTest4()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
             for (var i = 0; i < 10; i++)
             {
                 ExFactory.SimpleCreature(GameMaster.Instance().World);
@@ -80,8 +80,8 @@ namespace CatalysterTest.CoreTesting
         {
             var gm = GameMaster.Instance();
             var world = GameMaster.Instance().World;
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
 
             var creatures = new List<EntityReference>();
 

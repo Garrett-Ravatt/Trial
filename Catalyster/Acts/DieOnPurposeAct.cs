@@ -27,7 +27,7 @@ namespace Catalyster.Acts
                 return this;
             }
 
-            var hub = GameMaster.MessageLog.Hub;
+            var hub = GameMaster.Instance().MessageLog.Hub;
             var entity = EntityReference.Value.Entity;
 
             if (Confirmed)

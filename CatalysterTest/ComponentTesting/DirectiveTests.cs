@@ -20,8 +20,8 @@ namespace CatalysterTest.ComponentTests
         public void DirectiveTest1()
         {
             GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
             var world = GameMaster.Instance().World;
 
             var e = world.Create(
@@ -71,8 +71,8 @@ namespace CatalysterTest.ComponentTests
         public void DirectiveTest3()
         {
             GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
             var world = GameMaster.Instance().World;
             // Create cat
             var cat = ExFactory.SimpleCreature(world);
@@ -99,8 +99,8 @@ namespace CatalysterTest.ComponentTests
         public void DirectiveTest4()
         {
             GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
             var world = GameMaster.Instance().World;
             // Create cat
             var cat = ExFactory.SimpleCreature(world);

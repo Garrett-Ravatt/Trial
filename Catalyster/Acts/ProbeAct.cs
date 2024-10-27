@@ -28,9 +28,9 @@ namespace Catalyster.Acts
             ref var energy = ref entity.Get<Energy>();
 
             //TODO: check depth of the wall
-            if (!GameMaster.DungeonMap.IsWalkable(x, y))
+            if (!GameMaster.Instance().DungeonMap.IsWalkable(x, y))
             {
-                GameMaster.MessageLog.Hub.Publish(new WallBumpMessage(this, x, y, entity.Reference()));
+                GameMaster.Instance().MessageLog.Hub.Publish(new WallBumpMessage(this, x, y, entity.Reference()));
                 energy.Points -= Cost;
                 Resolved = true;
             }

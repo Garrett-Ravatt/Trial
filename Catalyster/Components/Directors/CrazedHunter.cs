@@ -18,7 +18,7 @@ namespace Catalyster.Components.Directors
             ref var pos = ref entity.Get<Position>();
 
             // does nothing if the player can't see it.
-            if (!GameMaster.DungeonMap.IsInFov(pos.X, pos.Y))
+            if (!GameMaster.Instance().DungeonMap.IsInFov(pos.X, pos.Y))
             {
                 //Console.WriteLine("They can't see me");
                 return null;
@@ -53,16 +53,16 @@ namespace Catalyster.Components.Directors
                 var act = new WalkAct(entity.Reference());
 
                 // TODO: refactor to static method elsewhere.
-                if (GameMaster.DungeonMap.IsWalkable(pos.X + x, pos.Y + y))
+                if (GameMaster.Instance().DungeonMap.IsWalkable(pos.X + x, pos.Y + y))
                 {
                     act.X = x;
                     act.Y = y;
                 }
-                else if (GameMaster.DungeonMap.IsWalkable(pos.X + x, pos.Y))
+                else if (GameMaster.Instance().DungeonMap.IsWalkable(pos.X + x, pos.Y))
                 {
                     act.X = x;
                 }
-                else if (GameMaster.DungeonMap.IsWalkable(pos.X, pos.Y + y))
+                else if (GameMaster.Instance().DungeonMap.IsWalkable(pos.X, pos.Y + y))
                 {
                     act.Y += y;
                 }

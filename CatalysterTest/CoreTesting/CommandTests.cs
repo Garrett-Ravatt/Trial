@@ -21,8 +21,8 @@ namespace CatalysterTest.CoreTesting
         public void CommandTest1()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(10, 10);
-            GameMaster.DungeonMap.Clear();
+            GameMaster.Instance().DungeonMap.Initialize(10, 10);
+            GameMaster.Instance().DungeonMap.Clear();
             var world = GameMaster.Instance().World;
             var command = gm.Command;
             
@@ -55,8 +55,8 @@ namespace CatalysterTest.CoreTesting
         public void CommandTest3()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
             var command = gm.Command;
 
             var player = ExFactory.Player(GameMaster.Instance().World);
@@ -73,8 +73,8 @@ namespace CatalysterTest.CoreTesting
         public void CommandTest4()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
             var command = gm.Command;
             var world = GameMaster.Instance().World;
 
@@ -99,14 +99,14 @@ namespace CatalysterTest.CoreTesting
         public void CommandTest5()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
             var command = gm.Command;
             var world = GameMaster.Instance().World;
 
             var player = ExFactory.Player(world);
             player.Set(new Position { X=0, Y=0 });
-            GameMaster.DungeonMap.UpdateFieldOfView(world);
+            GameMaster.Instance().DungeonMap.UpdateFieldOfView(world);
 
             var items = new List<EntityReference> {
                 world.Create(new Item { Fill = 2, Weight = 2 }).Reference()
@@ -131,8 +131,8 @@ namespace CatalysterTest.CoreTesting
         public void CommandTest6()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
             var command = gm.Command;
             var world = GameMaster.Instance().World;
 
@@ -156,8 +156,8 @@ namespace CatalysterTest.CoreTesting
         public void CommandTest7()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
             var command = gm.Command;
             var world = GameMaster.Instance().World;
 
@@ -181,14 +181,14 @@ namespace CatalysterTest.CoreTesting
         public void CommandTest8()
         {
             var gm = GameMaster.Instance();
-            GameMaster.DungeonMap.Initialize(40, 40);
-            GameMaster.DungeonMap.SetAllWalkable();
+            GameMaster.Instance().DungeonMap.Initialize(40, 40);
+            GameMaster.Instance().DungeonMap.SetAllWalkable();
             var command = gm.Command;
             var world = GameMaster.Instance().World;
 
             var player = ExFactory.Player(world);
             player.Set(new Position { Y = 0, X = 0 });
-            GameMaster.DungeonMap.UpdateFieldOfView(world);
+            GameMaster.Instance().DungeonMap.UpdateFieldOfView(world);
 
             var bomb = ExFactory.BasicBomb(world);
             bomb.Set(new Position { X=0, Y=0 });

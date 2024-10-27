@@ -22,9 +22,9 @@ namespace Trial.Consoles
             Cursor.IsVisible = true;
 
             Type(":: :: Your task comes to hand.");
-            //GameMaster.MessageLog.Handler += Type;
+            //GameMaster.Instance().MessageLog.Handler += Type;
 
-            var hub = GameMaster.MessageLog.Hub;
+            var hub = GameMaster.Instance().MessageLog.Hub;
 
             hub.Subscribe<DialogueMessage>(msg => IDType(msg.Source, msg.Content));
 

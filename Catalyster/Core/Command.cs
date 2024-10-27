@@ -67,8 +67,8 @@ namespace Catalyster.Core
                         var entityRef = entity.Reference();
                         entity.Remove<Position>();
                         inv.Items.Add(entityRef);
-                        GameMaster.MessageLog.Hub.Publish(new ItemCollectedMessage(player, player.Reference(), entityRef, item));
-                        //GameMaster.MessageLog.Add($"{token.Name} Collected.");
+                        GameMaster.Instance().MessageLog.Hub.Publish(new ItemCollectedMessage(player, player.Reference(), entityRef, item));
+                        //GameMaster.Instance().MessageLog.Add($"{token.Name} Collected.");
                     }
                 });
         }
@@ -76,7 +76,7 @@ namespace Catalyster.Core
         // Attempt to throw an item from inventory at a tile
         public bool Throw(int x, int y, int i)
         {
-            if (Entity == null || !GameMaster.DungeonMap.IsInFov(x, y))
+            if (Entity == null || !GameMaster.Instance().DungeonMap.IsInFov(x, y))
                 return false;
 
             var entity = Entity.Value;

@@ -7,12 +7,12 @@ namespace Catalyster
     public class GameMaster
     {
         public World World { get; private set; }
-        public static DungeonMap DungeonMap { get; set; }
+        public DungeonMap DungeonMap { get; set; }
 
         public Command Command;
         private TurnOrder _turnOrder;
 
-        public static MessageLog MessageLog { get; private set; }
+        public MessageLog MessageLog { get; private set; }
 
         public static GameMaster _gameMaster;
         public static GameMaster Instance()
@@ -26,6 +26,7 @@ namespace Catalyster
             World.Dispose();
             // TODO: Wonder about if this should be here
             CommandInjectionAct.InjectedAct = null;
+            // TODO: Reset internal TinyMessenger subscriptions
             _gameMaster = new GameMaster();
         }
 
