@@ -21,6 +21,7 @@ namespace Trial.Data
                 new Energy { Max = 1000, Points = 1000, Regen = 1000 },
                 new MeleeAttack { AttackFormula = Dice.Parse("1d20+3"), DamageFormula = Dice.Parse("1d3+1") },
                 new Player { },
+                (IDirector) new PlayerDirector { },
                 new Sense { Range = 20 },
                 new Inventory(new List<EntityReference> { world.Create(new Item { Fill = 1f, Weight = 2f }).Reference() })
                 );
