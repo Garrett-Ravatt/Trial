@@ -27,6 +27,7 @@ namespace Catalyster.Core
         }
 
         // Used for testing walking around.
+        // TODO: just replace with Clear(). Method is redundant.
         public void SetAllWalkable()
         {
             for(int x = 0; x < Width; x++)

@@ -20,6 +20,11 @@ namespace Catalyster
                 _gameMaster = new GameMaster();
             return _gameMaster;
         }
+        public void Reset()
+        {
+            World.Dispose();
+            _gameMaster = new GameMaster();
+        }
 
         public GameMaster()
         {
