@@ -32,7 +32,8 @@ namespace Catalyster.Acts
         public IAct Execute()
         {
             // TODO: throw malformed
-            if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue) return this;
+            if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue)
+                throw new Exception("WalkAct tried to execute with null values");
             var (entity, x, y) = (EntityRef.Value.Entity, X.Value, Y.Value);
             ref var energy = ref entity.Get<Energy>();
 
@@ -64,6 +65,12 @@ namespace Catalyster.Acts
             {
                 Resolved = true;
                 return new ProbeAct(EntityRef, newPos.X, newPos.Y);
+            }
+
+            else
+            {
+                // entity ran into a wall
+                throw new Exception($"{entity} is trying to walk through a wall");
             }
 
             return this;
