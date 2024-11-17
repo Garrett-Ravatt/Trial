@@ -23,9 +23,9 @@ namespace Catalyster.Acts
 
         public IAct Execute()
         {
-            // TODO: Malformed error
-            //if (EntityRef == null)
-            
+            if (EntityRef == null)
+                throw new Exception($"{GetType()} ran into null entity reference");
+
             var entity = EntityRef.Value.Entity;
 
             entity.Get<Energy>().Points = 0;

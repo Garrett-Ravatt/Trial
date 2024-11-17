@@ -31,9 +31,9 @@ namespace Catalyster.Acts
 
         public IAct Execute()
         {
-            // TODO: throw malformed
             if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue)
-                throw new Exception("WalkAct tried to execute with null values");
+                throw new Exception($"{this.GetType()} tried to execute with null values");
+
             var (entity, x, y) = (EntityRef.Value.Entity, X.Value, Y.Value);
             ref var energy = ref entity.Get<Energy>();
 

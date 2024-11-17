@@ -22,8 +22,10 @@ namespace CatalysterTest.ActTesting
         [TestMethod]
         public void MalformationTest1()
         {
-            var act = new WalkAct();
-            Assert.ThrowsException<Exception>(act.Execute);
+            Assert.ThrowsException<Exception>(new WalkAct().Execute);
+            Assert.ThrowsException<Exception>(new MeleeAttackAct().Execute);
+            Assert.ThrowsException<Exception>(new ProbeAct().Execute);
+            Assert.ThrowsException<Exception>(new WaitAct().Execute);
         }
 
         [TestMethod]
@@ -35,6 +37,12 @@ namespace CatalysterTest.ActTesting
             gm.DungeonMap.SetCellProperties(1, 0, false, false);
             var act = new WalkAct(c.Reference(), 1, 0);
             Assert.ThrowsException<Exception>(act.Execute);
+        }
+
+        [TestMethod]
+        public void MalformationTest3()
+        {
+            var gm = GameMaster.Instance();
         }
     }
 }

@@ -30,13 +30,11 @@ namespace Catalyster.Acts
             MeleeAttack att;
             if (!Defender.HasValue || !Attacker.HasValue)
             {
-                Console.Error.WriteLine($"Melee Attack InjectedAct Malformation");
-                //TODO: generate error / poll
+                throw new Exception($"{GetType()} tried to execute with unresolved entity references");
             }
             else if (!Attacker.Value.IsAlive() || !Defender.Value.IsAlive())
             {
-                Console.Error.WriteLine($"Stale Entity Reference: {Attacker.Value} {Defender.Value}");
-                // TODO: generate error
+                throw new Exception($"{GetType()} Ran into Stale Entity Reference(s): {Attacker.Value} {Defender.Value}");
             }
             else if (!Attack.HasValue)
             {

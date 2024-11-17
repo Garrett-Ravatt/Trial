@@ -14,7 +14,7 @@ namespace Catalyster.Acts
 
         public EntityReference? EntityRef;
         public int? X, Y;
-        public ProbeAct(EntityReference? entityReference, int? x, int? y)
+        public ProbeAct(EntityReference? entityReference = null, int? x = null, int? y = null)
         {
             EntityRef = entityReference;
             X = x;
@@ -22,8 +22,9 @@ namespace Catalyster.Acts
         }
         public IAct Execute()
         {
-            // TODO: Throw Malformed
-            if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue) return this;
+            if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue)
+                throw new Exception($"{this.GetType()} tried to execute with null values");
+
             var (entity, x, y) = (EntityRef.Value.Entity, X.Value, Y.Value);
             ref var energy = ref entity.Get<Energy>();
 
