@@ -43,7 +43,8 @@ namespace Catalyster.Acts
             if (GameMaster.Instance().DungeonMap.IsWalkable(newPos.X, newPos.Y))
             {
                 Entity? bumped = null;
-                if (SpatialHelper.ClearOrAssign(position.X + x, position.Y + y, ref bumped))
+                if (SpatialHelper.ClearOrAssign(position.X + x, position.Y + y, ref bumped) ||
+                    !bumped.Value.Has<Defense>())
                 {
                     position = newPos;
                     // TODO: refer to movement speed
