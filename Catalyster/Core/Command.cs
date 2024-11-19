@@ -91,7 +91,7 @@ namespace Catalyster.Core
             if (Entity == null)
                 return;
             var entity = Entity.Value;
-            if (entity.Get<Energy>().Points <= 0)
+            if (entity.Get<Stats>().Energy <= 0)
                 Entity = null;
         }
 

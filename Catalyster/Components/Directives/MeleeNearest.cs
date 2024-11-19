@@ -14,9 +14,9 @@ namespace Catalyster.Components.Directives
             var (entity, world) = (entityref.Entity, World.Worlds[entityref.Entity.WorldId]);
             try
             {
-                ref var energy = ref entity.Get<Energy>();
+                ref var stats = ref entity.Get<Stats>();
                 // Fail out if we can't perform action
-                if (energy.Points <= 0) return null;
+                if (stats.Energy <= 0) return null;
 
                 var desc = new QueryDescription().WithAll<Position, Stats>();
 

@@ -4,13 +4,18 @@ namespace Catalyster.Components
 {
     // Creature stats
     public struct Stats {
-        public int Body;
+        // Consistent stats
         public int Blood;
+        public int Body;
+        public int Breath;
+
+        // Stats that change quick
         public int HP;
+        public int Energy;
     };
 
     // Turn Energy
-    public struct Energy { public int Max, Points; };
+    //public struct Energy { public int Max, Points; };
 
     // Form and damage for a single attack. An Ref can have many.
     public struct MeleeAttack { public DiceExpression AttackFormula, DamageFormula; };

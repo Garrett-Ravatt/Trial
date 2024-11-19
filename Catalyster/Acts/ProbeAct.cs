@@ -26,13 +26,13 @@ namespace Catalyster.Acts
                 throw new Exception($"{this.GetType()} tried to execute with null values");
 
             var (entity, x, y) = (EntityRef.Value.Entity, X.Value, Y.Value);
-            ref var energy = ref entity.Get<Energy>();
+            ref var stats = ref entity.Get<Stats>();
 
             //TODO: check depth of the wall
             if (!GameMaster.Instance().DungeonMap.IsWalkable(x, y))
             {
                 GameMaster.Instance().MessageLog.Hub.Publish(new WallBumpMessage(this, x, y, entity.Reference()));
-                energy.Points -= Cost;
+                stats.Energy -= Cost;
                 Resolved = true;
             }
             //TODO: else probe entities on the tile

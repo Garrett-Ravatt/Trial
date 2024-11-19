@@ -15,8 +15,8 @@ namespace Catalyster.Components.Directives
         {
             var entity = entityref.Entity;
             // Fail out if we can't perform the action.
-            ref var energy = ref entity.Get<Energy>();
-            if (energy.Points <= 0) return null;
+            ref var stats = ref entity.Get<Stats>();
+            if (stats.Energy <= 0) return null;
 
             var moveAct = (WalkAct)Act(entityref);
             return moveAct;

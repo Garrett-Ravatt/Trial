@@ -8,8 +8,7 @@ namespace Catalyster.Core
     public class TurnOrder
     {
         private static readonly QueryDescription _desc = new QueryDescription()
-            .WithAll<Energy>()
-            .WithAny<Player, IDirector>();
+            .WithAll<Stats, IDirector>();
 
         // InjectedAct to be resolved before returning to the turn order
         public IAct? SuspendedAct;
@@ -43,8 +42,8 @@ namespace Catalyster.Core
                 {
                     var entity = entityRef.Entity;
                     ref var director = ref entity.Get<IDirector>();
-                    ref var energy = ref entity.Get<Energy>();
-                    while (energy.Points > 0)
+                    ref var stats = ref entity.Get<Stats>();
+                    while (stats.Energy > 0)
                     {
                         var act = director.Direct(entity, world);
                                 
@@ -77,14 +76,15 @@ namespace Catalyster.Core
             return null;
         }
 
+        const int BREATH_ENERGY_MULT = 100;
         // We CAN query entities but
         public LinkedList<EntityReference> QueryEntities(World world)
         {
             var queue = new LinkedList<EntityReference>();
-            world.Query(in _desc, (Entity entity, ref Energy energy) =>
+            world.Query(in _desc, (Entity entity, ref Stats stats) =>
             {
                 queue.AddLast(entity.Reference());
-                energy.Points = Math.Min(energy.Max, energy.Points + energy.Max);
+                stats.Energy = Math.Min(stats.Breath * BREATH_ENERGY_MULT, stats.Energy + stats.Breath * BREATH_ENERGY_MULT);
             });
             return queue;
         }

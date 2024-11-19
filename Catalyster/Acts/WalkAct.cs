@@ -35,7 +35,7 @@ namespace Catalyster.Acts
                 throw new Exception($"{this.GetType()} tried to execute with null values");
 
             var (entity, x, y) = (EntityRef.Value.Entity, X.Value, Y.Value);
-            ref var energy = ref entity.Get<Energy>();
+            ref var stats = ref entity.Get<Stats>();
 
             ref var position = ref entity.Get<Position>();
             var newPos = new Position { X = position.X + x, Y = position.Y + y };
@@ -48,7 +48,7 @@ namespace Catalyster.Acts
                 {
                     position = newPos;
                     // TODO: refer to movement speed
-                    energy.Points -= WiggleHelper.Wiggle(Cost, .1);
+                    stats.Energy -= WiggleHelper.Wiggle(Cost, .1);
                     Resolved = true;
                     return this;
                 }

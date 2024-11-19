@@ -41,7 +41,7 @@ namespace Catalyster.Acts
                 (atkr, def) = (Attacker.Value.Entity, Defender.Value.Entity);
                 if (ActionHelper.ResolveAttack(atkr, def))
                 {
-                    atkr.Get<Energy>().Points -= WiggleHelper.Wiggle(Cost, 0.1);
+                    atkr.Get<Stats>().Energy -= WiggleHelper.Wiggle(Cost, 0.1);
                     Resolved = true;
                 }
                 //TODO: generate error
@@ -50,8 +50,8 @@ namespace Catalyster.Acts
             {
                 (atkr, def, att) = (Attacker.Value.Entity, Defender.Value.Entity, Attack.Value);
                 ActionHelper.ResolveMelee(att, def, atkr);
-                ref var e = ref atkr.Get<Energy>();
-                e.Points -= WiggleHelper.Wiggle(Cost, 0.1);
+                ref var e = ref atkr.Get<Stats>();
+                e.Energy -= WiggleHelper.Wiggle(Cost, 0.1);
                 Resolved = true;
             }
             return this;

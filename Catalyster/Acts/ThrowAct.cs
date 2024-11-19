@@ -35,7 +35,7 @@ namespace Catalyster.Acts
                 return this;
             }
 
-            ref var energy = ref entity.Get<Energy>();
+            ref var stats = ref entity.Get<Stats>();
 
             var item = entity.Get<Inventory>().Items[i];
             if (item == null)
@@ -87,7 +87,7 @@ namespace Catalyster.Acts
                 }
             }
 
-            energy.Points -= WiggleHelper.Wiggle(1000, .1);
+            stats.Energy -= WiggleHelper.Wiggle(1000, .1);
             Resolved = true;
             // TODO: Dispose of the thrown item entity and contents
             entity.Get<Inventory>().Items.RemoveAt(i);

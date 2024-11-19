@@ -23,7 +23,7 @@ namespace Catalyster.Acts
 
             var entity = EntityRef.Value.Entity;
 
-            entity.Get<Energy>().Points = 0;
+            entity.Get<Stats>().Energy = 0;
             Resolved = true;
             return this;
         }
