@@ -16,7 +16,7 @@ namespace Trial.Data
             return world.Create(
                 new Position { },
                 new Token { Char = '@', Name = "Alchymer", Color = 0xffff70ff },
-                new Stats { Defense = new Defense { Class = 0 }, Health = new Health { Max = 10, Points = 10 } },
+                new Stats { Body = 0, HP = 10, Blood = 10 },
                 new Energy { Max = 1000, Points = 1000, Regen = 1000 },
                 new MeleeAttack { AttackFormula = Dice.Parse("1d20+3"), DamageFormula = Dice.Parse("1d3+1") },
                 new Player { },
@@ -33,7 +33,7 @@ namespace Trial.Data
             return world.Create(
                 new Position { },
                 new Token { Char = 'g', Name = "goblin", Color = 0xff00e300 },
-                new Stats { Defense = new Defense { Class = 10 }, Health = new Health { Max = hp, Points = hp } },
+                new Stats { Body = 10, HP = hp, Blood = hp },
                 new Energy { Max = 1000, Points = 1000, Regen = 1000 },
                 new Monster { },
                 new Faction { HostileDesc = new QueryDescription().WithAll<Player>() },

@@ -1,15 +1,16 @@
 ﻿using RogueSharp.DiceNotation;
 
 namespace Catalyster.Components
-{    
-    // Defense stats. Might contain saving throws or similar later
-    public struct Defense { public int Class; };
-    
+{
     // Are you ok? This is the stat for that
     public struct  Health { public int Points, Max; };
 
     // Creature stats
-    public struct Stats { public Defense Defense; public Health Health; };
+    public struct Stats {
+        public int Body;
+        public int Blood;
+        public int HP;
+    };
 
     // Turn Energy
     public struct Energy { public int Max, Regen, Points; };

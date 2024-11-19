@@ -201,7 +201,7 @@ namespace CatalysterTest.CoreTesting
             gm.Update();
 
             // the player should be hurt
-            Assert.IsTrue(player.Get<Stats>().Health.Points < player.Get<Stats>().Health.Max);
+            Assert.IsTrue(player.Get<Stats>().HP < player.Get<Stats>().Blood);
         }
     }
 }

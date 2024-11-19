@@ -50,17 +50,17 @@ namespace CatalysterTest.ComponentTests
             var world = GameMaster.Instance().World;
 
             // Using ExFactory to make simple creatures.
-            // Defense Class is always 0, so attacks always hit.
+            // Body Class is always 0, so attacks always hit.
             var att = ExFactory.SimpleCreature(world);
             var def = ExFactory.SimpleCreature(world);
 
-            var initialHP = def.Get<Stats>().Health.Points;
+            var initialHP = def.Get<Stats>().HP;
 
             // Do Attack
             ActionHelper.ResolveAttack(att, def);
 
             // Check hp difference
-            Assert.IsTrue(initialHP > def.Get<Stats>().Health.Points);
+            Assert.IsTrue(initialHP > def.Get<Stats>().HP);
 
             World.Destroy(world);
         }

@@ -21,9 +21,9 @@ namespace Catalyster.Helpers
         {
             if (!defender.Has<Stats>())
                 return false;
-            //NOTE: implementation assumes defender has Defense and Health components
+            //NOTE: implementation assumes defender has Stat component
             var toHit = attack.AttackFormula.Roll().Value;
-            var ac = defender.Get<Stats>().Defense.Class;
+            var ac = defender.Get<Stats>().Body;
 
             var msg = new MeleeAttackMessage(attack, attacker.Reference(), defender.Reference(), toHit);
 
@@ -31,15 +31,15 @@ namespace Catalyster.Helpers
             {
                 msg.Hit = true;
 
-                ref var health = ref defender.Get<Stats>().Health;
+                ref var stat = ref defender.Get<Stats>();
 
                 var damage = attack.DamageFormula.Roll().Value;
                 msg.Damage = damage;
                 
                 GameMaster.Instance().MessageLog.Hub.Publish(msg);
 
-                health.Points -= damage;
-                if (health.Points <=0)
+                stat.HP -= damage;
+                if (stat.HP <=0)
                 {
                     GameMaster.Instance().MessageLog.Hub.Publish(new DeathMessage(attack, defender.Reference()));
 
@@ -60,26 +60,26 @@ namespace Catalyster.Helpers
 
         public static bool ResolveRanged(RangedAttack attack, Entity defender, Entity attacker)
         {
-            //NOTE: implementation assumes defender has Defense and Health components
+            //NOTE: implementation assumes defender has Body and Health components
             var toHit = attack.AttackFormula.Roll().Value;
-            Stats stats;
-            if (!defender.TryGet(out stats))
+
+            if (!defender.Has<Stats>())
                 return false;
-            var ac = stats.Defense.Class;
+            ref Stats stats = ref defender.Get<Stats>();
+
+            var ac = stats.Body;
 
             if (toHit > ac)
             {
                 Console.WriteLine($"{defender} is hurt.");
-                ref var health = ref defender.Get<Stats>().Health;
 
                 var damage = attack.DamageFormula.Roll().Value;
-                // TODO: Message
                 GameMaster.Instance().MessageLog.Hub.Publish(
                     new RangedAttackMessage(attack, attacker.Reference(), defender.Reference(), toHit, damage
                     ));
 
-                health.Points -= damage;
-                if (health.Points <= 0)
+                stats.HP -= damage;
+                if (stats.HP <= 0)
                 {
                     GameMaster.Instance().MessageLog.Hub.Publish(new DeathMessage(attack, defender.Reference()));
                     Console.WriteLine($"{defender} dies!");

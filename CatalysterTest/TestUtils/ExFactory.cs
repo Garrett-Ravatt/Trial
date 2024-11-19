@@ -19,7 +19,7 @@ namespace CatalysterTest.TestUtils
             return world.Create(
                 new Token { Char = 'c', Name = "Simple Creature", Color = 0xffffffff },
                 new Position { X = 0, Y = 0 },
-                new Stats { Defense = new Defense { Class = 0 }, Health = new Health { Points = 5, Max = 5 } },
+                new Stats { Body = 0, HP = 5, Blood = 5 },
                 new Energy { Max = 1000, Points = 1000, Regen = 1000 },
                 new MeleeAttack { AttackFormula = Dice.Parse("1d20+2"), DamageFormula = Dice.Parse("1d4") },
                 new Monster { },
@@ -33,7 +33,7 @@ namespace CatalysterTest.TestUtils
             return world.Create(
                 new Token { Char = '@', Name = "Player", Color = 0xffffffff },
                 new Position { X = 0, Y = 0 },
-                new Stats { Defense = new Defense { Class = 0 }, Health = new Health { Points = 5, Max = 5 } },
+                new Stats { Body = 0, HP = 5, Blood = 5 },
                 new Energy { Max = 1000, Points = 1000, Regen = 1000 },
                 new MeleeAttack { AttackFormula = Dice.Parse("1d20+2"), DamageFormula = Dice.Parse("1d4") },
                 new Sense { Range=5 },
