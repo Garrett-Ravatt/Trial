@@ -26,7 +26,7 @@ namespace CatalysterTest.ComponentTests
 
             var e = world.Create(
                 new Position { X = 0, Y = 0 },
-                new Energy { Max = 100, Points = 100, Regen = 0 }
+                new Energy { Max = 100, Points = 100 }
                 );
 
             // Perform directive

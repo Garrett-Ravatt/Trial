@@ -84,7 +84,7 @@ namespace Catalyster.Core
             world.Query(in _desc, (Entity entity, ref Energy energy) =>
             {
                 queue.AddLast(entity.Reference());
-                energy.Points = Math.Min(energy.Max, energy.Points + energy.Regen);
+                energy.Points = Math.Min(energy.Max, energy.Points + energy.Max);
             });
             return queue;
         }

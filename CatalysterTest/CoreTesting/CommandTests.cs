@@ -82,15 +82,16 @@ namespace CatalysterTest.CoreTesting
             var iPos = player.Get<Position>();
 
             command.Entity = player;
-            player.Get<Energy>().Points = 500;
-            player.Get<Energy>().Regen = 0;
+            player.Get<Energy>().Points = 1;
+            player.Get<Energy>().Max = 1;
             command.Move(0, 1);
             gm.Update();
 
             Assert.AreEqual(iPos.Y + 1, player.Get<Position>().Y);
 
             Assert.IsTrue(player.Get<Energy>().Points <= 0);
-            Assert.IsNull(command.Entity);
+            // TODO: If there is a player, why would I want this to be null I wonder
+            Assert.IsNull(command.Entity); 
 
             world.Dispose();
         }
