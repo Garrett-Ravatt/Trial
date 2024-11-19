@@ -18,7 +18,7 @@ namespace Catalyster.Components.Directives
                 // Fail out if we can't perform action
                 if (energy.Points <= 0) return null;
 
-                var desc = new QueryDescription().WithAll<Position, Health, Defense>();
+                var desc = new QueryDescription().WithAll<Position, Stats>();
 
                 // prepare an attack action
                 var act = (MeleeAttackAct)Act(entityref);

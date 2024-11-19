@@ -54,13 +54,13 @@ namespace CatalysterTest.ComponentTests
             var att = ExFactory.SimpleCreature(world);
             var def = ExFactory.SimpleCreature(world);
 
-            var initialHP = def.Get<Health>().Points;
+            var initialHP = def.Get<Stats>().Health.Points;
 
             // Do Attack
             ActionHelper.ResolveAttack(att, def);
 
             // Check hp difference
-            Assert.IsTrue(initialHP > def.Get<Health>().Points);
+            Assert.IsTrue(initialHP > def.Get<Stats>().Health.Points);
 
             World.Destroy(world);
         }

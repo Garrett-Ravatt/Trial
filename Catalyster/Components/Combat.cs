@@ -8,6 +8,9 @@ namespace Catalyster.Components
     // Are you ok? This is the stat for that
     public struct  Health { public int Points, Max; };
 
+    // Creature stats
+    public struct Stats { public Defense Defense; public Health Health; };
+
     // Turn Energy
     public struct Energy { public int Max, Regen, Points; };
 

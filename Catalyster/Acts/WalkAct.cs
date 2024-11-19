@@ -44,7 +44,7 @@ namespace Catalyster.Acts
             {
                 Entity? bumped = null;
                 if (SpatialHelper.ClearOrAssign(position.X + x, position.Y + y, ref bumped) ||
-                    !bumped.Value.Has<Defense>())
+                    !bumped.Value.Has<Stats>())
                 {
                     position = newPos;
                     // TODO: refer to movement speed

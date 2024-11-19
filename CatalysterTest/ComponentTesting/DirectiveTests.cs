@@ -53,7 +53,7 @@ namespace CatalysterTest.ComponentTests
             var def = ExFactory.SimpleCreature(world).Reference();
             def.Entity.Set(new Position { X = 1, Y = 0 });
 
-            var initialHp = def.Entity.Get<Health>().Points;
+            var initialHp = def.Entity.Get<Stats>().Health.Points;
 
             // Perform directive
             var dir = new MeleeNearest { };
@@ -61,7 +61,7 @@ namespace CatalysterTest.ComponentTests
             var act = dir.Enter(atkr);
             Assert.IsNotNull(act);
             Assert.IsTrue(act.Execute().Resolved);
-            Assert.IsTrue(initialHp > def.Entity.Get<Health>().Points);
+            Assert.IsTrue(initialHp > def.Entity.Get<Stats>().Health.Points);
 
             World.Destroy(world);
         }

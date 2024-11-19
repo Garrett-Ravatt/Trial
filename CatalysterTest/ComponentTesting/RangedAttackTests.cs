@@ -14,8 +14,7 @@ namespace CatalysterTest.ComponentTesting
         {
             return world.Create(
                 new Position { X = 0, Y = 0 },
-                new Health { Max = 10, Points = 10 },
-                new Defense { Class = 0 },
+                new Stats { Health = new Health { Max = 10, Points = 10 }, Defense = new Defense { Class = 0 } },
                 new Energy { Max = 1000, Points = 1000, Regen = 1000 },
                 new RangedAttack { Range = 2, AttackFormula = Dice.Parse("1d20+12"), DamageFormula = Dice.Parse("1d4") }
                 );
@@ -30,11 +29,11 @@ namespace CatalysterTest.ComponentTesting
             var attacker = RangedMon(world);
             var defender = RangedMon(world);
 
-            var hp_0 = defender.Get<Health>().Points;
+            var hp_0 = defender.Get<Stats>().Health.Points;
 
             Assert.IsTrue(ActionHelper.ResolveRanged(attacker.Get<RangedAttack>(), defender, attacker));
 
-            var hp_1 = defender.Get<Health>().Points;
+            var hp_1 = defender.Get<Stats>().Health.Points;
 
             Assert.IsTrue(hp_0 > hp_1);
 
@@ -50,11 +49,11 @@ namespace CatalysterTest.ComponentTesting
             var attacker = RangedMon(world);
             var defender = RangedMon(world);
 
-            var hp_0 = defender.Get<Health>().Points;
+            var hp_0 = defender.Get<Stats>().Health.Points;
 
             Assert.IsTrue(ActionHelper.ResolveRanged(attacker.Get<RangedAttack>(), defender, attacker));
 
-            var hp_1 = defender.Get<Health>().Points;
+            var hp_1 = defender.Get<Stats>().Health.Points;
 
             Assert.IsTrue(hp_0 > hp_1);
 
