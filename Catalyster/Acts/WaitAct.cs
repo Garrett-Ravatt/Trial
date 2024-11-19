@@ -2,11 +2,6 @@
 using Arch.Core.Extensions;
 using Catalyster.Components;
 using Catalyster.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Catalyster.Acts
 {
