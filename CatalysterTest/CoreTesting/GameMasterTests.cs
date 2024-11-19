@@ -66,7 +66,9 @@ namespace CatalysterTest.CoreTesting
                 ExFactory.SimpleCreature(GameMaster.Instance().World);
             }
             var p = ExFactory.Player(GameMaster.Instance().World);
-            p.Set(new Energy { Max = 500, Points = 500 });
+            ref var stats = ref p.Get<Stats>();
+            stats.Breath = 5;
+            stats.Energy = 500;
             gm.Update();
 
             gm.Command.Move(0, 1);

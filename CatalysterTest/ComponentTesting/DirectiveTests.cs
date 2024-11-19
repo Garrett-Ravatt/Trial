@@ -26,7 +26,7 @@ namespace CatalysterTest.ComponentTests
 
             var e = world.Create(
                 new Position { X = 0, Y = 0 },
-                new Energy { Max = 100, Points = 100 }
+                new Stats { Breath = 1, Energy = 100 }
                 );
 
             // Perform directive
@@ -36,7 +36,7 @@ namespace CatalysterTest.ComponentTests
             Assert.IsTrue(act.Execute().Resolved);
 
             Assert.AreEqual(1, e.Get<Position>().X);
-            Assert.IsTrue(e.Get<Energy>().Points <= 100);
+            Assert.IsTrue(e.Get<Stats>().Energy <= 100);
 
             World.Destroy(world);
         }

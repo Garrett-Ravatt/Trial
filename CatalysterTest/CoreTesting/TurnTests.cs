@@ -55,8 +55,8 @@ namespace CatalysterTest.CoreTesting
 
             order.Update(world);
 
-            Assert.IsTrue(e1.Entity.Get<Energy>().Points <= 0);
-            Assert.IsTrue(e2.Entity.Get<Energy>().Points <= 0);
+            Assert.IsTrue(e1.Entity.Get<Stats>().Energy <= 0);
+            Assert.IsTrue(e2.Entity.Get<Stats>().Energy <= 0);
 
             Assert.IsTrue(e1.Entity.Get<Position>().X > iPosX1);
             Assert.IsTrue(e2.Entity.Get<Position>().X > iPosX2);

@@ -31,14 +31,14 @@ namespace CatalysterTest.ComponentTests
             // Create MonoBehavior creature
             var creature = world.Create(
                 new Position { X = 0, Y = 0 },
-                new Energy { Max = 1000, Points = 1000 },
+                new Stats { Breath = 10, Energy = 10 },
                 new MonoBehavior { Directive = new RightMover { Cost = 1000 } }
                 );
 
             // Simulate one turn
-            world.Query(in new QueryDescription().WithAll<MonoBehavior, Energy>(), (Entity e, ref MonoBehavior behavior, ref Energy energy) =>
+            world.Query(in new QueryDescription().WithAll<MonoBehavior, Stats>(), (Entity e, ref MonoBehavior behavior, ref Stats stats) =>
             {
-                while (energy.Points > 0)
+                while (stats.Energy > 0)
                 {
                     var act = behavior.Direct(e, world);
                     act.Execute();
@@ -62,14 +62,14 @@ namespace CatalysterTest.ComponentTests
             // Create MonoBehavior creature with higher move speed
             var creature = world.Create(
                 new Position { X = 0, Y = 0 },
-                new Energy { Max = 1000, Points = 1500 },
+                new Stats { Breath = 10, Energy = 1500 },
                 new MonoBehavior { Directive = new RightMover { Cost = 500 } }
                 );
 
             // Simulate a turn (where creature should have two moves)
-            world.Query(in new QueryDescription().WithAll<MonoBehavior, Energy>(), (Entity e, ref MonoBehavior behavior, ref Energy energy) =>
+            world.Query(in new QueryDescription().WithAll<MonoBehavior, Stats>(), (Entity e, ref MonoBehavior behavior, ref Stats stats) =>
             {
-                while (energy.Points > 0)
+                while (stats.Energy > 0)
                 {
                     var act = behavior.Direct(e, world);
                     act.Execute();
@@ -92,15 +92,15 @@ namespace CatalysterTest.ComponentTests
             // Create MonoBehavior creature
             var creature = world.Create(
                 new Position { X = 0, Y = 0 },
-                new Energy { Max = 1000, Points = 1000 },
+                new Stats { Breath = 10, Energy = 1000 },
                 (IDirector) new MonoBehavior { Directive = new RightMover { Cost = 1000 } }
                 );
 
             // Simulate one turn
 
-            world.Query(in new QueryDescription().WithAll<IDirector, Energy>(), (Entity e, ref IDirector behavior, ref Energy energy) =>
+            world.Query(in new QueryDescription().WithAll<IDirector, Stats>(), (Entity e, ref IDirector behavior, ref Stats stats) =>
             {
-                while (energy.Points > 0)
+                while (stats.Energy > 0)
                 {
                     var act = behavior.Direct(e, world);
                     if (act != null)

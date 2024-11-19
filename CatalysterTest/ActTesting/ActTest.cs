@@ -60,7 +60,7 @@ namespace CatalysterTest.ActTesting
             var world = GameMaster.Instance().World;
 
             var creature = ExFactory.SimpleCreature(GameMaster.Instance().World);
-            creature.Get<Energy>().Points += 1000;
+            creature.Get<Stats>().Energy += 1000;
             var act = new WalkAct(creature.Reference(), 0, 1);
 
             var Y = creature.Get<Position>().Y;
@@ -75,7 +75,7 @@ namespace CatalysterTest.ActTesting
             var world = GameMaster.Instance().World;
 
             var creature = ExFactory.SimpleCreature(GameMaster.Instance().World);
-            creature.Get<Energy>().Points += 1000;
+            creature.Get<Stats>().Energy += 1000;
             var act = new WalkAct(creature.Reference(), 0, 1);
             var item = ExFactory.BlackPowder(world);
             item.Set(new Position { X = 0, Y = 1 });
@@ -202,7 +202,7 @@ namespace CatalysterTest.ActTesting
 
             gm.Update();
 
-            Assert.AreEqual(0, player.Get<Energy>().Points);
+            Assert.AreEqual(0, player.Get<Stats>().Energy);
         }
 
         [TestMethod]
