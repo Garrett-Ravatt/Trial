@@ -8,6 +8,9 @@ namespace Catalyster.Components
     // Are you ok? This is the stat for that
     public struct  Health { public int Points, Max; };
 
+    // Turn Energy
+    public struct Energy { public int Max, Regen, Points; };
+
     // Form and damage for a single attack. An Ref can have many.
     public struct MeleeAttack { public DiceExpression AttackFormula, DamageFormula; };
 
@@ -16,7 +19,4 @@ namespace Catalyster.Components
 
     // Range and damage for a single detonation
     public struct Detonation { public int Range; public DiceExpression DamageFormula;  };
-
-    // Turn Energy
-    public struct Energy { public int Max, Regen, Points; };
 }
