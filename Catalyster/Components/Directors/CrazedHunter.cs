@@ -50,7 +50,7 @@ namespace Catalyster.Components.Directors
                 var y = target.Y - pos.Y;
                 y = Math.Clamp(y, -1, 1);
 
-                var act = new WalkAct(entity.Reference());
+                var act = new WalkAct(entity.Reference(), 0, 0);
 
                 // TODO: refactor to static method elsewhere.
                 if (GameMaster.Instance().DungeonMap.IsWalkable(pos.X + x, pos.Y + y))

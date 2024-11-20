@@ -21,7 +21,7 @@ namespace Catalyster.Acts
         // Won't automatically attack if true
         public bool Passive;
 
-        public WalkAct(EntityReference? e = null, int? x = null, int? y = 0, bool passive = false)
+        public WalkAct(EntityReference? e = null, int? x = null, int? y = null, bool passive = false)
         {
             EntityRef = e;
             X = x;

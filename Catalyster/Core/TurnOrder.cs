@@ -70,8 +70,8 @@ namespace Catalyster.Core
                             return null;
                         }
                     }
-                    _entities.RemoveFirst();
                 }
+                _entities.RemoveFirst();
             }
             return null;
         }
