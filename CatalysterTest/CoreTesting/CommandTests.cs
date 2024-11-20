@@ -26,10 +26,11 @@ namespace CatalysterTest.CoreTesting
             var world = GameMaster.Instance().World;
             var command = gm.Command;
             
-            command.Move(0, 0);
+            // Move(0,0) may make the player hit themselves
+            command.Move(1, 0);
 
             command.Entity = ExFactory.Player(world);
-            command.Move(0, 0);
+            command.Move(1, 0);
             gm.Update();
 
             World.Destroy(world);

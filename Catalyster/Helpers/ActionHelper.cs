@@ -28,16 +28,19 @@ namespace Catalyster.Helpers
 
             var toHit = attack.AttackFormula.Roll().Value + attacker.Get<Stats>().Body;
             var ac = defender.Get<Stats>().Body;
+            int hits = toHit / ac;
 
             var msg = new MeleeAttackMessage(attack, attacker.Reference(), defender.Reference(), toHit);
 
-            if ( toHit >= ac )
+            if ( hits > 0 )
             {
                 msg.Hit = true;
 
                 ref var stat = ref defender.Get<Stats>();
 
-                var damage = attack.DamageFormula.Roll().Value;
+                //var damage = attack.DamageFormula.Roll().Value;
+                int damage = 0;
+                for ( int i = 0; i<hits; i++) { damage += attack.DamageFormula.Roll().Value; }
                 msg.Damage = damage;
                 
                 GameMaster.Instance().MessageLog.Hub.Publish(msg);

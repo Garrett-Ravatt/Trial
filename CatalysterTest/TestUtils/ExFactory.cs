@@ -19,8 +19,8 @@ namespace CatalysterTest.TestUtils
             return world.Create(
                 new Token { Char = 'c', Name = "Simple Creature", Color = 0xffffffff },
                 new Position { X = 0, Y = 0 },
-                new Stats { Body = 0, HP = 5, Blood = 5, Breath = 10, Energy = 1000 },
-                new MeleeAttack { AttackFormula = Dice.Parse("1d20+2"), DamageFormula = Dice.Parse("1d4") },
+                new Stats { Body = 2, HP = 30, Blood = 30, Breath = 10, Energy = 1000 },
+                new MeleeAttack { AttackFormula = Dice.Parse("1d3"), DamageFormula = Dice.Parse("1d4") },
                 new Monster { },
                 new Faction { HostileDesc = new QueryDescription().WithAll<Player>() },
                 (IDirector) new MonoBehavior { Directive = new RightMover { } }
@@ -32,8 +32,8 @@ namespace CatalysterTest.TestUtils
             return world.Create(
                 new Token { Char = '@', Name = "Player", Color = 0xffffffff },
                 new Position { X = 0, Y = 0 },
-                new Stats { Body = 0, HP = 5, Blood = 5, Breath = 10, Energy = 1000 },
-                new MeleeAttack { AttackFormula = Dice.Parse("1d20+2"), DamageFormula = Dice.Parse("1d4") },
+                new Stats { Body = 1, HP = 30, Blood = 30, Breath = 10, Energy = 1000 },
+                new MeleeAttack { AttackFormula = Dice.Parse("1d3"), DamageFormula = Dice.Parse("1d4") },
                 new Sense { Range=5 },
                 new Inventory(),
                 new Player { },

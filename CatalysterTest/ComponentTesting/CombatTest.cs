@@ -54,6 +54,7 @@ namespace CatalysterTest.ComponentTests
             var att = ExFactory.SimpleCreature(world);
             var def = ExFactory.SimpleCreature(world);
 
+            ref var s = ref def.Get<Stats>(); s.Blood = 30; s.HP = 30;
             var initialHP = def.Get<Stats>().HP;
 
             // Do Attack
