@@ -19,15 +19,19 @@ namespace Catalyster.Helpers
 
         public static bool ResolveMelee(MeleeAttack attack, Entity defender, Entity attacker)
         {
-            if (!defender.Has<Stats>())
+            // TODO: Find appropriate conditions for exception
+            if (!defender.Has<Stats>() || !attacker.Has<Stats>())
+            {
+                Console.WriteLine($"Invalid Melee attack attempted");
                 return false;
-            //NOTE: implementation assumes defender has Stat component
-            var toHit = attack.AttackFormula.Roll().Value;
+            }
+
+            var toHit = attack.AttackFormula.Roll().Value + attacker.Get<Stats>().Body;
             var ac = defender.Get<Stats>().Body;
 
             var msg = new MeleeAttackMessage(attack, attacker.Reference(), defender.Reference(), toHit);
 
-            if ( toHit > ac )
+            if ( toHit >= ac )
             {
                 msg.Hit = true;
 

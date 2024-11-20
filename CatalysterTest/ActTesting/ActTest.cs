@@ -7,6 +7,8 @@ using Arch.Core.Extensions;
 using Inventory = Catalyster.Items.Inventory;
 using Arch.Core;
 using Catalyster.Messages;
+using RogueSharp.DiceNotation;
+
 
 namespace CatalysterTest.ActTesting
 {
@@ -100,6 +102,21 @@ namespace CatalysterTest.ActTesting
             GameMaster.Instance().MessageLog.Hub.Subscribe<MeleeAttackMessage>(msg => formed = true);
             Assert.IsTrue(act.Execute().Resolved);
             Assert.IsTrue(formed);
+        }
+
+        [TestMethod]
+        public void MeleeActTest2()
+        {
+            var gm = GameMaster.Instance();
+            var c1 = ExFactory.SimpleCreature(GameMaster.Instance().World);
+            c1.Get<Stats>().Body = 1;
+            c1.Get<MeleeAttack>().AttackFormula = Dice.Parse("0");
+            var c2 = ExFactory.SimpleCreature(GameMaster.Instance().World);
+            c2.Get<Stats>().Body = 1;
+
+            new MeleeAttackAct(c1.Reference(), c2.Reference()).Execute();
+
+            Assert.AreNotEqual(c2.Get<Stats>().Blood, c2.Get<Stats>().HP);
         }
 
         [TestMethod]
