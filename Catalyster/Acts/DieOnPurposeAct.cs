@@ -8,31 +8,31 @@ namespace Catalyster.Acts
     public class DieOnPurposeAct : IAct
     {
         public int Cost { get; set; } = 1000;
+        public EntityReference? Acting { get; set; }
         public bool Resolved { get; set; } = false;
         public bool Suspended { get; set; } = false;
 
         public bool Confirmed = false;
-        public EntityReference? EntityReference;
 
         public DieOnPurposeAct(EntityReference? entityReference)
         {
-            EntityReference = entityReference;
+            Acting = entityReference;
         }
 
         public IAct Execute()
         {
-            if (EntityReference == null || !EntityReference.Value.IsAlive())
+            if (Acting == null || !Acting.Value.IsAlive())
             {
                 // TODO: Malformed error
                 return this;
             }
 
             var hub = GameMaster.Instance().MessageLog.Hub;
-            var entity = EntityReference.Value.Entity;
+            var entity = Acting.Value.Entity;
 
             if (Confirmed)
             {
-                hub.Publish(new DeathMessage(this, EntityReference.Value));
+                hub.Publish(new DeathMessage(this, Acting.Value));
                 GameMaster.Instance().World.Destroy(entity);
                 Resolved = true;
                 return this;

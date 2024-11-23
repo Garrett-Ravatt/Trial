@@ -13,22 +13,22 @@ namespace Catalyster.Acts
         public bool Resolved { get; set; } = false;
         public bool Suspended { get; set; } = false;
 
-        public EntityReference? EntityRef;
+        public EntityReference? Acting { get; set; }
         int? X, Y, I;
         public ThrowAct(EntityReference? e = null, int? x = null, int? y = null, int? i = null)
         {
-            EntityRef = e;
+            Acting = e;
             X = x; Y = y; I = i;
         }
 
         public IAct Execute()
         {
-            if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue || !I.HasValue)
+            if (!Acting.HasValue || !X.HasValue || !Y.HasValue || !I.HasValue)
             {
                 //TODO: throw error
                 return this;
             }
-            var (entity, x, y, i) = (EntityRef.Value.Entity, X.Value, Y.Value, I.Value);
+            var (entity, x, y, i) = (Acting.Value.Entity, X.Value, Y.Value, I.Value);
 
             if (entity.Has<Player>() && !GameMaster.Instance().DungeonMap.IsInFov(x, y))
             {

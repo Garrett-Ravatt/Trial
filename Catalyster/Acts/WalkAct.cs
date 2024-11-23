@@ -13,7 +13,7 @@ namespace Catalyster.Acts
         public bool Resolved { get; set; } = false;
         public bool Suspended { get; set; } = false;
 
-        public EntityReference? EntityRef;
+        public EntityReference? Acting {  get; set; }
 
         public int? X;
         public int? Y;
@@ -23,7 +23,7 @@ namespace Catalyster.Acts
 
         public WalkAct(EntityReference? e = null, int? x = null, int? y = null, bool passive = false)
         {
-            EntityRef = e;
+            Acting = e;
             X = x;
             Y = y;
             Passive = passive;
@@ -31,10 +31,10 @@ namespace Catalyster.Acts
 
         public IAct Execute()
         {
-            if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue)
+            if (!Acting.HasValue || !X.HasValue || !Y.HasValue)
                 throw new Exception($"{this.GetType()} tried to execute with null values");
 
-            var (entity, x, y) = (EntityRef.Value.Entity, X.Value, Y.Value);
+            var (entity, x, y) = (Acting.Value.Entity, X.Value, Y.Value);
             ref var stats = ref entity.Get<Stats>();
 
             ref var position = ref entity.Get<Position>();
@@ -56,7 +56,7 @@ namespace Catalyster.Acts
                 else if (!Passive) // ran into a creature; attack them
                 {
                     // TODO: swap places with friendly creature
-                    var attackAct = new MeleeAttackAct(EntityRef.Value, bumped.Value.Reference());
+                    var attackAct = new MeleeAttackAct(Acting.Value, bumped.Value.Reference());
                     Resolved = true;
                     return attackAct;
                 }
@@ -65,7 +65,7 @@ namespace Catalyster.Acts
             else if (entity.Has<Player>())
             {
                 Resolved = true;
-                return new ProbeAct(EntityRef, newPos.X, newPos.Y);
+                return new ProbeAct(Acting, newPos.X, newPos.Y);
             }
 
             else

@@ -12,20 +12,20 @@ namespace Catalyster.Acts
         public bool Resolved { get; set; } = false;
         public bool Suspended {  get; set; } = false;
 
-        public EntityReference? EntityRef;
+        public EntityReference? Acting { get; set; }
         public int? X, Y;
         public ProbeAct(EntityReference? entityReference = null, int? x = null, int? y = null)
         {
-            EntityRef = entityReference;
+            Acting = entityReference;
             X = x;
             Y = y;
         }
         public IAct Execute()
         {
-            if (!EntityRef.HasValue || !X.HasValue || !Y.HasValue)
+            if (!Acting.HasValue || !X.HasValue || !Y.HasValue)
                 throw new Exception($"{this.GetType()} tried to execute with null values");
 
-            var (entity, x, y) = (EntityRef.Value.Entity, X.Value, Y.Value);
+            var (entity, x, y) = (Acting.Value.Entity, X.Value, Y.Value);
             ref var stats = ref entity.Get<Stats>();
 
             //TODO: check depth of the wall
