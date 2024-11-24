@@ -7,7 +7,7 @@
     };
 
     // Representation in Console
-    public struct Token { public string Name; public char Char; public uint Color; };
+    public struct Token { public string RID; public string Name; public char Char; public uint Color; };
 
     // Ability to detect creatures. Later will support blindsight, tremorsense, etc
     public struct Sense { public int Range; };

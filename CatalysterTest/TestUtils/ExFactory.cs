@@ -17,7 +17,7 @@ namespace CatalysterTest.TestUtils
         public static Entity SimpleCreature(World world)
         {
             return world.Create(
-                new Token { Char = 'c', Name = "Simple Creature", Color = 0xffffffff },
+                new Token { RID = "SIMPLE_CREATURE", Char = 'c', Name = "Simple Creature", Color = 0xffffffff },
                 new Position { X = 0, Y = 0 },
                 new Stats { Body = 2, HP = 30, Blood = 30, Breath = 10, Energy = 1000 },
                 new MeleeAttack { AttackFormula = Dice.Parse("1d3"), DamageFormula = Dice.Parse("1d4") },

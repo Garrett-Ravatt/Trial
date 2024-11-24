@@ -1,4 +1,8 @@
-﻿using Catalyster.Core;
+﻿using Arch.Core.Extensions;
+using Catalyster.Components;
+using Catalyster.Core;
+using Catalyster.RAW;
+using CatalysterTest.TestUtils;
 
 namespace CatalysterTest.CoreTesting.RAW
 {
@@ -22,9 +26,15 @@ namespace CatalysterTest.CoreTesting.RAW
         }
 
         [TestMethod]
-        public void TestRaw()
+        public void TestRaw1()
         {
-
+            var c = ExFactory.SimpleCreature(stats.World);
+            var def = new EntityDefinition("creature", "There it is, a widdle fella", c.Reference());
+            var rid = c.Get<Token>().RID;
+            Assert.IsFalse(stats.Has(rid));
+            stats.Define(def);
+            Assert.IsTrue(stats.Has(rid));
+            Assert.AreEqual(def, stats.Get(rid));
         }
     }
 }

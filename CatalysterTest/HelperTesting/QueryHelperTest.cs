@@ -8,6 +8,12 @@ namespace CatalysterTest.HelperTesting
     [TestClass]
     public class QueryHelperTest
     {
+        [TestInitialize]
+        public void Initialize()
+        {
+            GameMaster.Instance().Reset();
+        }
+
         [TestMethod]
         public void QueryHelperTest1()
         {
