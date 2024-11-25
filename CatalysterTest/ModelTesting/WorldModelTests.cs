@@ -115,6 +115,8 @@ namespace CatalysterTest.ModelTesting
             world.Query(in new QueryDescription().WithAll<Player, Position>(), (Entity e) => { playerCount++; });
 
             Assert.AreEqual(1, playerCount);
+
+            world.Dispose(); // Only ok because we made this world
         }
 
         private struct Mineral { }
@@ -144,6 +146,8 @@ namespace CatalysterTest.ModelTesting
                 mCount++;
             });
             Assert.AreEqual(map.Rooms.Count, mCount);
+
+            world.Dispose(); // Only ok because we made this world
         }
     }
 }

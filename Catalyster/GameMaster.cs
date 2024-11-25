@@ -1,12 +1,14 @@
 ﻿using Arch.Core;
 using Catalyster.Acts;
 using Catalyster.Core;
+using TinyMessenger;
 
 namespace Catalyster
 {
-    public class GameMaster
+    public sealed class GameMaster
     {
         public World World { get; private set; }
+        public EntityStats Stats { get; private set; }
         public DungeonMap DungeonMap { get; set; }
 
         public Command Command;
@@ -24,16 +26,18 @@ namespace Catalyster
         public void Reset()
         {
             World.Dispose();
+            Stats.World.Dispose();
             // TODO: Wonder about if this should be here
             CommandInjectionAct.InjectedAct = null;
-            // TODO: Reset internal TinyMessenger subscriptions
             _gameMaster = new GameMaster();
         }
 
         private GameMaster()
         {
+            //World.Create(); // FOR DEBUG
             DungeonMap = new DungeonMap();
             World = World.Create();
+            Stats = new EntityStats();
             Command = new Command();
             _turnOrder = new TurnOrder();
             MessageLog = new MessageLog();

@@ -37,8 +37,6 @@ namespace CatalysterTest.ComponentTests
 
             Assert.AreEqual(1, e.Get<Position>().X);
             Assert.IsTrue(e.Get<Stats>().Energy <= 100);
-
-            World.Destroy(world);
         }
 
         [TestMethod]
@@ -62,8 +60,6 @@ namespace CatalysterTest.ComponentTests
             Assert.IsNotNull(act);
             Assert.IsTrue(act.Execute().Resolved);
             Assert.IsTrue(initialHp > def.Entity.Get<Stats>().HP);
-
-            World.Destroy(world);
         }
 
         internal struct Mouse { }
@@ -91,8 +87,6 @@ namespace CatalysterTest.ComponentTests
             act.Execute();
             Assert.AreEqual(cat.Get<Position>().Y, 1);
             Assert.AreEqual(cat.Get<Position>().X, 1);
-
-            World.Destroy(world);
         }
 
         [TestMethod]
@@ -119,8 +113,6 @@ namespace CatalysterTest.ComponentTests
             act.Execute();
             Assert.AreEqual(cat.Get<Position>().Y, 0);
             Assert.AreEqual(cat.Get<Position>().X, 0);
-
-            World.Destroy(world);
         }
     }
 }

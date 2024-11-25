@@ -26,7 +26,6 @@ namespace CatalysterTest.Messages
         public void AttackMessageTest1()
         {
             var gm = GameMaster.Instance();
-            //var gm = new GameMaster();
             GameMaster.Instance().DungeonMap.Initialize(30, 30);
             GameMaster.Instance().DungeonMap.Clear();
             var world = GameMaster.Instance().World;
@@ -49,7 +48,7 @@ namespace CatalysterTest.Messages
 
             // Assert the message
             var called = false;
-            GameMaster.Instance().MessageLog.Hub.Subscribe<MeleeAttackMessage>(msg => { called = true; });
+            var token = GameMaster.Instance().MessageLog.Hub.Subscribe<MeleeAttackMessage>(msg => { called = true; });
 
             // Assert the message log
             foreach (string s in GameMaster.Instance().MessageLog.Messages)
@@ -57,7 +56,7 @@ namespace CatalysterTest.Messages
 
             Assert.IsTrue(GameMaster.Instance().MessageLog.Messages.Count >= 1);
 
-            World.Destroy(world);
+            gm.MessageLog.Hub.Unsubscribe<MeleeAttackMessage>(token);
         }
 
         [TestMethod]
@@ -74,7 +73,7 @@ namespace CatalysterTest.Messages
             var hub = GameMaster.Instance().MessageLog.Hub;
             var formed = false;
             Decide? d = null;
-            hub.Subscribe<ConfirmationMessage>(msg => {
+            var token = hub.Subscribe<ConfirmationMessage>(msg => {
                 formed = true;
                 Console.WriteLine(msg.Message);
                 d = msg.D;
@@ -89,6 +88,8 @@ namespace CatalysterTest.Messages
             Assert.IsFalse(act.Consume().Suspended);
             Assert.IsTrue(act.Resolved);
             Assert.IsFalse(formed);
+
+            gm.MessageLog.Hub.Unsubscribe<ConfirmationMessage>(token);
         }
     }
 }

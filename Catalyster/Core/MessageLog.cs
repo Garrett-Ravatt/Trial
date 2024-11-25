@@ -16,6 +16,7 @@ namespace Catalyster.Core
         public Callback Handler;
 
         public TinyMessengerHub Hub = new TinyMessengerHub();
+        public TinyMessageSubscriptionToken[] SubTokens;
 
         public MessageLog(List<string>? messages = null)
         {
@@ -23,34 +24,37 @@ namespace Catalyster.Core
                 Messages = messages;
 
             // Set up Message Subscriptions
-            Hub.Subscribe<DialogueMessage>(msg => IDAdd(msg.Source, msg.Content));
+            SubTokens = new [] {
+                Hub.Subscribe<DialogueMessage>(msg => IDAdd(msg.Source, msg.Content)),
 
-            Hub.Subscribe<MeleeAttackMessage>(msg => {
-                if (msg.Hit)
-                    IDAdd(msg.Attacker, $"hits [{msg.ToHit}] for {msg.Damage} damage");
-                else
+                Hub.Subscribe<MeleeAttackMessage>(msg =>
                 {
-                    IDAdd(msg.Attacker, $"misses [{msg.ToHit}]");
-                    IDAdd(msg.Defender, "successfully defends.");
-                }
-            });
+                    if (msg.Hit)
+                        IDAdd(msg.Attacker, $"hits [{msg.ToHit}] for {msg.Damage} damage");
+                    else
+                    {
+                        IDAdd(msg.Attacker, $"misses [{msg.ToHit}]");
+                        IDAdd(msg.Defender, "successfully defends.");
+                    }
+                }),
 
-            Hub.Subscribe<RangedAttackMessage>(msg =>
-            {
-                if (msg.Hit)
-                    IDAdd(msg.Attacker, $"hits [{msg.ToHit}] for {msg.Damage} damage");
-                else
+                Hub.Subscribe<RangedAttackMessage>(msg =>
                 {
-                    IDAdd(msg.Attacker, $"misses [{msg.ToHit}]");
-                    IDAdd(msg.Defender, "successfully defends.");
-                }
-            });
+                    if (msg.Hit)
+                        IDAdd(msg.Attacker, $"hits [{msg.ToHit}] for {msg.Damage} damage");
+                    else
+                    {
+                        IDAdd(msg.Attacker, $"misses [{msg.ToHit}]");
+                        IDAdd(msg.Defender, "successfully defends.");
+                    }
+                }),
 
-            Hub.Subscribe<DeathMessage>(msg => IDAdd(msg.Ref.Entity.Get<Token>().Name, "dies!"));
+                Hub.Subscribe<DeathMessage>(msg => IDAdd(msg.Ref.Entity.Get<Token>().Name, "dies!")),
 
-            Hub.Subscribe<WallBumpMessage>(msg => Add("You bump into the wall. You fool."));
+                Hub.Subscribe<WallBumpMessage>(msg => Add("You bump into the wall. You fool.")),
 
-            Hub.Subscribe<ItemCollectedMessage>(msg => Add($"{msg.ItemEntity.Entity.Get<Token>().Name} Collected."));
+                Hub.Subscribe<ItemCollectedMessage>(msg => Add($"{msg.ItemEntity.Entity.Get<Token>().Name} Collected."))
+            };
         }
 
         public void Add(string content)

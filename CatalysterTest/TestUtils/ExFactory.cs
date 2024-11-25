@@ -13,10 +13,10 @@ namespace CatalysterTest.TestUtils
 {
     public class ExFactory
     {
-        // NOTE: no director by default
+        // Simple Creature that loves walking right
         public static Entity SimpleCreature(World world)
         {
-            return world.Create(
+            var c = world.Create(
                 new Token { RID = "SIMPLE_CREATURE", Char = 'c', Name = "Simple Creature", Color = 0xffffffff },
                 new Position { X = 0, Y = 0 },
                 new Stats { Body = 2, HP = 30, Blood = 30, Breath = 10, Energy = 1000 },
@@ -25,6 +25,7 @@ namespace CatalysterTest.TestUtils
                 new Faction { HostileDesc = new QueryDescription().WithAll<Player>() },
                 (IDirector) new MonoBehavior { Directive = new RightMover { } }
                 );
+            return c;
         }
 
         public static Entity Player(World world)

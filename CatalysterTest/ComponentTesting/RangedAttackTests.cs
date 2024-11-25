@@ -35,8 +35,6 @@ namespace CatalysterTest.ComponentTesting
             var hp_1 = defender.Get<Stats>().HP;
 
             Assert.IsTrue(hp_0 > hp_1);
-
-            world.Dispose();
         }
 
         [TestMethod]
@@ -55,8 +53,6 @@ namespace CatalysterTest.ComponentTesting
             var hp_1 = defender.Get<Stats>().HP;
 
             Assert.IsTrue(hp_0 > hp_1);
-
-            world.Dispose();
         }
 
         [TestCleanup]

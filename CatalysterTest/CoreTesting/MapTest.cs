@@ -64,6 +64,8 @@ namespace CatalysterTest.CoreTesting
 
             Assert.IsTrue(map.GetCell(5, 6).IsInFov);
             Assert.IsFalse(map.GetCell(8, 8).IsInFov);
+
+            world.Dispose(); // Only ok because we made this world
         }
     }
 }

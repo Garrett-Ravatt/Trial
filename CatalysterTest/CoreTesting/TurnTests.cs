@@ -35,7 +35,7 @@ namespace CatalysterTest.CoreTesting
             var queue = order.QueryEntities(world);
             Assert.AreEqual(2, queue.Count);
 
-            World.Destroy(world);
+            world.Dispose(); // Only ok because we made this world
         }
 
         [TestMethod]
@@ -61,7 +61,7 @@ namespace CatalysterTest.CoreTesting
             Assert.IsTrue(e1.Entity.Get<Position>().X > iPosX1);
             Assert.IsTrue(e2.Entity.Get<Position>().X > iPosX2);
 
-            World.Destroy(world);
+            world.Dispose(); // Only ok because we made this world
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace CatalysterTest.CoreTesting
             Assert.IsFalse(e1.Get<Position>().X > iPosX1 + 1);
             Assert.IsFalse(e2.Get<Position>().X > iPosX2 + 1);
 
-            World.Destroy(world);
+            world.Dispose(); // Only ok because we made this world
         }
 
         [TestMethod]
@@ -104,7 +104,7 @@ namespace CatalysterTest.CoreTesting
 
             Assert.AreEqual(player, order.Update(world));
 
-            World.Destroy(world);
+            world.Dispose(); // Only ok because we made this world
         }
 
         [TestMethod]

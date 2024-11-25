@@ -19,7 +19,7 @@ namespace CatalysterTest.ComponentTests
             var world = GameMaster.Instance().World;
             // ExFactory makes our monsters for us.
             ExFactory.SimpleCreature(world);
-            World.Destroy(world);
+            GameMaster.Instance().Reset();
         }
     }
 
@@ -38,8 +38,9 @@ namespace CatalysterTest.ComponentTests
             GameMaster.Instance();
             var world = GameMaster.Instance().World;
             // ActionHelper returns true if the attack lands.
-            Assert.IsTrue(ActionHelper.ResolveAttack(ExFactory.SimpleCreature(world), ExFactory.SimpleCreature(world)));
-            World.Destroy(world);
+            var c1 = ExFactory.SimpleCreature(world);
+            var c2 = ExFactory.SimpleCreature(world);
+            Assert.IsTrue(ActionHelper.ResolveAttack(c1, c2));
         }
 
         // Successful attack reduces hp
@@ -62,8 +63,6 @@ namespace CatalysterTest.ComponentTests
 
             // Check hp difference
             Assert.IsTrue(initialHP > def.Get<Stats>().HP);
-
-            World.Destroy(world);
         }
     }
 }

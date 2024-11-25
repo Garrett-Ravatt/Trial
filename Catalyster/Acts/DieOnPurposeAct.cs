@@ -23,8 +23,7 @@ namespace Catalyster.Acts
         {
             if (Acting == null || !Acting.Value.IsAlive())
             {
-                // TODO: Malformed error
-                return this;
+                throw new Exception($"Acting entity is not valid: {Acting}");
             }
 
             var hub = GameMaster.Instance().MessageLog.Hub;

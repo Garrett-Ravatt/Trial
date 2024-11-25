@@ -47,8 +47,6 @@ namespace CatalysterTest.ComponentTests
 
             Assert.IsTrue(creature.Get<Position>().X >= 1);
             Assert.IsTrue(creature.Get<Position>().X <= 2);
-
-            World.Destroy(world);
         }
 
         [TestMethod]
@@ -78,8 +76,6 @@ namespace CatalysterTest.ComponentTests
 
             // Assert.AreEqual(2, creature.Get<Position>().X);
             Assert.IsTrue(creature.Get<Position>().X >= 2);
-
-            World.Destroy(world);
         }
 
         [TestMethod]
@@ -110,8 +106,6 @@ namespace CatalysterTest.ComponentTests
 
             Assert.IsTrue(creature.Get<Position>().X > 0);
             Assert.IsTrue(creature.Get<Position>().X <= 2);
-
-            World.Destroy(world);
         }
         
         [TestMethod]
@@ -143,8 +137,6 @@ namespace CatalysterTest.ComponentTests
                 player.Get<Position>());
 
             Assert.IsTrue(initialDist > finalDist);
-
-            World.Destroy(world);
         }
 
         [TestMethod]
@@ -167,8 +159,6 @@ namespace CatalysterTest.ComponentTests
             gm.Update();
 
             Assert.IsTrue(x < player.Get<Position>().X);
-
-            World.Destroy(world);
         }
     }
 }

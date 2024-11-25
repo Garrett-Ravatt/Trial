@@ -32,8 +32,6 @@ namespace CatalysterTest.CoreTesting
             command.Entity = ExFactory.Player(world);
             command.Move(1, 0);
             gm.Update();
-
-            World.Destroy(world);
         }
 
         [TestMethod]
@@ -48,8 +46,6 @@ namespace CatalysterTest.CoreTesting
             command.Entity = order.Update(world);
 
             Assert.AreEqual(player, command.Entity);
-
-            World.Destroy(world);
         }
 
         [TestMethod]
@@ -92,9 +88,7 @@ namespace CatalysterTest.CoreTesting
 
             Assert.IsTrue(player.Get<Stats>().Energy <= 0);
             // TODO: If there is a player, why would I want this to be null I wonder
-            Assert.IsNull(command.Entity); 
-
-            world.Dispose();
+            Assert.IsNull(command.Entity);
         }
 
         [TestMethod]
@@ -125,8 +119,6 @@ namespace CatalysterTest.CoreTesting
             Assert.IsTrue(command.Throw(target.X, target.Y, 0));
             gm.Update();
             Assert.IsTrue(player.Get<Stats>().Energy <= 100);
-
-            world.Dispose();
         }
 
         [TestMethod]
@@ -150,8 +142,6 @@ namespace CatalysterTest.CoreTesting
             var names = command.Inventory();
 
             Assert.AreEqual(items.Count, names.Count);
-
-            world.Dispose();
         }
 
         [TestMethod]

@@ -123,8 +123,13 @@ namespace CatalysterTest.CoreTesting
                 Console.WriteLine($"{entity.Get<Position>()}    {entity.Get<IDirector>()}");
                 //Assert.IsTrue(entity.Get<Position>().X > 1);
             }
+        }
 
-            World.Destroy(world);
+        [TestMethod]
+        public void GameMasterTest6()
+        {
+            var gm = GameMaster.Instance();
+            Assert.AreEqual(0, gm.Stats.Stats.Count);
         }
     }
 }
