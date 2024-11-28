@@ -57,15 +57,10 @@ namespace CatalysterTest.CoreTesting.RAW
         [TestMethod]
         public void TestRaw3()
         {
-            var c = ExFactory.BlackPowder(stats.World);
-            var def = new EntityDefinition("Black Powder", "Traditional. Versatile.", c.Reference());
-
-            var rid = c.Get<Token>().RID;
-            stats.Define(def);
-
             var world = World.Create();
-            var e = stats.CreateIn(rid, world);
-            Assert.AreEqual(c.Get<Token>(), e.Get<Token>());
+
+            var e = RAWFactory.BlackPowder(stats, world);
+            Assert.AreEqual(e.Get<Token>(), e.Get<Token>());
 
             world.Dispose();
         }

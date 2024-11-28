@@ -7,8 +7,6 @@ using Inventory = Catalyster.Items.Inventory;
 using RogueSharp.DiceNotation;
 using Arch.Core.Extensions;
 using Catalyster.Helpers;
-using Catalyster.Core;
-using Catalyster.RAW;
 
 namespace CatalysterTest.TestUtils
 {
@@ -43,19 +41,6 @@ namespace CatalysterTest.TestUtils
                 );
         }
 
-        public static Entity BlackPowder(EntityStats stats, World world)
-        {
-            var rid = "BLACK_POWDER";
-            var name = "Black Powder";
-            var desc = "Traditional. Versatile.";
-            if (stats.Has(rid))
-                return stats.CreateIn(rid, world);
-
-            var e = BlackPowder(stats.World);
-            var def = new EntityDefinition(name, desc, e.Reference());
-            return stats.CreateIn(rid, world);
-        }
-
         public static Entity BlackPowder(World world)
         {
             return world.Create(
@@ -72,6 +57,7 @@ namespace CatalysterTest.TestUtils
 
         public static Entity BasicBomb(World world)
         {
+            // Bomb has no RID because it's a container and thus can't be fabricated.
             var bomb = world.Create(
                 new Position { },
                 new Token { Name = "Bomb" },
