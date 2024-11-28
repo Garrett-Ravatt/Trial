@@ -25,6 +25,7 @@ namespace CatalysterTest.Messages
         [TestMethod]
         public void AttackMessageTest1()
         {
+            GameMaster.Instance().Reset(); // This requires a second reset for some reason???
             var gm = GameMaster.Instance();
             GameMaster.Instance().DungeonMap.Initialize(30, 30);
             GameMaster.Instance().DungeonMap.Clear();
