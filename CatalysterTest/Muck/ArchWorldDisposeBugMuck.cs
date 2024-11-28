@@ -16,11 +16,12 @@ namespace CatalysterTest.Muck
             World.Destroy(worldA);
 
             var worldB = World.Create();
-            worldB.Create();
+            var e0 = worldB.Create(0);
             World.Destroy(worldA);
+            var e1 = worldB.Create(0);
 
-            var c = ExFactory.SimpleCreature(worldB);
-            Assert.ThrowsException<NullReferenceException>(() => c.Get<Token>());
+            Assert.ThrowsException<NullReferenceException>(() => e0.Get<int>());
+            Assert.ThrowsException<NullReferenceException>(() => e1.Get<int>());
         }
     }
 }
