@@ -5,9 +5,10 @@ using Catalyster.Components.Directors;
 using Catalyster.Interfaces;
 using Inventory = Catalyster.Items.Inventory;
 using RogueSharp.DiceNotation;
-using Arch.Relationships;
 using Arch.Core.Extensions;
 using Catalyster.Helpers;
+using Catalyster.Core;
+using Catalyster.RAW;
 
 namespace CatalysterTest.TestUtils
 {
@@ -31,7 +32,7 @@ namespace CatalysterTest.TestUtils
         public static Entity Player(World world)
         {
             return world.Create(
-                new Token { Char = '@', Name = "Player", Color = 0xffffffff },
+                new Token { RID = "PLAYER", Char = '@', Name = "Player", Color = 0xffffffff },
                 new Position { X = 0, Y = 0 },
                 new Stats { Body = 1, HP = 30, Blood = 30, Breath = 10, Energy = 1000 },
                 new MeleeAttack { AttackFormula = Dice.Parse("1d3"), DamageFormula = Dice.Parse("1d4") },
@@ -42,11 +43,24 @@ namespace CatalysterTest.TestUtils
                 );
         }
 
+        public static Entity BlackPowder(EntityStats stats, World world)
+        {
+            var rid = "BLACK_POWDER";
+            var name = "Black Powder";
+            var desc = "Traditional. Versatile.";
+            if (stats.Has(rid))
+                return stats.CreateIn(rid, world);
+
+            var e = BlackPowder(stats.World);
+            var def = new EntityDefinition(name, desc, e.Reference());
+            return stats.CreateIn(rid, world);
+        }
+
         public static Entity BlackPowder(World world)
         {
             return world.Create(
                 new Position { },
-                new Token { Char = 'X', Name = "Black Powder", Color = 0xff101010 },
+                new Token { RID = "BLACK_POWDER", Char = 'X', Name = "Black Powder", Color = 0xff101010 },
                 new Item { Fill = 0.3f, Weight = 1f },
                 new Explosive
                 {

@@ -1,4 +1,5 @@
-﻿using Arch.Core.Extensions;
+﻿using Arch.Core;
+using Arch.Core.Extensions;
 using Catalyster.Components;
 using Catalyster.Core;
 using Catalyster.RAW;
@@ -35,6 +36,38 @@ namespace CatalysterTest.CoreTesting.RAW
             stats.Define(def);
             Assert.IsTrue(stats.Has(rid));
             Assert.AreEqual(def, stats.Get(rid));
+        }
+
+        [TestMethod]
+        public void TestRaw2()
+        {
+            var c = ExFactory.BlackPowder(stats.World);
+            var def = new EntityDefinition("Black Powder", "Traditional. Versatile.", c.Reference());
+            
+            var rid = c.Get<Token>().RID;
+            stats.Define(def);
+
+            var world = World.Create();
+            var e = stats.CreateIn(rid, world);
+            Assert.AreEqual(c.Get<Token>(), e.Get<Token>());
+
+            world.Dispose();
+        }
+
+        [TestMethod]
+        public void TestRaw3()
+        {
+            var c = ExFactory.BlackPowder(stats.World);
+            var def = new EntityDefinition("Black Powder", "Traditional. Versatile.", c.Reference());
+
+            var rid = c.Get<Token>().RID;
+            stats.Define(def);
+
+            var world = World.Create();
+            var e = stats.CreateIn(rid, world);
+            Assert.AreEqual(c.Get<Token>(), e.Get<Token>());
+
+            world.Dispose();
         }
     }
 }

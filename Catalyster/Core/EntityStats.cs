@@ -2,6 +2,7 @@
 using Arch.Core.Extensions;
 using Catalyster.Components;
 using Catalyster.RAW;
+using CommunityToolkit.HighPerformance;
 
 namespace Catalyster.Core
 {
@@ -34,6 +35,22 @@ namespace Catalyster.Core
         public EntityDefinition Get(string rid)
         {
             return Stats[rid];
+        }
+
+        public Entity CreateIn(string rid, World world)
+        {
+            var def = Stats[rid];
+            var e = def.EntityReference.Entity;
+
+            var archetype = e.GetArchetype();
+            var copiedEntity = world.Create(archetype.Types);
+            // foreach ((var number, var word) in numbers.Zip(words, (n, w) => (n, w))) { ... }
+            foreach ((var type, var component) in archetype.Types.Zip(e.GetAllComponents(), (t, c) => (t, c)))
+            {
+                copiedEntity.Set(Convert.ChangeType(component, type));
+            }
+
+            return copiedEntity;
         }
     }
 }
