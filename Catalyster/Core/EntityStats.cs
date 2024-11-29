@@ -1,6 +1,7 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
 using Catalyster.Components;
+using Catalyster.Interfaces;
 using Catalyster.RAW;
 using CommunityToolkit.HighPerformance;
 
@@ -45,9 +46,14 @@ namespace Catalyster.Core
             var archetype = e.GetArchetype();
             var copiedEntity = world.Create(archetype.Types);
             // foreach ((var number, var word) in numbers.Zip(words, (n, w) => (n, w))) { ... }
-            foreach ((var type, var component) in archetype.Types.Zip(e.GetAllComponents(), (t, c) => (t, c)))
+            foreach (var component in e.GetAllComponents())
             {
-                copiedEntity.Set(Convert.ChangeType(component, type));
+                // TODO: don't do this
+                var director = component as IDirector;
+                if (director != null)
+                    copiedEntity.Set(director);
+                else
+                    copiedEntity.Set(component);
             }
 
             return copiedEntity;

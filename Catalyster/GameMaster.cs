@@ -34,7 +34,6 @@ namespace Catalyster
 
         private GameMaster()
         {
-            //World.Create(); // FOR DEBUG
             DungeonMap = new DungeonMap();
             World = World.Create();
             Stats = new EntityStats();
@@ -52,6 +51,12 @@ namespace Catalyster
             {
                 Command.Entity = _turnOrder.Update(World);
             }
+        }
+
+        const int UPDATE_LIMIT = 10;
+        public void Resolve()
+        {
+            
         }
     }
 }

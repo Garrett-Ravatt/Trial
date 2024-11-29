@@ -39,8 +39,23 @@ namespace Catalyster.Acts
 
             ref var position = ref entity.Get<Position>();
             var newPos = new Position { X = position.X + x, Y = position.Y + y };
+            
+            var gm = GameMaster.Instance();
 
-            if (GameMaster.Instance().DungeonMap.IsWalkable(newPos.X, newPos.Y))
+            if (newPos.X < 0 || newPos.Y < 0 ||
+                newPos.X > gm.DungeonMap.Width || newPos.Y > gm.DungeonMap.Height)
+            {
+                Console.WriteLine($"{entity} trying to leave map");
+                if (entity.Has<Player>())
+                {
+                    Resolved = true;
+                    return this;
+                }
+                else
+                    throw new Exception($"{entity} tried to leave map");
+            }
+
+            else if (gm.DungeonMap.IsWalkable(newPos.X, newPos.Y))
             {
                 Entity? bumped = null;
                 if (SpatialHelper.ClearOrAssign(position.X + x, position.Y + y, ref bumped) ||
