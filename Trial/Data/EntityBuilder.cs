@@ -5,6 +5,8 @@ using Catalyster.Interfaces;
 using Inventory = Catalyster.Items.Inventory;
 using RogueSharp.DiceNotation;
 using Arch.Core.Extensions;
+using Catalyster;
+using Catalyster.RAW;
 
 namespace Trial.Data
 {
@@ -13,31 +15,58 @@ namespace Trial.Data
     {
         public static Entity Player(World world)
         {
-            return world.Create(
-                new Position { },
-                new Token { Char = '@', Name = "Alchymer", Color = 0xffff70ff },
-                new Stats { Body = 0, HP = 10, Blood = 10, Breath = 10, Energy = 1000 },
-                new MeleeAttack { AttackFormula = Dice.Parse("1d20+3"), DamageFormula = Dice.Parse("1d3+1") },
-                new Player { },
-                (IDirector) new PlayerDirector { },
-                new Sense { Range = 20 },
-                new Inventory(new List<EntityReference> { world.Create(new Item { Fill = 1f, Weight = 2f }).Reference() })
-                );
+            var rid = "ALCHYMER";
+            var gm = GameMaster.Instance();
+            var stats = gm.Stats;
+
+            if (!stats.Has(rid))
+            {
+                var desc = "You";
+
+                var e = stats.World.Create(
+                    new Position { },
+                    new Token { RID = rid, Char = '@', Name = "Alchymer", Color = 0xffff70ff },
+                    new Stats { Body = 6, HP = 6, Blood = 6, Breath = 6, Energy = 600 },
+                    new MeleeAttack { AttackFormula = Dice.Parse("1d4"), DamageFormula = Dice.Parse("1") },
+                    new Player { },
+                    (IDirector)new PlayerDirector { },
+                    new Sense { Range = 20 },
+                    new Inventory(new List<EntityReference> { })
+                    );
+
+                var def = new EntityDefinition(rid, desc, e.Reference());
+                stats.Define(def);
+            }
+
+            return stats.CreateIn(rid, world);
         }
 
         // Creatures
         public static Entity Goblin(World world)
         {
-            var hp = Math.Max(Dice.Roll("2d3-2"), 1);
-            return world.Create(
-                new Position { },
-                new Token { Char = 'g', Name = "goblin", Color = 0xff00e300 },
-                new Stats { Body = 10, HP = hp, Blood = hp, Breath = 10, Energy = 1000 },
-                new Monster { },
-                new Faction { HostileDesc = new QueryDescription().WithAll<Player>() },
-                new MeleeAttack { AttackFormula = Dice.Parse("1d20+2"), DamageFormula = Dice.Parse("1d4") },
-                (IDirector) new CrazedHunter { }
-                );
+            var rid = "GOBLIN";
+            var gm = GameMaster.Instance();
+            var stats = gm.Stats;
+
+            if (!stats.Has(rid))
+            {
+                var desc = "Named for its gob, its jaw draws wide and deep like a saucepan.";
+
+                var e = stats.World.Create(
+                    new Position { },
+                    new Token { RID = rid, Char = 'g', Name = "goblin", Color = 0xff00e300 },
+                    new Stats { Body = 4, HP = 2, Blood = 2, Breath = 6, Energy = 600 },
+                    new Monster { },
+                    new Faction { HostileDesc = new QueryDescription().WithAll<Player>() },
+                    new MeleeAttack { AttackFormula = Dice.Parse("1d2"), DamageFormula = Dice.Parse("1d2") },
+                    (IDirector)new CrazedHunter { }
+                    );
+
+                var def = new EntityDefinition(rid, desc, e.Reference());
+                stats.Define(def);
+            }
+
+            return stats.CreateIn(rid, world);
         }
 
         // Items

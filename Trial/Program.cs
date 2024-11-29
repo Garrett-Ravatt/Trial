@@ -37,9 +37,9 @@ namespace Trial
             // Map
             var mapModel = new Model<DungeonMap>()
                 .Step(new InitializeMap(GameSettings.MapWidth, GameSettings.MapHeight))
-                .Step(new RoomGen(10, 7, 15))
-                .Step(new CorridorGen())
-                .Seed(0xfab); // necessary until player is better placed
+                .Step(new RoomGen(10, 5, 8))
+                .Step(new CorridorGen());
+                //.Seed(0xfab); // necessary until player is better placed
 
             var map = new DrawingMap();
             mapModel.Process(map);
@@ -53,8 +53,8 @@ namespace Trial
                 .Step(new POIGen(map))
                 .Step(new POIPlayer())
                 .Step(new POIGoblin(1.0))
-                .Step(new BlackPowderWrite(map))
-                .Seed(0xfab);
+                .Step(new BlackPowderWrite(map));
+                //.Seed(0xfab);
             worldModel.Process(GameMaster.World);
 
             // SadConsole
