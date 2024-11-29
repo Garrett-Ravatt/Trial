@@ -53,10 +53,15 @@ namespace Catalyster
             }
         }
 
-        const int UPDATE_LIMIT = 10;
+        // Maximum updates done to GameMaster before exiting
+        const int UPDATE_LIMIT = 15;
         public void Resolve()
         {
-            
+            // TODO: if finished updating, stop updating
+            for (var i = 0; i < UPDATE_LIMIT; i++)
+            {
+                Update();
+            }
         }
     }
 }

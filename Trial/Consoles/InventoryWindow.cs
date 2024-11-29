@@ -90,8 +90,7 @@ namespace Trial.Consoles
             if (handled)
             {
                 // this is hacky (but I am at peace)
-                Program.GameMaster.Update();
-                Program.GameMaster.Update();
+                Program.GameMaster.Resolve();
                 Program.Draw();
             }
             else

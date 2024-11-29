@@ -28,14 +28,6 @@ namespace CatalysterTest.CoreTesting
             gm.Update();
         }
 
-        //[TestMethod]
-        //public void GameMasterTest2()
-        //{
-        //    var map = new DungeonMap();
-        //    var gm = new GameMaster(map);
-        //    Assert.AreEqual(GameMaster.Instance().DungeonMap, map);
-        //}
-
         [TestMethod]
         public void GameMasterTest3()
         {
@@ -130,6 +122,20 @@ namespace CatalysterTest.CoreTesting
         {
             var gm = GameMaster.Instance();
             Assert.AreEqual(0, gm.Stats.Stats.Count);
+        }
+
+        [TestMethod]
+        public void GameMasterTest7()
+        {
+            var gm = GameMaster.Instance();
+            gm.DungeonMap.Initialize(3000, 30); //LOOONG
+            gm.DungeonMap.Clear();
+            var e = ExFactory.SimpleCreature(gm.World);
+            ref var stats = ref e.Get<Stats>();
+            stats.Breath = 100;
+            stats.Energy = 10000;
+            gm.Resolve(); // better :)
+            Assert.IsTrue(0 >= stats.Energy);
         }
     }
 }

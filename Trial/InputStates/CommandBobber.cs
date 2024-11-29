@@ -29,8 +29,7 @@ namespace Trial.InputStates
                 switch (value)
                 {
                     case CommandState.None:
-                        Program.GameMaster.Update();
-                        Program.GameMaster.Update();
+                        Program.GameMaster.Resolve();
                         Program.Draw();
                         break;
                     case CommandState.Throw:

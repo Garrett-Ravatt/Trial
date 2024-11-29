@@ -72,8 +72,7 @@ namespace Trial
 
             Game.Instance.DestroyDefaultStartingConsole();
 
-            GameMaster.Update();
-            GameMaster.Update();
+            GameMaster.Resolve();
             Draw();
         }
         

@@ -37,6 +37,9 @@ namespace Catalyster.Core
             }
             else
             {
+                var gm = GameMaster.Instance();
+                var e = new List<Entity>();
+                gm.World.GetEntities(in new QueryDescription().WithAll<IDirector>(), e);
                 Console.WriteLine("Command.Ref is null");
                 return;
             }
