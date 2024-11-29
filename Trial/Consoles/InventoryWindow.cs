@@ -81,7 +81,6 @@ namespace Trial.Consoles
             {
                 IsFocused = false;
                 _mapConsole.IsFocused = true;
-                _mapConsole.IsFocused = true;
                 _mapConsole.SetState(MapInputState.Map);
                 Dispose();
                 handled = true;
@@ -89,7 +88,6 @@ namespace Trial.Consoles
 
             if (handled)
             {
-                // this is hacky (but I am at peace)
                 Program.GameMaster.Resolve();
                 Program.Draw();
             }

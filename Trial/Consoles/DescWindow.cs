@@ -62,6 +62,22 @@ namespace Trial.Consoles
 
         public override bool ProcessKeyboard(Keyboard keyboard)
         {
+            bool handled = false;
+
+            if (keyboard.IsKeyPressed(Keys.Escape) || keyboard.IsKeyPressed(Keys.Back))
+            {
+                IsFocused = false;
+                _mapConsole.IsFocused = true;
+                _mapConsole.SetState(MapInputState.Map);
+                Dispose();
+                handled = true;
+            }
+
+            if (handled)
+            {
+
+            }
+
             // TODO: nums & move it around.
             return base.ProcessKeyboard(keyboard);
         }

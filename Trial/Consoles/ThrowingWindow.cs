@@ -23,6 +23,23 @@ namespace Trial.Consoles
             // This is what I am
             Title = "Select an item to throw";
 
+            // X BUTTON
+            var xButton = new Button(1, 1)
+            {
+                Position = new Point(width - 1, 0),
+                Text = "X"
+            };
+
+            xButton.MouseButtonClicked += (sender, args) =>
+            {
+                Controls.Clear();
+                Hide();
+                mapConsole.IsFocused = true;
+                Dispose();
+            };
+
+            Controls.Add(xButton);
+
             // Fit list within the margin
             var listwidth = width-2;
             var listheight = height-3;
@@ -61,6 +78,10 @@ namespace Trial.Consoles
             {
                 IsFocused = false;
                 _mapConsole.IsFocused = true;
+                Controls.Clear();
+                Hide();
+                _mapConsole.IsFocused = true;
+                Dispose();
             }
 
             if (handled)
