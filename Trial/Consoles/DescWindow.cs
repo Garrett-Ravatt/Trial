@@ -12,7 +12,7 @@ namespace Trial.Consoles
         private MapConsole _mapConsole;
 
         // we may very well overload this constructor with other consoles that may call this popup.
-        public DescWindow(int x, int y, MapConsole mapConsole) : base(20, 5)
+        public DescWindow(int x, int y, MapConsole mapConsole) : base(30, 8)
         {
             _mapConsole = mapConsole;
             IsFocused = true;
@@ -24,14 +24,13 @@ namespace Trial.Consoles
             {
                 // This is what I am
                 Title = def.Name;
-
-                //var descConsole = new Console(Width - 2, Height - 2)
-                //{
-                //    Position = new Point(x - 1, y - 1),
-                //};
-                //Children.Add(descConsole);
-                //descConsole.Print(1, 1, def.Description);
-                this.Print(1, 1, def.Description);
+                int line = 1;
+                while (line * (Width - 2) < def.Description.Length)
+                {
+                    this.Print(1, line, def.Description.Substring((line - 1) * (Width - 2), Width - 2));
+                    line += 1;
+                }
+                this.Print(1, line, def.Description.Substring((line - 1) * (Width - 2)));
             }
             else
             {
