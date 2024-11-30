@@ -17,7 +17,18 @@ namespace Trial.Consoles
             _mapConsole = mapConsole;
             IsFocused = true;
 
-            Position = new Point(x + 1, y - Height);
+            // Put Description on other side of console event if it won't fit on screen
+            if (x + Width > GameSettings.Width)
+                x -= Width - 1;
+            else
+                x += 1;
+
+            if (y + Height > GameSettings.Height)
+                y -= Height;
+            else
+                y += 1;
+            
+            Position = new Point(x, y);
 
             var def = GameMaster.Instance().Command.Describe(x, y);
             if (def != null)

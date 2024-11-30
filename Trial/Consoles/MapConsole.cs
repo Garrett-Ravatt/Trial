@@ -68,7 +68,6 @@ namespace Trial.Consoles
                         if (state.Mouse.LeftClicked)
                         {
                             new DescWindow(state.CellPosition.X, state.CellPosition.Y, this);
-                            //SetState(MapInputState.Map);
                         }
                         handled = true;
                     }
