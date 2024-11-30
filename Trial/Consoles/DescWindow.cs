@@ -1,4 +1,5 @@
-﻿using SadConsole.Ansi;
+﻿using Catalyster;
+using SadConsole.Ansi;
 using SadConsole.Input;
 using SadConsole.UI;
 using SadConsole.UI.Controls;
@@ -18,10 +19,27 @@ namespace Trial.Consoles
 
             Position = new Point(x + 1, y - Height);
 
-            // This is what I am
-            Title = "Desc";
+            var def = GameMaster.Instance().Command.Describe(x, y);
+            if (def != null)
+            {
+                // This is what I am
+                Title = def.Name;
 
-            this.Print(1, 1, "Empty Description");
+                //var descConsole = new Console(Width - 2, Height - 2)
+                //{
+                //    Position = new Point(x - 1, y - 1),
+                //};
+                //Children.Add(descConsole);
+                //descConsole.Print(1, 1, def.Description);
+                this.Print(1, 1, def.Description);
+            }
+            else
+            {
+                // This is what I am
+                Title = "Desc";
+
+                this.Print(1, 1, "Empty");
+            }
 
             // X BUTTON
             var xButton = new Button(1, 1)

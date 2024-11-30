@@ -35,6 +35,8 @@ namespace Catalyster.Core
 
         public EntityDefinition Get(string rid)
         {
+            if (rid == null)
+                throw new NullReferenceException("RID search should not be null");
             return Stats[rid];
         }
 

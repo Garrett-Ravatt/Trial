@@ -26,8 +26,8 @@ namespace Trial.Data
                 var e = stats.World.Create(
                     new Position { },
                     new Token { RID = rid, Char = '@', Name = "Alchymer", Color = 0xffff70ff },
-                    new Stats { Body = 6, HP = 6, Blood = 6, Breath = 6, Energy = 600 },
-                    new MeleeAttack { AttackFormula = Dice.Parse("1d4"), DamageFormula = Dice.Parse("1") },
+                    new Stats { Body = 6, HP = 6, Blood = 6, Breath = 6 },
+                    new MeleeAttack { AttackFormula = Dice.Parse("1d4-2"), DamageFormula = Dice.Parse("1") },
                     new Player { },
                     (IDirector)new PlayerDirector { },
                     new Sense { Range = 20 },
@@ -55,10 +55,10 @@ namespace Trial.Data
                 var e = stats.World.Create(
                     new Position { },
                     new Token { RID = rid, Char = 'g', Name = "goblin", Color = 0xff00e300 },
-                    new Stats { Body = 4, HP = 2, Blood = 2, Breath = 6, Energy = 600 },
+                    new Stats { Body = 4, HP = 3, Blood = 3, Breath = 5 },
                     new Monster { },
                     new Faction { HostileDesc = new QueryDescription().WithAll<Player>() },
-                    new MeleeAttack { AttackFormula = Dice.Parse("1d2"), DamageFormula = Dice.Parse("1d2") },
+                    new MeleeAttack { AttackFormula = Dice.Parse("1d2-1"), DamageFormula = Dice.Parse("1d2") },
                     (IDirector)new CrazedHunter { }
                     );
 

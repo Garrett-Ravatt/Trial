@@ -5,6 +5,8 @@ using Arch.Core.Extensions;
 using Inventory = Catalyster.Items.Inventory;
 using Catalyster.Components;
 using CatalysterTest.TestUtils;
+using Catalyster.Helpers;
+using Catalyster.RAW;
 
 namespace CatalysterTest.CoreTesting
 {
@@ -194,6 +196,27 @@ namespace CatalysterTest.CoreTesting
 
             // the player should be hurt
             Assert.IsTrue(player.Get<Stats>().HP < player.Get<Stats>().Blood);
+        }
+
+        [TestMethod]
+        public void CommandTest9()
+        {
+            var gm = GameMaster.Instance();
+            gm.DungeonMap.Initialize(40, 40);
+            gm.DungeonMap.SetAllWalkable();
+
+            var p = RAWFactory.BlackPowder(gm.Stats, gm.World);
+            p.Set(new Position { X = 0, Y = 0 });
+
+            Entity? found = null;
+            EntityDefinition? def = null;
+            if (!SpatialHelper.ClearOrAssign(0, 0, ref found))
+            {
+                var rid = found.Value.Get<Token>().RID;
+                def = gm.Stats.Get(rid);
+            }
+
+            Assert.AreEqual("Black Powder", def.Name);
         }
     }
 }

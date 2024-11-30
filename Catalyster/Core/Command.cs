@@ -6,6 +6,7 @@ using Catalyster.Components;
 using Catalyster.Helpers;
 using Catalyster.Messages;
 using Inventory = Catalyster.Items.Inventory;
+using Catalyster.RAW;
 
 namespace Catalyster.Core
 {
@@ -115,6 +116,18 @@ namespace Catalyster.Core
                     list.Add(ItemPropHelper.StringifyItem(item.Entity));
             }
             return list;
+        }
+
+        public EntityDefinition? Describe(int x, int y)
+        {
+            Entity? found = null;
+            if (!SpatialHelper.ClearOrAssign(x, y, ref found))
+            {
+                var rid = found.Value.Get<Token>().RID;
+                if (rid != null)
+                    return GameMaster.Instance().Stats.Get(rid);
+            }
+            return null;
         }
     }
 }
