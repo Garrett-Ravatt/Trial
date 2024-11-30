@@ -24,13 +24,15 @@ namespace Trial.Consoles
             {
                 // This is what I am
                 Title = def.Name;
-                int line = 1;
-                while (line * (Width - 2) < def.Description.Length)
+
+                var descConsole = new Console(Width - 2, Height - 2)
                 {
-                    this.Print(1, line, def.Description.Substring((line - 1) * (Width - 2), Width - 2));
-                    line += 1;
-                }
-                this.Print(1, line, def.Description.Substring((line - 1) * (Width - 2)));
+                    Position = new Point(1,1),
+                };
+
+                descConsole.Print(0, 0, def.Description);
+
+                Children.Add(descConsole);
             }
             else
             {
@@ -39,22 +41,6 @@ namespace Trial.Consoles
 
                 this.Print(1, 1, "Empty");
             }
-
-            // X BUTTON
-            var xButton = new Button(1, 1)
-            {
-                Position = new Point(Width, 0),
-                Text = "X"
-            };
-
-            xButton.MouseButtonClicked += (sender, args) =>
-            {
-                mapConsole.IsFocused = true;
-                mapConsole.SetState(MapInputState.Map);
-                Dispose();
-            };
-
-            Controls.Add(xButton);
 
             Show();
         }
@@ -86,6 +72,7 @@ namespace Trial.Consoles
                 IsFocused = false;
                 _mapConsole.IsFocused = true;
                 _mapConsole.SetState(MapInputState.Map);
+                Children.Clear();
                 Dispose();
                 handled = true;
             }
