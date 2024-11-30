@@ -74,7 +74,6 @@ namespace Trial.Consoles
                     break;
             }
 
-
             return handled;
         }
 
@@ -92,12 +91,16 @@ namespace Trial.Consoles
                 IsFocused = false;
                 new InventoryWindow(40, 20, this);
             }
+            else if (keyboard.IsKeyReleased(Keys.C))
+            {
+                IsFocused = false;
+                new CatalogueWindow(40, 20, this);
+            }
 
             handled = MapFocus.ProcessKeyboard(State, handled, keyboard, this);
 
             if (handled)
             {
-                // this is hacky (but I am at peace)
                 Program.GameMaster.Resolve();
                 Program.Draw();
             }

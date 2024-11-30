@@ -39,7 +39,6 @@ namespace Trial
                 .Step(new InitializeMap(GameSettings.MapWidth, GameSettings.MapHeight))
                 .Step(new RoomGen(10, 5, 8))
                 .Step(new CorridorGen());
-                //.Seed(0xfab); // necessary until player is better placed
 
             var map = new DrawingMap();
             mapModel.Process(map);
@@ -54,7 +53,7 @@ namespace Trial
                 .Step(new POIPlayer())
                 .Step(new POIGoblin(1.0))
                 .Step(new BlackPowderWrite(map));
-                //.Seed(0xfab);
+
             worldModel.Process(GameMaster.World);
 
             // SadConsole

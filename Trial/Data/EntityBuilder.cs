@@ -58,7 +58,7 @@ namespace Trial.Data
                     new Stats { Body = 4, HP = 3, Blood = 3, Breath = 5 },
                     new Monster { },
                     new Faction { HostileDesc = new QueryDescription().WithAll<Player>() },
-                    new MeleeAttack { AttackFormula = Dice.Parse("1d2-1"), DamageFormula = Dice.Parse("1d2") },
+                    new MeleeAttack { AttackFormula = Dice.Parse("1d8-5"), DamageFormula = Dice.Parse("1d2") },
                     (IDirector)new CrazedHunter { }
                     );
 

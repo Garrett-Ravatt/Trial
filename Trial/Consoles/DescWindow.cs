@@ -17,18 +17,19 @@ namespace Trial.Consoles
             _mapConsole = mapConsole;
             IsFocused = true;
 
-            // Put Description on other side of console event if it won't fit on screen
-            if (x + Width > GameSettings.Width)
-                x -= Width - 1;
+            // Put Description window wherever it will fit on screen
+            var (p, q) = (x, y);
+            if (p + Width > GameSettings.Width)
+                p -= Width - 1;
             else
-                x += 1;
+                p += 1;
 
-            if (y + Height > GameSettings.Height)
-                y -= Height;
+            if (q + Height > GameSettings.Height)
+                q -= Height;
             else
-                y += 1;
+                q += 1;
             
-            Position = new Point(x, y);
+            Position = new Point(p, q);
 
             var def = GameMaster.Instance().Command.Describe(x, y);
             if (def != null)
@@ -38,7 +39,7 @@ namespace Trial.Consoles
 
                 var descConsole = new Console(Width - 2, Height - 2)
                 {
-                    Position = new Point(1,1),
+                    Position = new Point(1, 1),
                 };
 
                 descConsole.Print(0, 0, def.Description);
@@ -59,6 +60,7 @@ namespace Trial.Consoles
         public void Transition(int X, int Y)
         {
             new DescWindow(X, Y, _mapConsole);
+            Children.Clear();
             Dispose();
         }
 
