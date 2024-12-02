@@ -6,9 +6,9 @@ using Catalyster.Helpers;
 using Catalyster.Interfaces;
 using Catalyster.Messages;
 
-namespace Catalyster.Acts
+namespace Catalyster.Acts.ItemManipulation
 {
-    public class ItemCollectAct: IAct
+    public class ItemCollectAct : IAct
     {
 
         public int Cost { get; set; }
@@ -30,7 +30,7 @@ namespace Catalyster.Acts
                 throw new Exception($"{Acting} entity reference invalid in {this}");
 
             var e = Acting.Value.Entity;
-            
+
             if (!e.Has<Inventory, Position>())
             {
                 if (e.Has<Player>())
@@ -53,6 +53,7 @@ namespace Catalyster.Acts
                 {
                     // TODO: SpatialHash refactor point
                     // TODO: Check inventory capacity
+                    // TODO: Use Command Buffer inside query
                     if (SpatialHelper.LazyDist(position, pos) <= 1)
                     {
                         var entityRef = entity.Reference();
@@ -68,7 +69,7 @@ namespace Catalyster.Acts
                 ref var stats = ref e.Get<Stats>();
                 stats.Energy -= WiggleHelper.Wiggle(Cost, 0.1);
             }
-            
+
             Resolved = true;
             return this;
         }

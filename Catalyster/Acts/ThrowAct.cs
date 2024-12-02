@@ -25,13 +25,15 @@ namespace Catalyster.Acts
         {
             if (!Acting.HasValue || !X.HasValue || !Y.HasValue || !I.HasValue)
             {
-                //TODO: throw error
+                Console.Error.WriteLine($"Throw Act executed with invalid state: {this}");
+                // TODO: throw error
                 return this;
             }
             var (entity, x, y, i) = (Acting.Value.Entity, X.Value, Y.Value, I.Value);
 
             if (entity.Has<Player>() && !GameMaster.Instance().DungeonMap.IsInFov(x, y))
             {
+                // TODO: warn player
                 return this;
             }
 

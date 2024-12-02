@@ -1,10 +1,9 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
 using Catalyster.Acts;
-using Catalyster.Interfaces;
+using Catalyster.Acts.ItemManipulation;
 using Catalyster.Components;
 using Catalyster.Helpers;
-using Catalyster.Messages;
 using Inventory = Catalyster.Items.Inventory;
 using Catalyster.RAW;
 
@@ -38,9 +37,6 @@ namespace Catalyster.Core
             }
             else
             {
-                //var gm = GameMaster.Instance();
-                //var e = new List<Entity>();
-                //gm.World.GetEntities(in new QueryDescription().WithAll<IDirector>(), e);
                 Console.WriteLine("Command.Ref is null");
                 return;
             }
@@ -52,7 +48,6 @@ namespace Catalyster.Core
             if (Entity == null)
                 return;
             var player = Entity.Value;
-
             CommandInjectionAct.InjectedAct = new ItemCollectAct(player.Reference());
         }
 
@@ -77,6 +72,9 @@ namespace Catalyster.Core
             if (entity.Get<Stats>().Energy <= 0)
                 Entity = null;
         }
+
+        // Pure Information Methods
+        // TODO: Refactor pure information fetching into a different module?
 
         // A method used by UI
         public List<string> Inventory()
