@@ -70,5 +70,14 @@ namespace CatalysterTest.TestUtils
                 Console.WriteLine("Exfactory.BasicBomb is experiencing issues");
             return bomb;
         }
+
+        public static Entity Door(World world)
+        {
+            return world.Create(
+                new Token { RID = "DOOR", Char = '#', Name = "Door", Color = 0xa0522dff },
+                new Position { },
+                new Door { state = DoorState.CLOSED }
+                );
+        }
     }
 }

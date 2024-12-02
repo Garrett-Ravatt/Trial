@@ -58,8 +58,9 @@ namespace Catalyster.Acts
             else if (gm.DungeonMap.IsWalkable(newPos.X, newPos.Y))
             {
                 Entity? bumped = null;
+                // An empty space or a an item
                 if (SpatialHelper.ClearOrAssign(position.X + x, position.Y + y, ref bumped) ||
-                    !bumped.Value.Has<Stats>())
+                    bumped.Value.Has<Item>())
                 {
                     position = newPos;
                     // TODO: refer to movement speed
@@ -68,7 +69,21 @@ namespace Catalyster.Acts
                     return this;
                 }
 
-                else if (!Passive) // ran into a creature; attack them
+                // A door
+                else if (bumped.Value.Has<Door>())
+                {
+                    ref var door = ref bumped.Value.Get<Door>();
+                    if (door.state == DoorState.OPEN)
+                    {
+                        position = newPos;
+                        // TODO: refer to movement speed
+                        stats.Energy -= WiggleHelper.Wiggle(Cost, .1);
+                    }
+                    Resolved = true;
+                    return this;
+                }
+
+                else if (bumped.Value.Has<Stats>() && !Passive) // ran into a creature; attack them
                 {
                     // TODO: swap places with friendly creature
                     var attackAct = new MeleeAttackAct(Acting.Value, bumped.Value.Reference());

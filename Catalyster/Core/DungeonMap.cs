@@ -12,6 +12,24 @@ namespace Catalyster.Core
         //TODO: refactor 'world' parameter using static world or event system.
         public void UpdateFieldOfView(World world)
         {
+            // Block view through doors
+            world.Query(in new QueryDescription().WithAll<Position, Door>(), (ref Position pos, ref Door door) =>
+            {
+                var cell = GetCell(pos.X, pos.Y);
+                switch (door.state)
+                {
+                    case DoorState.OPEN:
+                        SetCellProperties(cell.X, cell.Y, true, true, cell.IsExplored);
+                        break;
+                    case DoorState.CLOSED:
+                        SetCellProperties(cell.X, cell.Y, false, false, cell.IsExplored);
+                        break;
+                    default:
+                        break;
+                }
+            });
+
+            // Print visible tokens
             world.Query(in new QueryDescription().WithAll<Player, Position, Sense>(), (ref Position position, ref Sense sense) =>
             {
                 // TODO: compute fov cumulatively instead of destructively .
