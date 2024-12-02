@@ -1,6 +1,7 @@
 ﻿using Arch.Core.Extensions;
 using Catalyster;
 using Catalyster.Components;
+using Catalyster.Components.Extensions;
 using CatalysterTest.TestUtils;
 
 namespace CatalysterTest.ComponentTesting.Interactives
@@ -51,6 +52,23 @@ namespace CatalysterTest.ComponentTesting.Interactives
 
             gm.DungeonMap.UpdateFieldOfView(gm.World);
             Assert.IsFalse(gm.DungeonMap.GetCell(2, 0).IsInFov);
+        }
+
+        [TestMethod]
+        public void DoorTest3()
+        {
+            var gm = GameMaster.Instance();
+            var e = RAWFactory.Door(gm.Stats, gm.World);
+            var p = e.Get<Position>();
+
+            // Clear Space
+            Assert.IsTrue(gm.DungeonMap.GetCell(p.X, p.Y).IsWalkable);
+
+            var door = e.Get<Door>();
+            door.state.UpdateMap(e);
+
+            // Blocked space omg
+            Assert.IsFalse(gm.DungeonMap.GetCell(p.X, p.Y).IsWalkable);
         }
     }
 }

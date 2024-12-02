@@ -70,6 +70,7 @@ namespace Catalyster.Acts
                 }
 
                 // A door
+                // TODO: update walkable tiles instead of handling in walk act
                 else if (bumped.Value.Has<Door>())
                 {
                     ref var door = ref bumped.Value.Get<Door>();
