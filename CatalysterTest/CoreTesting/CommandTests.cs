@@ -164,8 +164,9 @@ namespace CatalysterTest.CoreTesting
                 new Item { Fill=1f, Weight=1f }
                 );
 
-            gm.Update();
+            gm.Resolve();
             command.Interact();
+            gm.Resolve();
 
             Assert.AreEqual("Rock",
                 player.Get<Inventory>().Items[0].Entity.Get<Token>().Name);
@@ -188,11 +189,12 @@ namespace CatalysterTest.CoreTesting
             bomb.Set(new Position { X=0, Y=0 });
             gm.Update();
             command.Interact();
+            gm.Resolve();
 
             Assert.IsTrue(player.Get<Inventory>().Items.Count > 0);
 
             command.Throw(1, 1, 0);
-            gm.Update();
+            gm.Resolve();
 
             // the player should be hurt
             Assert.IsTrue(player.Get<Stats>().HP < player.Get<Stats>().Blood);

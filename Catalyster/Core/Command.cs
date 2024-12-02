@@ -38,9 +38,9 @@ namespace Catalyster.Core
             }
             else
             {
-                var gm = GameMaster.Instance();
-                var e = new List<Entity>();
-                gm.World.GetEntities(in new QueryDescription().WithAll<IDirector>(), e);
+                //var gm = GameMaster.Instance();
+                //var e = new List<Entity>();
+                //gm.World.GetEntities(in new QueryDescription().WithAll<IDirector>(), e);
                 Console.WriteLine("Command.Ref is null");
                 return;
             }
@@ -52,29 +52,8 @@ namespace Catalyster.Core
             if (Entity == null)
                 return;
             var player = Entity.Value;
-            if (!player.Has<Inventory, Position>())
-                return;
 
-            var position = player.Get<Position>();
-            var inv = player.Get<Inventory>();
-
-            // Look for items, collect them
-            // TODO: Refactor as an Injected Act
-            GameMaster.Instance().World.Query(
-                in new QueryDescription().WithAll<Token, Position, Item>(),
-                (Entity entity, ref Token token, ref Position pos, ref Item item) =>
-                {
-                    // TODO: SpatialHash refactor point
-                    // TODO: Check inventory capacity
-                    if (SpatialHelper.LazyDist(position, pos) <= 1)
-                    {
-                        var entityRef = entity.Reference();
-                        entity.Remove<Position>();
-                        inv.Items.Add(entityRef);
-                        GameMaster.Instance().MessageLog.Hub.Publish(new ItemCollectedMessage(player, player.Reference(), entityRef, item));
-                        //GameMaster.Instance().MessageLog.Add($"{token.Name} Collected.");
-                    }
-                });
+            CommandInjectionAct.InjectedAct = new ItemCollectAct(player.Reference());
         }
 
         // Attempt to throw an item from inventory at a tile
