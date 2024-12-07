@@ -3,7 +3,6 @@ using Arch.Core.Extensions;
 using Catalyster.Components;
 using Catalyster.Helpers;
 using Catalyster.Interfaces;
-using Catalyster.Messages;
 
 namespace Catalyster.Acts
 {

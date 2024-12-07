@@ -51,14 +51,17 @@ namespace Catalyster.Acts.ItemManipulation
                 in new QueryDescription().WithAll<Token, Position, Item>(),
                 (Entity entity, ref Token token, ref Position pos, ref Item item) =>
                 {
-                    // TODO: SpatialHash refactor point
-                    // TODO: Check inventory capacity
-                    // TODO: Use Command Buffer inside query
                     if (SpatialHelper.LazyDist(position, pos) <= 1)
                     {
+                        // TODO: SpatialHash refactor point
+                        // TODO: Check inventory capacity
+                        // TODO: Use Command Buffer inside query
+
                         var entityRef = entity.Reference();
                         entity.Remove<Position>();
                         inv.Items.Add(entityRef);
+                        inv.Fill += item.Fill;
+                        inv.Weight += item.Weight;
                         GameMaster.Instance().MessageLog.Hub.Publish(new ItemCollectedMessage(e, e.Reference(), entityRef, item));
                         foundSomething = true;
                     }
@@ -68,6 +71,7 @@ namespace Catalyster.Acts.ItemManipulation
             {
                 ref var stats = ref e.Get<Stats>();
                 stats.Energy -= WiggleHelper.Wiggle(Cost, 0.1);
+                inv.CalculateCapacity();
             }
 
             Resolved = true;

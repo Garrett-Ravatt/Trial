@@ -54,6 +54,9 @@ namespace CatalysterTest.ComponentTesting
             Assert.IsTrue(ItemPropHelper.Contain(bottle, dust));
             Assert.IsTrue(bottle.HasRelationship<Contains>(dust));
 
+            // check weight
+            Assert.AreEqual(2f, bottle.Get<Item>().Weight);
+
             // can't fit the rock
             Assert.IsFalse(ItemPropHelper.Contain(bottle, rock));
             Assert.IsFalse(bottle.HasRelationship<Contains>(rock));

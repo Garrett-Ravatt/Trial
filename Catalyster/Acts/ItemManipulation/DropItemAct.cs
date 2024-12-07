@@ -22,8 +22,6 @@ namespace Catalyster.Acts.ItemManipulation
         // not optional, but default to 0
         public int X, Y;
 
-        // TODO: Inventory index OR item entity reference
-
         public DropItemAct(EntityReference? acting = null, EntityReference? itemRef = null, int x = 0, int y = 0, int? i = null)
         {
             Acting = acting;
@@ -53,16 +51,23 @@ namespace Catalyster.Acts.ItemManipulation
             var itemRef = ItemRef.Value;
             var item = itemRef.Entity.Get<Item>();
 
+
             // Top Level inventory item
-            if (inv.Items.Contains(itemRef) )
+            if (inv.Items.Contains(itemRef))
             {
                 inv.Items.Remove(itemRef);
                 inv.Fill -= item.Fill;
                 inv.Weight -= item.Weight;
+
+                itemRef.Entity.Add(e.Get<Position>());
+
+                stats.Energy -= WiggleHelper.Wiggle(Cost, 0.1);
                 Resolved = true;
+                return this;
             }
 
-            return this;
+            // TODO: Drop item from container instead of exception
+            throw new NotImplementedException($"{this} doesn't implement this yet");
         }
     }
 }

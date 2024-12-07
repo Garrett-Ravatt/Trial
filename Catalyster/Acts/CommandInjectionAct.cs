@@ -3,7 +3,7 @@ using Catalyster.Interfaces;
 
 namespace Catalyster.Acts
 {
-    public struct CommandInjectionAct : IAct
+    public class CommandInjectionAct : IAct
     {
         public int Cost { get; set; } = 0;
         public EntityReference? Acting { get; set; } = null;

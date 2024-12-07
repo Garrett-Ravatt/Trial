@@ -35,7 +35,7 @@ namespace CatalysterTest.TestUtils
                 new Stats { Body = 1, HP = 30, Blood = 30, Breath = 10, Energy = 1000 },
                 new MeleeAttack { AttackFormula = Dice.Parse("1d3"), DamageFormula = Dice.Parse("1d4") },
                 new Sense { Range=5 },
-                new Inventory(),
+                new Inventory() { WeightCapacity = 6f, FillCapacity = 6f },
                 new Player { },
                 (IDirector) new PlayerDirector { }
                 );

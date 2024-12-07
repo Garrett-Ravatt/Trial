@@ -8,8 +8,6 @@ namespace Catalyster.Helpers
 {
     public static class ItemPropHelper
     {
-        // TODO: Calculation for container's 
-
         // try to put something in a container.
         // returns true if it could put the content in the container
         public static bool Contain(Entity container, Entity content)
