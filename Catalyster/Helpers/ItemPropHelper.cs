@@ -25,10 +25,15 @@ namespace Catalyster.Helpers
 
                 // update internal Filled and weight
                 c.Filled += item.Fill;
-                // TODO: update the weight of parent containers
-                i.Weight += item.Weight;
+
+                //i.Weight += item.Weight;
 
                 container.AddRelationship<Contains>(content);
+                content.AddRelationship<Contained>(container);
+
+                // update weight
+                UpdateParentContainerWeight(content, item.Weight);
+
                 return true;
             }
             return false;
@@ -49,9 +54,15 @@ namespace Catalyster.Helpers
                 c.Filled -= item.Fill;
 
                 // update weight
-                i.Weight -= item.Weight;
+                //i.Weight -= item.Weight;
+
+                // update weight
+                UpdateParentContainerWeight(content, -item.Weight);
 
                 container.RemoveRelationship<Contains>(content);
+                content.RemoveRelationship<Contained>(container);
+
+
                 return true;
             }
             return false;
@@ -60,10 +71,22 @@ namespace Catalyster.Helpers
         // moving one item from its first container to another
         public static bool ReContain(Entity source, Entity dest, Entity content)
         {
-            if (Contain(dest, content))
-                if (Detain(source, content))
+            if (Detain(source, content))
+                if (Contain(dest, content))
                     return true;
             return false;
+        }
+
+        // updates the weight of parent containers
+        public static void UpdateParentContainerWeight(Entity e, float weight)
+        {
+            if (e.HasRelationship<Contained>())
+                foreach ((var container, var content) in e.GetRelationships<Contained>())
+                {
+                    ref var item = ref container.Get<Item>();
+                    item.Weight += weight;
+                    UpdateParentContainerWeight(container, weight);
+                }
         }
 
         // For thrown weapons. Explosions are a different item property.

@@ -85,7 +85,7 @@ namespace CatalysterTest.ActTesting.ItemManipulation
             Assert.AreEqual(2, inv.Items.Count);
             Assert.AreEqual(itemc.Fill + itemp.Fill, inv.Fill);
             Assert.AreEqual(itemc.Weight + itemp.Weight, inv.Weight);
-            // cont
+            // cont0
             Assert.IsFalse(bomb.Entity.HasRelationship<Contains>(powder.Entity));
             Assert.AreEqual(0, cont.Filled);
 
@@ -100,7 +100,7 @@ namespace CatalysterTest.ActTesting.ItemManipulation
             Assert.AreEqual(1, inv.Items.Count);
             Assert.AreEqual(itemc.Fill, inv.Fill);
             Assert.AreEqual(itemc.Weight, inv.Weight);
-            // cont
+            // cont0
             Assert.AreNotEqual(0, cont.Filled);
             Assert.IsTrue(bomb.Entity.HasRelationship<Contains>(powder));
         }
@@ -118,10 +118,15 @@ namespace CatalysterTest.ActTesting.ItemManipulation
             var actCC = new ItemMoveAct(Player.Reference(), bomb0, powder, bomb1);
             actCC.Execute();
             Assert.IsTrue(actCC.Resolved);
-            var inv = Player.Get<Inventory>();
-            var cont = bomb0.Entity.Get<Container>();
-            var itemc = bomb0.Entity.Get<Item>();
-            var itemp = powder.Entity.Get<Item>();
+            var cont0 = bomb0.Entity.Get<Container>();
+            var cont1 = bomb1.Entity.Get<Container>();
+
+            // cont0
+            Assert.AreEqual(0, cont0.Filled);
+            Assert.IsFalse(bomb0.Entity.HasRelationship<Contains>(powder));
+            // cont1
+            Assert.AreNotEqual(0, cont1.Filled);
+            Assert.IsTrue(bomb1.Entity.HasRelationship<Contains>(powder));
         }
     }
 }

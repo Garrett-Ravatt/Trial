@@ -50,9 +50,10 @@ namespace CatalysterTest.ComponentTesting
                 new Item { Fill = 1.1f, Weight = 1f }
                 );
 
-            // can fit the dust
+            // can fit the phial
             Assert.IsTrue(ItemPropHelper.Contain(bottle, dust));
             Assert.IsTrue(bottle.HasRelationship<Contains>(dust));
+            Assert.IsTrue(dust.HasRelationship<Contained>(bottle));
 
             // check weight
             Assert.AreEqual(2f, bottle.Get<Item>().Weight);
@@ -124,10 +125,10 @@ namespace CatalysterTest.ComponentTesting
 
             //make bomb
             var bottle = world.Create(
-            new Token { Name = "Bottle" },
-            new Item { Fill = 2f, Weight = 1f },
-            new Container { FillCap = 2f }
-            );
+                new Token { Name = "Bottle" },
+                new Item { Fill = 2f, Weight = 1f },
+                new Container { FillCap = 2f }
+                );
 
             var dust = world.Create(
                 new Item { Fill = 1f, Weight = 1f },
@@ -141,6 +142,49 @@ namespace CatalysterTest.ComponentTesting
             var dice = ItemPropHelper.BombOf(bottle);
             Console.WriteLine(dice);
             
+            world.Dispose();
+        }
+
+        [TestMethod]
+        public void ItemEntityTest6()
+        {
+            // Matroska containers
+
+            var world = World.Create();
+            
+            var jug = world.Create(
+                new Token { Name = "Bottle" },
+                new Item { Fill = 8f, Weight = 2f },
+                new Container { FillCap = 8f }
+                );
+
+            var bottle = world.Create(
+                new Token { Name = "Bottle" },
+                new Item { Fill = 2f, Weight = 1f },
+                new Container { FillCap = 2f }
+                );
+
+            var phial = world.Create(
+                new Item { Fill = .5f, Weight = .5f },
+                new Container { FillCap = 0.5f }
+                );
+
+            var pebble = world.Create(
+                new Item { Fill = .1f, Weight = .1f }
+                );
+
+            ItemPropHelper.Contain(jug, bottle);
+            ItemPropHelper.Contain(bottle, phial);
+
+            // jug's weight should update
+            Assert.AreEqual(3.5f, jug.Get<Item>().Weight);
+
+            ItemPropHelper.Contain(phial, pebble);
+            Assert.AreEqual(3.6f, jug.Get<Item>().Weight);
+
+            ItemPropHelper.Detain(bottle, phial);
+            Assert.AreEqual(3f, jug.Get<Item>().Weight);
+
             world.Dispose();
         }
     }

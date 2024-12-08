@@ -16,4 +16,7 @@ namespace Catalyster.Components
     // Relationship so an item can "contain" another
     // and find them without storing lists manually.
     public struct Contains { }
+    // Inversion of the Contains relationship
+    // Content of a container holds this
+    public struct  Contained { }
 }
