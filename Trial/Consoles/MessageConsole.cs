@@ -12,17 +12,17 @@ namespace Trial.Consoles
         private DrawString _drawString;
         private Queue<string> _drawQueue = new Queue<string>();
 
-        //private int line;
         public MessageConsole() : base(GameSettings.MessageLogWidth, GameSettings.MessageLogHeight)
         {
-            // Offset to right of the map
-            this.Position = new Point(GameSettings.MapWidth, 0);
+            // Offset to right of the map under header
+            Position = new Point(GameSettings.MapWidth, GameSettings.HeaderHeight);
 
             Cursor.IsEnabled = false;
             Cursor.IsVisible = true;
 
             Type(":: :: Your task comes to hand.");
-            //GameMaster.Instance().MessageLog.Handler += Type;
+            
+            // Create subscriptions to game messages
 
             var hub = GameMaster.Instance().MessageLog.Hub;
 

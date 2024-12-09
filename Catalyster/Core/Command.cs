@@ -6,6 +6,7 @@ using Catalyster.Components;
 using Catalyster.Helpers;
 using Inventory = Catalyster.Items.Inventory;
 using Catalyster.RAW;
+using Arch.Relationships;
 
 namespace Catalyster.Core
 {
@@ -13,6 +14,8 @@ namespace Catalyster.Core
     {
         // The Ref being controlled
         public Entity? Entity;
+        // Mapping of Inventory linearly to entity reference
+        public List<EntityReference> InvList = new List<EntityReference>();
         public Command() { }
 
         // yield control away.
@@ -76,7 +79,17 @@ namespace Catalyster.Core
         // Pure Information Methods
         // TODO: Refactor pure information fetching into a different module?
 
-        // A method used by UI
+        // player stats
+        public Stats? Stats()
+        {
+            if (Entity == null)
+                return null;
+            Stats st;
+            Entity.Value.TryGet<Stats>(out st);
+            return st;
+        }
+
+        // Representation of Inventory used by UI
         public List<string> Inventory()
         {
             if (Entity == null)
@@ -86,15 +99,36 @@ namespace Catalyster.Core
             if (!entity.Has<Inventory>())
                 return new List<string>();
 
+            InvList = new List<EntityReference>();
             var list = new List<string>();
             foreach (EntityReference item in entity.Get<Inventory>().Items)
             {
                 if (item.IsAlive())
-                    list.Add(ItemPropHelper.StringifyItem(item.Entity));
+                {
+                    var e = item.Entity;
+                    list.Add(ItemPropHelper.StringifyItem(e));
+                    InvList.Add(item);
+                    list = new List<string>(list.Concat(StringifyContent(e)));
+                }
             }
             return list;
         }
+        private List<string>StringifyContent(Entity container, int depth = 1)
+        {
+            var list = new List<string>();
+            if (container.HasRelationship<Contains>())
+                foreach ((var e, var r) in container.GetRelationships<Contains>())
+                {
+                    // TODO: depth as spaces
+                    list.Add($"{new string('\t', depth)}└{ItemPropHelper.StringifyItem(e)}");
+                    InvList.Add(e.Reference());
+                    if (e.HasRelationship<Contains>())
+                        list = new List<string>(list.Concat(StringifyContent(e, depth + 1)));
+                }
+            return list;
+        }
 
+        // Entity description of entity on a tile
         public EntityDefinition? Describe(int x, int y)
         {
             Entity? found = null;

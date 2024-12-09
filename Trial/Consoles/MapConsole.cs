@@ -37,7 +37,8 @@ namespace Trial.Consoles
         public int ItemIndex = 0;
         public MapConsole(int width, int height) : base(width, height)
         {
-            
+            // offset below header
+            Position = new Point(0, GameSettings.HeaderHeight);
 
             State = MapInputState.Map;
         }

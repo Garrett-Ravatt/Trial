@@ -7,6 +7,7 @@ using RogueSharp.DiceNotation;
 using Arch.Core.Extensions;
 using Catalyster;
 using Catalyster.RAW;
+using Catalyster.Helpers;
 
 namespace Trial.Data
 {
@@ -38,7 +39,42 @@ namespace Trial.Data
                 stats.Define(def);
             }
 
-            return stats.CreateIn(rid, world);
+            //return stats.CreateIn(rid, world);
+            var player = stats.CreateIn(rid, world);
+
+            // DEBUG
+            // TODO: delete section
+            var jug = world.Create(
+                new Token { Name = "Jug" },
+                new Item { Fill = 8f, Weight = 2f },
+                new Container { FillCap = 8f }
+                );
+
+            var bottle = world.Create(
+                new Token { Name = "Bottle" },
+                new Item { Fill = 2f, Weight = 1f },
+                new Container { FillCap = 2f }
+                );
+
+            var phial = world.Create(
+                new Token { Name = "Phial" },
+                new Item { Fill = .5f, Weight = .5f },
+                new Container { FillCap = 0.5f }
+                );
+
+            var pebble = world.Create(
+                new Token { Name = "Pebble" },
+                new Item { Fill = .1f, Weight = .1f }
+                );
+
+            ItemPropHelper.Contain(jug, bottle);
+            ItemPropHelper.Contain(bottle, phial);
+            ItemPropHelper.Contain(phial, pebble);
+
+            player.Get<Inventory>().Items.Add(jug.Reference());
+            player.Get<Inventory>().CalculateCapacity();
+
+            return player;
         }
 
         // Creatures

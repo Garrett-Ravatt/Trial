@@ -20,6 +20,7 @@ namespace Trial
 
         public static MapConsole MapConsole;
         public static MessageConsole MessageConsole;
+        public static HeaderConsole HeaderConsole;
 
         public static void Main(string[] args)
         {
@@ -69,6 +70,10 @@ namespace Trial
             MessageConsole = new MessageConsole();
             container.Children.Add(MessageConsole);
 
+            HeaderConsole = new HeaderConsole();
+            container.Children.Add(HeaderConsole);
+
+            // Classic SadConsole type behavior (idk what it does)
             Game.Instance.DestroyDefaultStartingConsole();
 
             GameMaster.Resolve();
@@ -79,6 +84,8 @@ namespace Trial
         {
             DrawingMap.UpdateFieldOfView(GameMaster.World);
             DrawingMap.DrawTo(MapConsole);
+            HeaderConsole.Draw();
+            // what does this do
             GameMaster.World.InlineQuery<TokenUpdate, Position, Token>(in new QueryDescription().WithAll<Token, Position>());
         }
     }

@@ -210,15 +210,31 @@ namespace CatalysterTest.CoreTesting
             var p = RAWFactory.BlackPowder(gm.Stats, gm.World);
             p.Set(new Position { X = 0, Y = 0 });
 
-            Entity? found = null;
-            EntityDefinition? def = null;
-            if (!SpatialHelper.ClearOrAssign(0, 0, ref found))
-            {
-                var rid = found.Value.Get<Token>().RID;
-                def = gm.Stats.Get(rid);
-            }
+            var def = gm.Command.Describe(0, 0);
 
             Assert.AreEqual("Black Powder", def.Name);
+        }
+
+        [TestMethod]
+        public void CommandTest10()
+        {
+            var gm = GameMaster.Instance();
+            gm.DungeonMap.Initialize(40, 40);
+            gm.DungeonMap.SetAllWalkable();
+            var p = ExFactory.Player(gm.World);
+            var b = ExFactory.BasicBomb(gm.World);
+            var b2 = ExFactory.BasicBomb(gm.World);
+            b2.Remove<Position>();
+            b2.Get<Item>().Fill = 1f;
+            Assert.IsTrue(ItemPropHelper.Contain(b, b2));
+            gm.Resolve();
+            gm.Command.Interact();
+            gm.Resolve();
+            var invList = gm.Command.Inventory();
+            invList = gm.Command.Inventory();
+            Console.WriteLine(string.Join('\n', invList));
+            Assert.AreEqual(4, invList.Count);
+            Assert.AreEqual(4, gm.Command.InvList.Count);
         }
     }
 }

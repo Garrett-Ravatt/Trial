@@ -153,7 +153,7 @@ namespace CatalysterTest.ComponentTesting
             var world = World.Create();
             
             var jug = world.Create(
-                new Token { Name = "Bottle" },
+                new Token { Name = "Jug" },
                 new Item { Fill = 8f, Weight = 2f },
                 new Container { FillCap = 8f }
                 );
@@ -165,11 +165,13 @@ namespace CatalysterTest.ComponentTesting
                 );
 
             var phial = world.Create(
+                new Token { Name = "Phial" },
                 new Item { Fill = .5f, Weight = .5f },
                 new Container { FillCap = 0.5f }
                 );
 
             var pebble = world.Create(
+                new Token { Name = "Pebble" },
                 new Item { Fill = .1f, Weight = .1f }
                 );
 
