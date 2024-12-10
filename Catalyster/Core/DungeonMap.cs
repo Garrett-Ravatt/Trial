@@ -1,8 +1,7 @@
 ﻿using RogueSharp;
 using Arch.Core;
 using Catalyster.Components;
-using Arch.System;
-using System.Runtime.CompilerServices;
+using Catalyster.Components.Extensions;
 
 namespace Catalyster.Core
 {
@@ -16,17 +15,7 @@ namespace Catalyster.Core
             world.Query(in new QueryDescription().WithAll<Position, Door>(), (ref Position pos, ref Door door) =>
             {
                 var cell = GetCell(pos.X, pos.Y);
-                switch (door.state)
-                {
-                    case DoorState.OPEN:
-                        SetCellProperties(cell.X, cell.Y, true, true, cell.IsExplored);
-                        break;
-                    case DoorState.CLOSED:
-                        SetCellProperties(cell.X, cell.Y, false, false, cell.IsExplored);
-                        break;
-                    default:
-                        break;
-                }
+                door.state.UpdateMap(pos);
             });
 
             // Print visible tokens

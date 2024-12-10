@@ -65,10 +65,13 @@ namespace CatalysterTest.ComponentTesting.Interactives
             Assert.IsTrue(gm.DungeonMap.GetCell(p.X, p.Y).IsWalkable);
 
             var door = e.Get<Door>();
-            door.state.UpdateMap(e);
+            door.state.UpdateMap(p);
 
             // Blocked space omg
             Assert.IsFalse(gm.DungeonMap.GetCell(p.X, p.Y).IsWalkable);
+
+            door.state.SetUpdate(DoorState.OPEN, p);
+            Assert.AreEqual(DoorState.OPEN, door.state);
         }
     }
 }

@@ -5,14 +5,16 @@ namespace Catalyster.Components.Extensions
 {
     public static class DoorStateExtensions
     {
-        public static void UpdateMap(this DoorState state, Entity entity)
+        public static void SetUpdate(ref this DoorState state, DoorState value, Position p)
+        {
+            state = value;
+            state.UpdateMap(p);
+        }
+
+        public static void UpdateMap(this DoorState state, Position p)
         {
             var gm = GameMaster.Instance();
-            Position p;
-
-            if (!entity.TryGet(out p))
-                return;
-
+            
             switch (state)
             {
                 case DoorState.OPEN:
