@@ -60,6 +60,7 @@ namespace CatalysterTest.ComponentTesting.Interactives
             var gm = GameMaster.Instance();
             var e = RAWFactory.Door(gm.Stats, gm.World);
             var p = e.Get<Position>();
+            ref var t = ref e.Get<Token>();
 
             // Clear Space
             Assert.IsTrue(gm.DungeonMap.GetCell(p.X, p.Y).IsWalkable);
@@ -70,8 +71,9 @@ namespace CatalysterTest.ComponentTesting.Interactives
             // Blocked space omg
             Assert.IsFalse(gm.DungeonMap.GetCell(p.X, p.Y).IsWalkable);
 
-            door.state.SetUpdate(DoorState.OPEN, p);
+            door.state.SetUpdate(DoorState.OPEN, p, ref t);
             Assert.AreEqual(DoorState.OPEN, door.state);
+            Assert.AreEqual('-', e.Get<Token>().Char);
         }
     }
 }
