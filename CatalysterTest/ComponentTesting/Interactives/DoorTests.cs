@@ -73,6 +73,7 @@ namespace CatalysterTest.ComponentTesting.Interactives
 
             door.state.SetUpdate(DoorState.OPEN, p, ref t);
             Assert.AreEqual(DoorState.OPEN, door.state);
+            Assert.IsTrue(gm.DungeonMap.GetCell(p.X, p.Y).IsWalkable);
             Assert.AreEqual('-', e.Get<Token>().Char);
         }
     }

@@ -14,8 +14,10 @@ namespace Catalyster.Acts
 
         public bool Confirmed = false;
 
-        public DieOnPurposeAct(EntityReference? entityReference)
+        public DieOnPurposeAct(EntityReference? entityReference = null, bool preConfirm = false)
         {
+            if (preConfirm)
+                Confirmed = true;
             Acting = entityReference;
         }
 
@@ -29,6 +31,7 @@ namespace Catalyster.Acts
             var hub = GameMaster.Instance().MessageLog.Hub;
             var entity = Acting.Value.Entity;
 
+            // TODO: check only for players
             if (Confirmed)
             {
                 hub.Publish(new DeathMessage(this, Acting.Value));
