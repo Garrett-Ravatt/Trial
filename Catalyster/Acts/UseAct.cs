@@ -30,11 +30,11 @@ namespace Catalyster.Acts
             var e = Acting.Value.Entity;
             var position = e.Get<Position>();
 
-            IAct? interaction = null;
+            IInterAct? interaction = null;
             // TODO: choose from available Acts
             GameMaster.Instance().World.Query(
                 in new QueryDescription().WithAll<Position, InterAct>(),
-                (ref Position pos, ref InterAct interAct) =>
+                (Entity entity, ref Position pos, ref InterAct interAct) =>
                 {
                     if (SpatialHelper.LazyDist(position, pos) <= 1)
                     {
@@ -42,7 +42,8 @@ namespace Catalyster.Acts
                         // TODO: Use Command Buffer inside query
                         if (interaction != null)
                             Console.WriteLine($"{this} is complaining there is more than one InterAct");
-                        interaction = interAct.act;
+                        interaction = interAct.act.Clone();
+                        interaction.Subject = entity.Reference();
                     }
                 });
 

@@ -1,7 +1,10 @@
 ﻿using Arch.Core.Extensions;
 using Catalyster;
+using Catalyster.Acts;
+using Catalyster.Acts.Interactive;
 using Catalyster.Components;
 using Catalyster.Components.Extensions;
+using Catalyster.Interfaces;
 using CatalysterTest.TestUtils;
 
 namespace CatalysterTest.ComponentTesting.Interactives
@@ -33,11 +36,29 @@ namespace CatalysterTest.ComponentTesting.Interactives
             gm.Resolve();
             Assert.AreEqual(new Position { X = 0, Y = 0 }, player.Get<Position>());
 
-            // Can walk through
-            door.Get<Door>().state = DoorState.OPEN;
+            // Can open door with player action
+            IAct act = new UseAct(player.Reference());
+            act = act.Execute();
+            Assert.AreEqual(typeof(UseDoorAct), act.GetType());
+            act = act.Consume();
+            Assert.IsTrue(act.Resolved);
+
+            // Can walk through: OPEN
             gm.Command.Move(1, 0);
             gm.Resolve();
             Assert.AreEqual(new Position { X = 1, Y = 0 }, player.Get<Position>());
+
+            // Can't close while standing here: OPEN
+            act = new UseAct(player.Reference());
+            act = act.Consume();
+            Assert.AreEqual(door.Get<Door>().state, DoorState.OPEN);
+            gm.Command.Move(-1, 0);
+            gm.Resolve();
+
+            // Can close: CLOSE
+            act = new UseAct(player.Reference());
+            act = act.Consume();
+            Assert.AreEqual(door.Get<Door>().state, DoorState.CLOSED);
         }
 
         [TestMethod]

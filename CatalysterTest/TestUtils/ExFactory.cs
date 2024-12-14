@@ -7,6 +7,7 @@ using Inventory = Catalyster.Items.Inventory;
 using RogueSharp.DiceNotation;
 using Arch.Core.Extensions;
 using Catalyster.Helpers;
+using Catalyster.Acts.Interactive;
 
 namespace CatalysterTest.TestUtils
 {
@@ -76,7 +77,8 @@ namespace CatalysterTest.TestUtils
             return world.Create(
                 new Token { RID = "DOOR", Char = '+', Name = "Door", Color = 0xa0522dff },
                 new Position { },
-                new Door { state = DoorState.CLOSED }
+                new Door { state = DoorState.CLOSED },
+                new InterAct { act = new UseDoorAct(null, null) }
                 );
         }
     }

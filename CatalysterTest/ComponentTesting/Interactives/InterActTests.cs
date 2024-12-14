@@ -1,6 +1,7 @@
 ﻿using Arch.Core.Extensions;
 using Catalyster;
 using Catalyster.Acts;
+using Catalyster.Acts.Interactive;
 using Catalyster.Components;
 using Catalyster.Interfaces;
 using CatalysterTest.TestUtils;
@@ -22,7 +23,7 @@ namespace CatalysterTest.ComponentTesting.Interactives
             var gm = GameMaster.Instance();
             var button = gm.World.Create(
                 new Position { X = 1, Y = 0 },
-                new InterAct { act = new DieOnPurposeAct(preConfirm: true) }
+                new InterAct { act = new PokeAct(null, null) }
                 );
 
             var player = ExFactory.SimpleCreature(gm.World).Reference();
@@ -33,11 +34,17 @@ namespace CatalysterTest.ComponentTesting.Interactives
             act = act.Execute();
 
             Assert.IsFalse(act.Resolved);
-            Assert.AreEqual(typeof(DieOnPurposeAct), act.GetType());
+            Assert.AreEqual(typeof(PokeAct), act.GetType());
 
             act = act.Consume();
 
-            Assert.IsFalse(player.IsAlive());
+            Assert.IsTrue(act.Resolved);
+
+            // act is reusable
+            act = new UseAct(player);
+            act = act.Execute();
+            Assert.AreEqual(typeof(PokeAct), act.GetType());
+            Assert.IsFalse(act.Resolved);
         }
     }
 }

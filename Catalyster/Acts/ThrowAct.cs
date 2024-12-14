@@ -40,6 +40,7 @@ namespace Catalyster.Acts
             ref var stats = ref entity.Get<Stats>();
 
             var item = entity.Get<Inventory>().Items[i];
+            // TODO: this needs to be a try/catch. Code is not reachable
             if (item == null)
             {
                 Console.WriteLine($"Invalid item index {i} was selected");
