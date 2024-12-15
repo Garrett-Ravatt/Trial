@@ -46,7 +46,7 @@ namespace Catalyster.Core
         }
 
         // Collects items at the feet or interacts with something
-        public void Interact()
+        public void Interact(bool forcePickup = false)
         {
             if (Entity == null)
             {
@@ -55,7 +55,10 @@ namespace Catalyster.Core
             }
 
             var player = Entity.Value;
-            CommandInjectionAct.InjectedAct = new UseAct(player.Reference());
+            if (forcePickup)
+                CommandInjectionAct.InjectedAct = new ItemCollectAct(player.Reference());
+            else
+                CommandInjectionAct.InjectedAct = new UseAct(player.Reference());
         }
 
         // Attempt to throw an item from inventory at a tile

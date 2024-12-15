@@ -251,6 +251,10 @@ namespace CatalysterTest.CoreTesting
             gm.Command.Interact();
             gm.Resolve();
             Assert.AreEqual(DoorState.OPEN, d.Get<Door>().state);
+
+            var i = ExFactory.BlackPowder(gm.World);
+            gm.Command.Interact(forcePickup: true);
+            Assert.AreEqual(DoorState.OPEN, d.Get<Door>().state);
         }
     }
 }
