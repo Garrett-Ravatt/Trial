@@ -49,9 +49,13 @@ namespace Catalyster.Core
         public void Interact()
         {
             if (Entity == null)
+            {
+                Console.WriteLine("Command.Ref is null");
                 return;
+            }
+
             var player = Entity.Value;
-            CommandInjectionAct.InjectedAct = new ItemCollectAct(player.Reference());
+            CommandInjectionAct.InjectedAct = new UseAct(player.Reference());
         }
 
         // Attempt to throw an item from inventory at a tile

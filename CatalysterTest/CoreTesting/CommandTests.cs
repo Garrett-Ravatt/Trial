@@ -6,7 +6,6 @@ using Inventory = Catalyster.Items.Inventory;
 using Catalyster.Components;
 using CatalysterTest.TestUtils;
 using Catalyster.Helpers;
-using Catalyster.RAW;
 
 namespace CatalysterTest.CoreTesting
 {
@@ -235,6 +234,23 @@ namespace CatalysterTest.CoreTesting
             Console.WriteLine(string.Join('\n', invList));
             Assert.AreEqual(4, invList.Count);
             Assert.AreEqual(4, gm.Command.InvList.Count);
+        }
+
+        [TestMethod]
+        public void CommandTest11()
+        {
+            var gm = GameMaster.Instance();
+            gm.DungeonMap.Initialize(40, 40);
+            gm.DungeonMap.Clear();
+            var p = ExFactory.Player(gm.World);
+            p.Set(new Position { X=0, Y=0 });
+            var d = ExFactory.Door(gm.World);
+            d.Set(new Position { X=1, Y=0 });
+            gm.Resolve();
+
+            gm.Command.Interact();
+            gm.Resolve();
+            Assert.AreEqual(DoorState.OPEN, d.Get<Door>().state);
         }
     }
 }

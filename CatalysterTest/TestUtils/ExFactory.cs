@@ -78,7 +78,7 @@ namespace CatalysterTest.TestUtils
                 new Token { RID = "DOOR", Char = '+', Name = "Door", Color = 0xa0522dff },
                 new Position { },
                 new Door { state = DoorState.CLOSED },
-                new InterAct { act = new UseDoorAct(null, null) }
+                new InterAct { act = new UseDoorAct() }
                 );
         }
     }

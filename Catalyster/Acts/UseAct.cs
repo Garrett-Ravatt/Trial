@@ -1,5 +1,6 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
+using Catalyster.Acts.ItemManipulation;
 using Catalyster.Components;
 using Catalyster.Helpers;
 using Catalyster.Interfaces;
@@ -51,6 +52,11 @@ namespace Catalyster.Acts
             {
                 interaction.Acting = Acting;
                 return interaction;
+            }
+            // if nothing to use, collect items
+            else
+            {
+                return new ItemCollectAct(Acting.Value);
             }
 
             Resolved = true;
