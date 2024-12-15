@@ -9,18 +9,6 @@ namespace Trial
     public class DrawingMap : DungeonMap
     {
         public DrawingMap() : base() { }
-        public DrawingMap(int Width, int Height)
-        {
-            Initialize(Width, Height);
-            var room = new Rectangle(2, 2, Width-4, Height-4);
-            for (int x = room.Left + 1; x <= room.Right; x++)
-            {
-                for (int y = room.Top + 1; y < room.Bottom; y++)
-                {
-                    SetCellProperties(x, y, true, true, true);
-                }
-            }
-        }
 
         public void DrawTo(Console console)
         {

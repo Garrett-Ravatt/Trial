@@ -18,7 +18,8 @@ namespace Trial.Consoles
             IsFocused = true;
 
             // Put Description window wherever it will fit on screen
-            var (p, q) = (x, y);
+            var offset = _mapConsole.Position;
+            var (p, q) = (x + offset.X, y + offset.Y);
             if (p + Width > GameSettings.Width)
                 p -= Width - 1;
             else
@@ -54,6 +55,9 @@ namespace Trial.Consoles
                 this.Print(1, 1, "Empty");
             }
 
+            var corner = new Point(Width, Height);
+            this.Print(corner.X - 6, corner.Y - 1, "<esc>");
+
             Show();
         }
 
@@ -70,7 +74,10 @@ namespace Trial.Consoles
             if (!state.IsOnScreenObject && IsFocused)
             {
                 if (state.Mouse.LeftClicked)
-                    Transition(state.WorldCellPosition.X, state.WorldCellPosition.Y);
+                    Transition(
+                        state.WorldCellPosition.X - _mapConsole.Position.X,
+                        state.WorldCellPosition.Y - _mapConsole.Position.Y
+                        );
                 handled = true;
             }
             return handled;

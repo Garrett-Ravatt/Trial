@@ -165,7 +165,6 @@ namespace CatalysterTest.ModelTesting
         {
             var map = _mapModel.Process(new DungeonMap());
             var model = new Model<World>()
-                .Seed((int) DateTime.Now.Ticks)
                 .Step(new DoorBlockWrite(map));
             var world = World.Create();
             world = model.Process(world);

@@ -86,7 +86,6 @@ namespace Trial
             DrawingMap.UpdateFieldOfView(GameMaster.World);
             DrawingMap.DrawTo(MapConsole);
             HeaderConsole.Draw();
-            // what does this do
             GameMaster.World.InlineQuery<TokenUpdate, Position, Token>(in new QueryDescription().WithAll<Token, Position>());
         }
     }
