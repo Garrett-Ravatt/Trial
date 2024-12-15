@@ -26,7 +26,6 @@ namespace Catalyster.Acts.Interactive
 
         public IAct Execute()
         {
-            // TODO: toggle door
             if (!Acting.HasValue || !Acting.Value.IsAlive() || !Subject.HasValue || !Subject.Value.IsAlive())
                 throw new InvalidOperationException($"{this} executed with invalid entity references {Acting}, {Subject}");
             

@@ -26,8 +26,6 @@ namespace Catalyster.Acts.ItemManipulation
         // New location for entity
         public EntityReference? NewContainer;
 
-        // TODO: Inventory index OR item entity reference
-
         public ItemMoveAct(EntityReference? acting = null, EntityReference? oldContainer = null,
             EntityReference? itemRef = null, EntityReference? newContainer = null)
         {

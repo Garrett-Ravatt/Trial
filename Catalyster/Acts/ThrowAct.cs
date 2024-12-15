@@ -4,7 +4,7 @@ using Arch.Relationships;
 using Catalyster.Components;
 using Catalyster.Helpers;
 using Catalyster.Interfaces;
-using Catalyster.Items;
+using Inventory = Catalyster.Items.Inventory;
 
 namespace Catalyster.Acts
 {
@@ -17,7 +17,7 @@ namespace Catalyster.Acts
         public EntityReference? Acting { get; set; }
         public EntityReference? Subject { get; set; }
         int? X, Y;
-        // TODO: refactor i into Entity Reference
+
         public ThrowAct(EntityReference? e = null, EntityReference? subject = null, int? x = null, int? y = null)
         {
             Acting = e;
@@ -91,8 +91,15 @@ namespace Catalyster.Acts
 
             // remove from inventory
             ref var inv = ref entity.Get<Inventory>();
+            // TODO: add as inventory method
             if (inv.Items.Contains(item))
+            {
                 inv.Items.Remove(item);
+
+                var i = item.Entity.Get<Item>();
+                inv.Fill -= i.Fill;
+                inv.Weight -= i.Weight;
+            }
             // remove from container
             // TODO: coverage
             else if (item.Entity.HasRelationship<Contained>())

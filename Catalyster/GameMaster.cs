@@ -27,7 +27,7 @@ namespace Catalyster
         {
             World.Dispose();
             Stats.World.Dispose();
-            // TODO: Wonder about if this should be here
+            // TODO: Wonder about if this should be my responsibility
             CommandInjectionAct.InjectedAct = null;
             _gameMaster = new GameMaster();
         }

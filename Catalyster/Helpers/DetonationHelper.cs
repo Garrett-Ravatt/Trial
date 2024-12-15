@@ -9,7 +9,7 @@ namespace Catalyster.Helpers
         // Makes a base value explosive to test others
         public static Explosive Fuse()
         {
-            // TODO: Make Fuse using the intended length
+            // TODO: Make Fuse using the intended length of an IntHunk
             var fuse = new Explosive
             {
                 Resistance = new IntHunk(new int[] { 0, 0 }),

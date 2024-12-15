@@ -34,7 +34,6 @@ namespace Catalyster.Components.Directives
                         expended = true;
                     }
                 });
-                //TODO: return act;
                 return act;
             }
             catch { return null; }

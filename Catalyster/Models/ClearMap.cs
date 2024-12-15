@@ -13,13 +13,7 @@ namespace Catalyster.Models
     {
         public DungeonMap Step(DungeonMap subject, int _seed)
         {
-            for (int x = 0; x < subject.Width; x++)
-            {
-                for (int y = 0; y < subject.Height; y++)
-                {
-                    subject.SetCellProperties(x, y, true, true);
-                }
-            }
+            subject.Clear();
             return subject;
         }
     }

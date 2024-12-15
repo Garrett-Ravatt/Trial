@@ -53,6 +53,7 @@ namespace Catalyster.Acts.ItemManipulation
 
 
             // Top Level inventory item
+            // TODO: add as inventory method
             if (inv.Items.Contains(itemRef))
             {
                 inv.Items.Remove(itemRef);

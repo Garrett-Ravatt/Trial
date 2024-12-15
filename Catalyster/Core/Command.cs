@@ -72,7 +72,6 @@ namespace Catalyster.Core
                 Inventory();
 
             var entity = Entity.Value;
-            // TODO: refactor i for nested inventory
             var throwAct = new ThrowAct(GameMaster.Instance().World.Reference(entity), InvList[i], x, y);
             CommandInjectionAct.InjectedAct = throwAct;
             return true;
@@ -131,7 +130,6 @@ namespace Catalyster.Core
             if (container.HasRelationship<Contains>())
                 foreach ((var e, var r) in container.GetRelationships<Contains>())
                 {
-                    // TODO: depth as spaces
                     list.Add($"{new string('\t', depth)}└{ItemPropHelper.StringifyItem(e)}");
                     InvList.Add(e.Reference());
                     if (e.HasRelationship<Contains>())

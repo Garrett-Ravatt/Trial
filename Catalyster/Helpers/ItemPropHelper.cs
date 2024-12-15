@@ -130,7 +130,6 @@ namespace Catalyster.Helpers
             {
                 var con = entity.Get<Container>();
                 bits.Add($"[ Space: {con.FillCap - con.Filled} ]");
-                // TODO: Show Contained items
             }
 
             return string.Join(' ', bits);
