@@ -165,12 +165,23 @@ namespace CatalysterTest.ModelTesting
         {
             var map = _mapModel.Process(new DungeonMap());
             var model = new Model<World>()
+                .Seed((int) DateTime.Now.Ticks)
                 .Step(new DoorBlockWrite(map));
             var world = World.Create();
             world = model.Process(world);
 
             // num doors should be at least as many as rooms
             Assert.IsTrue(world.Size >= map.Rooms.Count);
+
+            world.Query(in new QueryDescription().WithAll<Token, Door, Position>(), (Entity entity0, ref Position pos) =>
+            {
+                var position0 = pos; // necesssary because bleh
+                world.Query(in new QueryDescription().WithAll<Token, Door, Position>(), (Entity entity1, ref Position position1) =>
+                {
+                    if (position0.Equals(position1))
+                        Assert.AreEqual(entity0, entity1);
+                });
+            });
 
             world.Dispose(); // ok because we created this world
         }

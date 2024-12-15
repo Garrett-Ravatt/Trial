@@ -3,6 +3,7 @@ using Arch.Core.Extensions;
 using Catalyster.Components;
 using Catalyster.Core;
 using Catalyster.Interfaces;
+using RogueSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,8 +30,7 @@ namespace Catalyster.Models
                 // A doorway is an empty space along the border of the room
                 // There may be one doorway or many
                 
-                
-                // top
+                // top: LT and RT should not be traversed again
                 foreach (var cell in _map.GetCellsAlongLine(room.Left, room.Top, room.Right, room.Top))
                 {
                     if (cell.IsWalkable)
@@ -42,8 +42,8 @@ namespace Catalyster.Models
                     }
                 }
 
-                // left
-                foreach (var cell in _map.GetCellsAlongLine(room.Left, room.Top, room.Left, room.Bottom))
+                // left: LT, RT, and LB shouldn't be traversed again
+                foreach (var cell in _map.GetCellsAlongLine(room.Left, room.Top + 1, room.Left, room.Bottom))
                 {
                     if (cell.IsWalkable)
                     {
@@ -55,8 +55,8 @@ namespace Catalyster.Models
 
                 }
 
-                // right
-                foreach (var cell in _map.GetCellsAlongLine(room.Right, room.Top, room.Right, room.Bottom))
+                // right: LT, RT, LB, and RB shouldn't be traversed again
+                foreach (var cell in _map.GetCellsAlongLine(room.Right + 1, room.Top, room.Right, room.Bottom))
                 {
                     if (cell.IsWalkable)
                     {
@@ -68,7 +68,7 @@ namespace Catalyster.Models
                 }
 
                 // bottom
-                foreach (var cell in _map.GetCellsAlongLine(room.Left, room.Bottom, room.Right, room.Bottom))
+                foreach (var cell in _map.GetCellsAlongLine(room.Left + 1, room.Bottom, room.Right - 1, room.Bottom))
                 {
                     if (cell.IsWalkable)
                     {
