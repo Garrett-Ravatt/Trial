@@ -1,5 +1,6 @@
 ﻿using Arch.Core;
 using Arch.Core.Extensions;
+using Arch.Relationships;
 using Catalyster.Components;
 using Catalyster.Helpers;
 using Catalyster.Interfaces;
@@ -7,29 +8,32 @@ using Catalyster.Items;
 
 namespace Catalyster.Acts
 {
-    public class ThrowAct : IAct
+    public class ThrowAct : IInterAct
     {
         public int Cost { get; set; } = 1000;
         public bool Resolved { get; set; } = false;
         public bool Suspended { get; set; } = false;
 
         public EntityReference? Acting { get; set; }
-        int? X, Y, I;
-        public ThrowAct(EntityReference? e = null, int? x = null, int? y = null, int? i = null)
+        public EntityReference? Subject { get; set; }
+        int? X, Y;
+        // TODO: refactor i into Entity Reference
+        public ThrowAct(EntityReference? e = null, EntityReference? subject = null, int? x = null, int? y = null)
         {
             Acting = e;
-            X = x; Y = y; I = i;
+            X = x; Y = y;
+            Subject = subject;
         }
 
         public IAct Execute()
         {
-            if (!Acting.HasValue || !X.HasValue || !Y.HasValue || !I.HasValue)
+            if (!Acting.HasValue || !X.HasValue || !Y.HasValue || !Subject.HasValue)
             {
                 Console.Error.WriteLine($"Throw Act executed with invalid state: {this}");
                 // TODO: throw error
                 return this;
             }
-            var (entity, x, y, i) = (Acting.Value.Entity, X.Value, Y.Value, I.Value);
+            var (entity, x, y, item) = (Acting.Value.Entity, X.Value, Y.Value, Subject.Value);
 
             if (entity.Has<Player>() && !GameMaster.Instance().DungeonMap.IsInFov(x, y))
             {
@@ -38,15 +42,6 @@ namespace Catalyster.Acts
             }
 
             ref var stats = ref entity.Get<Stats>();
-
-            var item = entity.Get<Inventory>().Items[i];
-            // TODO: this needs to be a try/catch. Code is not reachable
-            if (item == null)
-            {
-                Console.WriteLine($"Invalid item index {i} was selected");
-                //TODO: error or input polling
-                return this;
-            }
 
             // Check for a target.
             {
@@ -93,9 +88,28 @@ namespace Catalyster.Acts
             stats.Energy -= WiggleHelper.Wiggle(1000, .1);
             Resolved = true;
             // TODO: Dispose of the thrown item entity and contents
-            entity.Get<Inventory>().Items.RemoveAt(i);
+
+            // remove from inventory
+            ref var inv = ref entity.Get<Inventory>();
+            if (inv.Items.Contains(item))
+                inv.Items.Remove(item);
+            // remove from container
+            // TODO: coverage
+            else if (item.Entity.HasRelationship<Contained>())
+            {
+                foreach ((var container, var contained) in item.Entity.GetRelationships<Contained>())
+                {
+                    ItemPropHelper.Detain(container, item.Entity);
+                }
+            }
+            entity.Get<Inventory>().Items.Remove(item);
 
             return this;
+        }
+
+        public IInterAct Clone()
+        {
+            return (IInterAct) MemberwiseClone();
         }
     }
 }

@@ -126,12 +126,12 @@ namespace CatalysterTest.ActTesting
             var world = GameMaster.Instance().World;
 
             var c1 = ExFactory.SimpleCreature(GameMaster.Instance().World);
-            var item = world.Create(new Item { Fill = 2, Weight = 2 });
+            var item = ExFactory.BasicBomb(world);
             var items = new List<EntityReference> {
                 item.Reference()
             };
             c1.Add(new Inventory(items));
-            var act = new ThrowAct(world.Reference(c1), 0, 1, 0);
+            var act = new ThrowAct(world.Reference(c1), items[0], 0, 1);
             
             Assert.IsTrue(act.Execute().Resolved);
             Assert.IsTrue(item.Has<Position>());

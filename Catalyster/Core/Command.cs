@@ -67,8 +67,13 @@ namespace Catalyster.Core
             if (Entity == null || !GameMaster.Instance().DungeonMap.IsInFov(x, y))
                 return false;
 
+            // if we would be out of range, try to update inventory list
+            if (i >= InvList.Count)
+                Inventory();
+
             var entity = Entity.Value;
-            var throwAct = new ThrowAct(GameMaster.Instance().World.Reference(entity), x, y, i);
+            // TODO: refactor i for nested inventory
+            var throwAct = new ThrowAct(GameMaster.Instance().World.Reference(entity), InvList[i], x, y);
             CommandInjectionAct.InjectedAct = throwAct;
             return true;
         }
