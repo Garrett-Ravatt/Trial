@@ -8,6 +8,7 @@ using Arch.Core.Extensions;
 using Catalyster;
 using Catalyster.RAW;
 using Catalyster.Helpers;
+using Catalyster.Acts.Interactive;
 
 namespace Trial.Data
 {
@@ -117,6 +118,31 @@ namespace Trial.Data
                     Potential = new Catalyster.Hunks.IntHunk(new int[] { 1, 1 })
                 }
                 );
+        }
+
+        // Interactives
+        public static Entity Door(World world)
+        {
+            var rid = "DOOR";
+            var gm = GameMaster.Instance();
+            var stats = gm.Stats;
+
+            if (!stats.Has(rid))
+            {
+                var desc = "A plain wooden door.";
+
+                var e = stats.World.Create(
+                new Token { RID = "DOOR", Char = '+', Name = "Door", Color = 0xa0522dff },
+                new Position { },
+                new Door { state = DoorState.CLOSED },
+                new InterAct { act = new UseDoorAct() }
+                );
+
+                var def = new EntityDefinition(rid, desc, e.Reference());
+                stats.Define(def);
+            }
+
+            return stats.CreateIn(rid, world);
         }
     }
 }

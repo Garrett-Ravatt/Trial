@@ -30,4 +30,10 @@ namespace Trial.Data
             return EntityBuilder.BlackPowder(world);
         }
     }
+
+    public class DoorWrite : DoorwayWrite
+    {
+        public DoorWrite(DungeonMap map) : base(map) { }
+        public override Entity Make(World world) { return EntityBuilder.Door(world); }
+    }
 }

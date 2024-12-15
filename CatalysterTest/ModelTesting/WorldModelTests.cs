@@ -149,5 +149,30 @@ namespace CatalysterTest.ModelTesting
 
             world.Dispose(); // Only ok because we made this world
         }
+
+        private struct DoorBlock { }
+        private class DoorBlockWrite : DoorwayWrite
+        {
+            public DoorBlockWrite(DungeonMap map) : base(map) { }
+            public override Entity Make(World world)
+            {
+                return ExFactory.Door(world);
+            }
+        }
+
+        [TestMethod]
+        public void DoorwayWriteTest()
+        {
+            var map = _mapModel.Process(new DungeonMap());
+            var model = new Model<World>()
+                .Step(new DoorBlockWrite(map));
+            var world = World.Create();
+            world = model.Process(world);
+
+            // num doors should be at least as many as rooms
+            Assert.IsTrue(world.Size >= map.Rooms.Count);
+
+            world.Dispose(); // ok because we created this world
+        }
     }
 }

@@ -50,6 +50,7 @@ namespace Trial
 
             // Ref generation
             var worldModel = new Model<World>()
+                .Step(new DoorWrite(map))
                 .Step(new POIGen(map))
                 .Step(new POIPlayer())
                 .Step(new POIGoblin(1.0))

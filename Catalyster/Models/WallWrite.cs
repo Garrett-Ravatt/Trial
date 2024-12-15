@@ -3,8 +3,6 @@ using Arch.Core.Extensions;
 using Catalyster.Components;
 using Catalyster.Interfaces;
 using Catalyster.Core;
-using RogueSharp;
-using System.Text.RegularExpressions;
 
 namespace Catalyster.Models
 {
@@ -31,7 +29,6 @@ namespace Catalyster.Models
                         y = room.Top;
                     else
                         y = room.Bottom;
-
                 }
                 else
                 {
@@ -43,12 +40,12 @@ namespace Catalyster.Models
                 }
 
                 var entity = Make(world);
-                entity.Set<Position>(new Position { X = x, Y = y });
+                entity.Set(new Position { X = x, Y = y });
             }
 
             return world;
         }
 
-        public abstract Entity Make(World world );
+        public abstract Entity Make(World world);
     }
 }
